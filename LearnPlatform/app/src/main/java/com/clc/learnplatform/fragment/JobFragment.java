@@ -16,12 +16,14 @@ import com.baidu.location.LLSInterface;
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.pager.HomeMainPager;
 
+/**
+ * 蓝领求职
+ */
 public class JobFragment extends Fragment {
     private Activity mActivty;
     private View mView;
 
     private LinearLayout mMain;
-    private Button button;
 
     private HomeMainPager mmp;
 
@@ -39,7 +41,6 @@ public class JobFragment extends Fragment {
 
     private void initView() {
         mMain = mView.findViewById(R.id.ll_main_job);
-        button = mView.findViewById(R.id.btn_btn);
     }
 
     private void initData() {
