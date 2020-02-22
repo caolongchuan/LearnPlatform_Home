@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/clc_blue"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_item_name"
+        android:textSize="20dp"
+        android:textColor="@color/clc_white"
+        android:text="叉车司机"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/clc_black"
+        android:layout_below="@+id/tv_item_name"
+        android:background="@drawable/shape_baohan_bg"
+        android:text="包含"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_search_time"
+        android:layout_toRightOf="@+id/tv_1"
+        android:layout_marginTop="4dp"
+        android:layout_below="@+id/tv_item_name"
+        android:text="120次搜题"
+        android:textColor="@color/clc_white"
+        android:background="@drawable/shape_baohan_text_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_youxiaoqi"
+        android:textColor="@color/clc_white"
+        android:layout_below="@+id/tv_search_time"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="4dp"
+        android:text="有效期：2020-02-16 14:42:34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

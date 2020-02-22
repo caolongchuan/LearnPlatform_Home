@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tv_item_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/shape_mnks_item_type_bg"
+                android:text="判断"
+                android:textColor="@color/clc_white" />
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_item_type"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="安全状况登记为4及的固定式压力容器可进行修理,提高安全状况等级,也可监控使用。()"
+                android:textColor="@color/clc_black"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:id="@+id/iv_tp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_item_name"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/banner01" />
+
+            <LinearLayout
+                android:id="@+id/ll_xuanxiang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_tp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_a"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_b"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_e"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_3"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_d"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_4"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_d"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_5"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_f"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_6"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_g"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_7"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_h"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_8"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_i"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_9"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_j"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:text="无色"
+                        android:textColor="@color/clc_black"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_10"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_xuanxiang_a" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_xuanxiang"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/selector_main_button"
+                android:text="确定"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_ok"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_mnks_button_bg"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="答案："
+                    android:textColor="@color/clc_black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_zqda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="ABCD"
+                    android:textColor="@color/clc_black"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

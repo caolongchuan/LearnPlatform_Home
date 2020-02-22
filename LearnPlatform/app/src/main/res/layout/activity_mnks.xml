@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MnksActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/clc_white"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/icon_left_arrow" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="模拟考试"
+            android:textColor="@color/clc_gray"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_below="@+id/rl_head"
+        android:layout_above="@+id/rl_foot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_foot"
+        android:background="@color/clc_white"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_jiaojuan"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_jiaojuan"
+                android:src="@mipmap/icon_jiaojuan"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:id="@+id/tv_jiaojuan"
+                android:text="交卷"
+                android:textColor="@color/clc_black"
+                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_datika"
+            android:src="@mipmap/icon_datika"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ll_jiaojuan"
+            android:layout_marginLeft="3dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <TextView
+            android:id="@+id/tv_datika"
+            android:text="答题卡"
+            android:layout_centerVertical="true"
+            android:textColor="@color/clc_black"
+            android:layout_toRightOf="@+id/iv_datika"
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_curr_ti_no"
+            android:text="1"
+            android:textColor="@color/clc_black"
+            android:layout_toRightOf="@+id/tv_datika"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="/"
+            android:textColor="@color/clc_black"
+            android:layout_toRightOf="@+id/tv_curr_ti_no"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_curr_ti_total"
+            android:text="100"
+            android:textColor="@color/clc_black"
+            android:layout_toRightOf="@+id/tv_curr_ti_no"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:src="@mipmap/icon_right"
+            android:layout_toLeftOf="@+id/tv_right_num"
+            android:layout_centerVertical="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        <TextView
+            android:id="@+id/tv_right_num"
+            android:text="0"
+            android:textColor="@color/clc_green"
+            android:layout_toLeftOf="@+id/iv_wrong"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_wrong"
+            android:src="@mipmap/icon_wrong"
+            android:layout_toLeftOf="@+id/tv_wrong_num"
+            android:layout_centerVertical="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        <TextView
+            android:id="@+id/tv_wrong_num"
+            android:text="0"
+            android:layout_toLeftOf="@+id/iv_clock"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/clc_red"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_clock"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_clock"
+            android:layout_toLeftOf="@+id/tv_mnks_time"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/tv_mnks_time"
+            android:textColor="@color/clc_black"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="60:00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

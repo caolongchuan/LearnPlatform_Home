@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_studied_actual_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxEms="12"
+        android:singleLine="true"
+        android:text="1硫化罐内工作压力、温度超过额定值，应该如何处理？" />
+
+    <TextView
+        android:id="@+id/tv_sy_coin_time"
+        android:layout_toLeftOf="@+id/tv_coin_time"
+        android:layout_marginRight="3dp"
+        android:text="剩余"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_coin_time"
+        android:text="22:20"
+        android:layout_toLeftOf="@+id/iv_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_coin"
+        android:src="@mipmap/icon_coin"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

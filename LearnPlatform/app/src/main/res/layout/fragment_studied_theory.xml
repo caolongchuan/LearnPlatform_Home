@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:background="@drawable/shape_studied_1_bg"
+            android:layout_width="50dp"
+            android:layout_height="110dp">
+            <TextView
+                android:ems="1"
+                android:id="@+id/tv_left"
+                android:text="题库学习"
+                android:textSize="18dp"
+                android:textColor="@color/clc_white"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <GridView
+            android:id="@+id/grid_knowledge"
+            android:layout_toRightOf="@+id/tv_left"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:numColumns="2"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_rl1"
+        android:layout_width="match_parent"
+        android:paddingBottom="20dp"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_button_ctqh"
+                android:src="@mipmap/icon_ctqh"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+            <TextView
+                android:text="错题强化"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_button_wztlx"
+                android:src="@mipmap/icon_wztlx"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+            <TextView
+                android:text="未做题练习"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_button_wdcj"
+                android:src="@mipmap/icon_wdcj"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+            <TextView
+                android:text="我的成绩"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_button_sda"
+                android:src="@mipmap/icon_sda"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+            <TextView
+                android:text="搜答案"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_mnks"
+            android:background="@mipmap/icon_mnks"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp">
+            <TextView
+                android:id="@+id/tv_tv1"
+                android:text="模拟考试"
+                android:textColor="@color/clc_white"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_below="@+id/tv_tv1"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="消耗"
+                    android:textColor="@color/clc_white"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_mnks_coin_num"
+                    android:text="2"
+                    android:textColor="@color/clc_white"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:src="@mipmap/icon_coin"
+                    android:layout_marginLeft="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">LearnPlatform</string>
+    <string name="btn_login">微信登录</string>
+    <string name="tv_vip_1">1、成为我公司VIP成员，可享有批发价购买学习卡，学习卡为有效期内无限制学习理论知识。</string>
+    <string name="tv_vip_2">2、想成为我公司的VIP会员，需在提交申请VIP后，与本平台淘宝店铺【子夏网络科技】（请手动复制淘宝口令￥YU7U1bsJY0E￥）客服联系，以通过申请审核。凡不主动联系者30日后自动审核失败。</string>
+    <string name="tv_vip_3">3、购卡通过淘宝，联系客服发送VIP会员ID和所需购买学习卡的数量。</string>
+    <string name="tv_vip_4">4、我公司对以上说明享有最终解释权。</string>
+    <string name="tv_vip_5">我已阅读以上说明，确认申请成为VIP会员。</string>
+
+
+</resources>

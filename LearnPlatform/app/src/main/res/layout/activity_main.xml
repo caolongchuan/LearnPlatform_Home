@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tab_bar" />
+
+    <RadioGroup
+        android:paddingTop="5dp"
+        android:id="@+id/tab_bar"
+        android:background="@color/main_rg_bg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <RadioButton
+            android:checked="true"
+            android:id="@+id/tab_home"
+            android:gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_tab_home"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@drawable/selector_tab_text_color"
+            android:text="首页"/>
+        <RadioButton
+            android:checked="false"
+            android:id="@+id/tab_job"
+            android:gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_tab_home"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@drawable/selector_tab_text_color"
+            android:text="蓝领求职"/>
+        <RadioButton
+            android:checked="false"
+            android:id="@+id/tab_map"
+            android:gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_tab_map"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@drawable/selector_tab_text_color"
+            android:text="报名考点"/>
+        <RadioButton
+            android:checked="false"
+            android:id="@+id/tab_health"
+            android:gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_tab_my"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@drawable/selector_tab_text_color"
+            android:text="我的" />
+
+    </RadioGroup>
+
+
+</RelativeLayout>

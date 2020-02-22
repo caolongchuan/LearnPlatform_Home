@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_grid_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingLeft="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_item_name"
+        android:textColor="@color/clc_black"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="基础知识"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_coin"
+            android:textSize="12dp"
+            android:textColor="@color/clc_black"
+            android:text="消耗金币"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_coin_num"
+            android:text="2"
+            android:textSize="12dp"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/clc_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_coin"
+            android:src="@mipmap/icon_coin"
+            android:layout_marginLeft="3dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+    </LinearLayout>
+</LinearLayout>
