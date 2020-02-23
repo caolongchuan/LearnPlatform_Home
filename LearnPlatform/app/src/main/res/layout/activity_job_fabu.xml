@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.JobFabuActivity">
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/clc_white"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/icon_left_arrow" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="蓝领求职"
+            android:textColor="@color/clc_gray"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_zpxx"
+            android:gravity="center_horizontal"
+            android:text="发布招聘信息"
+            android:textSize="17dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:textColor="@color/clc_white"
+            android:background="@mipmap/icon_fabu_item_bg"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_qzxx"
+            android:gravity="center_horizontal"
+            android:text="发布求职信息"
+            android:textSize="17dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:textColor="@color/clc_black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btn_qrtj"
+            android:background="@drawable/shape_button_msyp_bg"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
+            android:text="确认提交"
+            android:textSize="20dp"
+            android:textColor="@color/clc_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>

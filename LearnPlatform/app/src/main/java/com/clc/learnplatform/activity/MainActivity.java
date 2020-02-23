@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         // init fragment
         mFragments = new ArrayList<>(4);
         mFragments.add(new HomeFragment(openid,mDataJsonString));
-        mFragments.add(new JobFragment(this));
+        mFragments.add(new JobFragment(this,openid));
         mFragments.add(new MapFragment(this,openid));
         mFragments.add(new MyFragment(openid,mDataJsonString));
         // init view pager

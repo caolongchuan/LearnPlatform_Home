@@ -1,6 +1,7 @@
 package com.clc.learnplatform.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.baidu.location.LLSInterface;
 import com.clc.learnplatform.R;
+import com.clc.learnplatform.activity.JobFabuActivity;
 import com.clc.learnplatform.adapter.JobItemAdapter;
 import com.clc.learnplatform.entity.LLQZ_Entity;
 import com.clc.learnplatform.pager.HomeMainPager;
@@ -33,8 +35,12 @@ public class JobFragment extends Fragment {
     private Activity mActivty;
     private View mView;
 
+    private String openid;
+
     private LinearLayout mMain;
     private HomeMainPager mmp;
+
+    private LinearLayout mFabu;
 
     private Spinner spinner1;//区域选择下拉列表
     private Spinner spinner2;//职位类别选择下拉列表
@@ -43,8 +49,9 @@ public class JobFragment extends Fragment {
     private ListView mJobList;//内容列表
     private JobItemAdapter mAdapter;//Adapter
 
-    public JobFragment(Activity activity) {
+    public JobFragment(Activity activity,String openid) {
         mActivty = activity;
+        this.openid = openid;
     }
 
     //从服务器获取蓝领求职数据
@@ -77,6 +84,7 @@ public class JobFragment extends Fragment {
 
     private void initView() {
         mMain = mView.findViewById(R.id.ll_main_job);
+        mFabu = mView.findViewById(R.id.ll_fabu);
         spinner1 = mView.findViewById(R.id.spinner1);
         spinner2 = mView.findViewById(R.id.spinner2);
         spinner3 = mView.findViewById(R.id.spinner3);
@@ -85,6 +93,17 @@ public class JobFragment extends Fragment {
 
     private void initData() {
         mJobList.setAdapter(mAdapter);
+
+        //进入发布信息界面
+        mFabu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("openid",openid);
+                intent.setClass(mActivty, JobFabuActivity.class);
+                mActivty.startActivity(intent);
+            }
+        });
     }
 
     //解析数据
@@ -136,7 +155,7 @@ public class JobFragment extends Fragment {
         llqz_entities.add(llqz_1);
         llqz_entities.add(llqz_2);
         llqz_entities.add(llqz_3);
-        mAdapter = new JobItemAdapter(mActivty,llqz_entities);
+        mAdapter = new JobItemAdapter(mActivty,llqz_entities,openid);
 
         new Thread(new Runnable() {
             @Override
