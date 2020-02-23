@@ -23,63 +23,125 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@color/clc_blue"
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/clc_blue"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_location"
-            android:text="河北"
-            android:textSize="16dp"
-            android:layout_centerVertical="true"
-            android:textColor="@color/clc_white"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="河北"
+            android:textColor="@color/clc_white"
+            android:textSize="16dp" />
+
         <ImageView
             android:id="@+id/iv_location"
-            android:layout_marginLeft="1dp"
-            android:src="@mipmap/icon_llqz_marka"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_location"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/tv_location"
+            android:src="@mipmap/icon_llqz_marka" />
+
         <EditText
             android:id="@+id/et_search_text"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@drawable/shape_card_bg"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/iv_location"
+            android:background="@drawable/shape_card_bg"
             android:drawableLeft="@mipmap/icon_search_black"
             android:hint="请输入关键词 职位 福利"
-            android:layout_toRightOf="@+id/iv_location"
-            android:textSize="16dp"
-            android:layout_centerVertical="true"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content" />
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="16dp" />
+
         <LinearLayout
             android:id="@+id/ll_fabu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"
             android:background="@drawable/shape_llqz_fabu_bg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:gravity="center_vertical">
+
             <ImageView
-                android:src="@mipmap/icon_fabu"
                 android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_height="20dp"
+                android:src="@mipmap/icon_fabu" />
+
             <TextView
                 android:id="@+id/btn_fabu"
-                android:text="发布"
-                android:textSize="16dp"
-                android:textColor="@color/clc_white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="发布"
+                android:textColor="@color/clc_white"
+                android:textSize="16dp" />
 
         </LinearLayout>
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:background="@color/ProgressBar_bg"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lv_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

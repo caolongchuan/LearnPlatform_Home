@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         sb.append("openid=").append(openid);
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
-                .url(Constants.FIRST_PAGER_URL)
+                .url(Constants.FIRST_PAGER_URL)//首页URL
                 .post(body)//默认就是GET请求，可以不写
                 .build();
         Call call = okHttpClient.newCall(request);
