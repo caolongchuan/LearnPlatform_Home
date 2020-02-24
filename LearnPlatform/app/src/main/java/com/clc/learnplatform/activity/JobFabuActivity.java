@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.clc.learnplatform.R;
@@ -26,6 +27,10 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
     private TextView mFabuQzxx;//发布求职信息
     private Button mFabu;//发布
 
+    private boolean mZpOrQz;//标示是招聘还是求职 false为招聘 true为求职
+    private LinearLayout mLlZpxx;//招聘信息编辑的布局
+    private LinearLayout mLlQzxx;//求职信息编辑的布局
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,11 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
         openid = intent.getStringExtra("openid");
 
         initView();
+        initData();
+    }
+
+    private void initData() {
+        mZpOrQz = false;
     }
 
     private void initView() {
@@ -48,6 +58,8 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
         mFabuQzxx.setOnClickListener(this);
         mFabu = findViewById(R.id.btn_qrtj);
         mFabu.setOnClickListener(this);
+        mLlZpxx = findViewById(R.id.ll_zpxx);
+        mLlQzxx = findViewById(R.id.ll_qzxx);
     }
 
 
@@ -62,6 +74,9 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 mFabuZpxx.setBackgroundResource(R.mipmap.icon_fabu_item_bg);
                 mFabuQzxx.setTextColor(getResources().getColor(R.color.clc_black));
                 mFabuQzxx.setBackground(null);
+                mLlZpxx.setVisibility(View.VISIBLE);
+                mLlQzxx.setVisibility(View.GONE);
+                mZpOrQz = false;
                 break;
             case R.id.tv_qzxx://发布求职信息页面
                 //改变页面显示为编辑求职信息页面并改变Textview状态
@@ -69,9 +84,18 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 mFabuZpxx.setBackground(null);
                 mFabuQzxx.setTextColor(getResources().getColor(R.color.clc_white));
                 mFabuQzxx.setBackgroundResource(R.mipmap.icon_fabu_item_bg);
+                mLlZpxx.setVisibility(View.GONE);
+                mLlQzxx.setVisibility(View.VISIBLE);
+                mZpOrQz = true;
                 break;
             case R.id.btn_qrtj:
-                ToastUtil.getInstance().shortShow("确认提交");
+                if(!mZpOrQz){//提交招聘信息
+                    ToastUtil.getInstance().shortShow("确认提交招聘信息");
+
+                }else{//提交求职信息
+                    ToastUtil.getInstance().shortShow("确认提交求职信息");
+
+                }
                 break;
         }
     }
