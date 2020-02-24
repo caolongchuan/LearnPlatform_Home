@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.util.ToastUtil;
 
+/**
+ * 申请VIP
+ */
 public class VIPActivity extends AppCompatActivity {
 
     private String openid;

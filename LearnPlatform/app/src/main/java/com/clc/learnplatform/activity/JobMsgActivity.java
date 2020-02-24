@@ -11,6 +11,9 @@ import com.clc.learnplatform.R;
 
 import okhttp3.MediaType;
 
+/**
+ * 蓝领求职信息页面
+ */
 public class JobMsgActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "JobMsgActivity";
     private static final MediaType FORM_CONTENT_TYPE

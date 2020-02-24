@@ -34,6 +34,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 体验卡
+ */
 public class TiYanCardActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "TiYanCardActivity";
     private static final MediaType FORM_CONTENT_TYPE

@@ -20,9 +20,15 @@ import com.clc.learnplatform.fragment.JobFragment;
 import com.clc.learnplatform.fragment.MapFragment;
 import com.clc.learnplatform.fragment.MyFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 主Activity
+ */
 public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private RadioGroup mTabRadioGroup;
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String openid;
     private String mDataJsonString;
+
+    private UserInfoEntity mUserInfoEntiry;//用户的信息
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,32 @@ public class MainActivity extends AppCompatActivity {
     private void initUserInfo(Intent intent) {
         openid = intent.getStringExtra("openid");
         mDataJsonString = intent.getStringExtra("data_json_string");
+
+        try {
+            JSONObject jsonObject = new JSONObject(mDataJsonString);
+            //解析用户信息
+            String syzh = jsonObject.getString("syzh");
+            JSONObject syzh_obj = new JSONObject(syzh);
+            mUserInfoEntiry = new UserInfoEntity();
+            mUserInfoEntiry.ID = syzh_obj.getString("ID");
+            mUserInfoEntiry.NC = syzh_obj.getString("NC");
+            mUserInfoEntiry.SJH = syzh_obj.getString("SJH");
+            mUserInfoEntiry.LX = syzh_obj.getString("LX");
+            mUserInfoEntiry.ZHYE = syzh_obj.getInt("ZHYE");
+            mUserInfoEntiry.SSS = syzh_obj.getString("SSS");
+            mUserInfoEntiry.SHI = syzh_obj.getString("SHI");
+            mUserInfoEntiry.ZHDLSJ = syzh_obj.getString("ZHDLSJ");
+            mUserInfoEntiry.KH = syzh_obj.getString("KH");
+            mUserInfoEntiry.ZCSJ = syzh_obj.getString("ZCSJ");
+            mUserInfoEntiry.HEADIMGURL = syzh_obj.getString("HEADIMGURL");
+            mUserInfoEntiry.GXSJ = syzh_obj.getString("GXSJ");
+            mUserInfoEntiry.ZJXXXM = syzh_obj.getString("ZJXXXM");
+            mUserInfoEntiry.WXCODE = syzh_obj.getString("WXCODE");
+            mUserInfoEntiry.SQVIP = syzh_obj.getString("SQVIP");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initView() {
@@ -57,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         // init fragment
         mFragments = new ArrayList<>(4);
         mFragments.add(new HomeFragment(openid,mDataJsonString));
-        mFragments.add(new JobFragment(this,openid));
+        mFragments.add(new JobFragment(this,openid,mUserInfoEntiry));
         mFragments.add(new MapFragment(this,openid));
         mFragments.add(new MyFragment(openid,mDataJsonString));
         // init view pager

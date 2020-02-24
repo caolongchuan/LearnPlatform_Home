@@ -62,7 +62,6 @@
 
     <LinearLayout
         android:id="@+id/ll_zpxx"
-        android:visibility="gone"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -240,6 +239,7 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_qzxx"
+        android:visibility="gone"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

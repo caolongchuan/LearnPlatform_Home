@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.clc.learnplatform.R;
 
+/**
+ * 邀请码
+ */
 public class YaoQingMaActivity extends AppCompatActivity {
 
     private ImageView ivBack;

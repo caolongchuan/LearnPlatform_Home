@@ -49,8 +49,8 @@ public class Constants {
     public static final String WTFK_URL = BASE_URL + "yh_wtfk";
     //考试机构
     public static final String KSJG_URL = BASE_URL + "yh_ksjg";
-
-
+    //蓝领求职首页
+    public static final String ZP_FIND_URL = BASE_URL + "zp_find";
 
 
     //百度地图 应用AK

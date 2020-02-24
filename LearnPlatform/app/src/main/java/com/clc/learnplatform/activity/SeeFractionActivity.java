@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.clc.learnplatform.R;
 
+/**
+ * 查看分数
+ */
 public class SeeFractionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView mIvBack;

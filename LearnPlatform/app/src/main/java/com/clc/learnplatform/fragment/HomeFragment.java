@@ -23,11 +23,11 @@ public class HomeFragment extends Fragment {
     private View mView;
     private LinearLayout mMain;
 
+    //View
     private HomeMainPager mHomeMainPager;
     private String openid;
     private String mDataString;//首页传过来的数据 需要在HomeMainPager中进行解析
 
-    //View
 
 
     public HomeFragment(String openid, String data_String) {

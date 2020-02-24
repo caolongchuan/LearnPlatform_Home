@@ -35,7 +35,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.JobFabuActivity"></activity>
+        <activity android:name=".activity.JobFabuActivity" android:theme="@style/DefaultCityPickerTheme"></activity>
         <activity android:name=".activity.JobMsgActivity" />
         <activity android:name=".activity.WenTiFanKuiActivity" />
         <activity android:name=".activity.ZhengQueryActivity" />

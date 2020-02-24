@@ -48,6 +48,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 学习币使用明细
+ */
 public class ZdmxActivity extends AppCompatActivity implements View.OnClickListener {
     private static final MediaType FORM_CONTENT_TYPE
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");

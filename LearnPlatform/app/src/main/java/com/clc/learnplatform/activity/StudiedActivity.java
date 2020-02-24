@@ -47,6 +47,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 项目学习
+ */
 public class StudiedActivity extends AppCompatActivity implements View.OnClickListener {
     private static final MediaType FORM_CONTENT_TYPE
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");

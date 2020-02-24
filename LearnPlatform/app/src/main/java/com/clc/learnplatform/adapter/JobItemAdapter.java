@@ -9,31 +9,41 @@ import android.widget.TextView;
 
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.activity.JobMsgActivity;
-import com.clc.learnplatform.entity.LLQZ_Entity;
-import com.clc.learnplatform.util.ToastUtil;
+import com.clc.learnplatform.entity.QZXX_Entity;
+import com.clc.learnplatform.entity.ZPXX_Entity;
 
 import java.util.ArrayList;
 
 public class JobItemAdapter extends BaseAdapter {
     private Activity mActivity;
-    private ArrayList<LLQZ_Entity> mList;
+    private ArrayList<ZPXX_Entity> mZpxxEntity;//招聘信息集合
+    private ArrayList<QZXX_Entity> mQzxxEntity;//求职信息集合
     private String openid;
 
-    public JobItemAdapter(Activity activity,ArrayList<LLQZ_Entity> list,String openid){
+    public JobItemAdapter(Activity activity,ArrayList<ZPXX_Entity> list1, ArrayList<QZXX_Entity> list2, String openid){
         mActivity = activity;
-        mList = list;
+        mZpxxEntity = list1;
+        mQzxxEntity = list2;
         this.openid = openid;
     }
 
 
     @Override
     public int getCount() {
-        return mList.size();
+        if(mZpxxEntity.size()>=mQzxxEntity.size()){
+            return mZpxxEntity.size();
+        }else{
+            return mQzxxEntity.size();
+        }
     }
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        if(mZpxxEntity.size()>=mQzxxEntity.size()){
+            return mZpxxEntity.get(position);
+        }else{
+            return mQzxxEntity.get(position);
+        }
     }
 
     @Override
@@ -54,20 +64,43 @@ public class JobItemAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tvTitlMsg.setText(mList.get(position).e);//标题信息
-        holder.tvFabuTime.setText("发布日期："+mList.get(position).g);//发布日期
-        holder.tvSee.setOnClickListener(new View.OnClickListener() {//查看
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("openid",openid);
-                intent.setClass(mActivity, JobMsgActivity.class);
-                mActivity.startActivity(intent);
-            }
-
-        });
+        if(mZpxxEntity.size()>=mQzxxEntity.size()){
+            holder.tvTitlMsg.setText(mZpxxEntity.get(position).BT);//标题信息
+            holder.tvFabuTime.setText("发布日期："+mZpxxEntity.get(position).TJSJ);//发布日期
+            holder.tvSee.setOnClickListener(new View.OnClickListener() {//查看
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("openid",openid);
+                    intent.setClass(mActivity, JobMsgActivity.class);
+                    mActivity.startActivity(intent);
+                }
+            });
+        }else{
+            holder.tvTitlMsg.setText(mQzxxEntity.get(position).BT);//标题信息
+            holder.tvFabuTime.setText("发布日期："+mQzxxEntity.get(position).TJSJ);//发布日期
+            holder.tvSee.setOnClickListener(new View.OnClickListener() {//查看
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("openid",openid);
+                    intent.setClass(mActivity, JobMsgActivity.class);
+                    mActivity.startActivity(intent);
+                }
+            });
+        }
 
         return convertView;
+    }
+
+    /**
+     * 更新数据
+     * @param ZpxxEntity
+     * @param QzxxEntity
+     */
+    public void updataData(ArrayList<ZPXX_Entity> ZpxxEntity, ArrayList<QZXX_Entity> QzxxEntity) {
+        mZpxxEntity = ZpxxEntity;
+        mQzxxEntity = QzxxEntity;
     }
 
     static class ViewHolder {
