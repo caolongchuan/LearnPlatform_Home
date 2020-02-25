@@ -20,6 +20,8 @@ public class JobItemAdapter extends BaseAdapter {
     private ArrayList<QZXX_Entity> mQzxxEntity;//求职信息集合
     private String openid;
 
+    private boolean showZpOrQz;//用于判断是显示招聘信息还是求职信息
+
     public JobItemAdapter(Activity activity,ArrayList<ZPXX_Entity> list1, ArrayList<QZXX_Entity> list2, String openid){
         mActivity = activity;
         mZpxxEntity = list1;
@@ -30,7 +32,7 @@ public class JobItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if(mZpxxEntity.size()>=mQzxxEntity.size()){
+        if(!showZpOrQz){
             return mZpxxEntity.size();
         }else{
             return mQzxxEntity.size();
@@ -39,7 +41,7 @@ public class JobItemAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if(mZpxxEntity.size()>=mQzxxEntity.size()){
+        if(!showZpOrQz){
             return mZpxxEntity.get(position);
         }else{
             return mQzxxEntity.get(position);
@@ -64,7 +66,7 @@ public class JobItemAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(mZpxxEntity.size()>=mQzxxEntity.size()){
+        if(!showZpOrQz){
             holder.tvTitlMsg.setText(mZpxxEntity.get(position).BT);//标题信息
             holder.tvFabuTime.setText("发布日期："+mZpxxEntity.get(position).TJSJ);//发布日期
             holder.tvSee.setOnClickListener(new View.OnClickListener() {//查看
@@ -93,6 +95,12 @@ public class JobItemAdapter extends BaseAdapter {
         return convertView;
     }
 
+    static class ViewHolder {
+        TextView tvTitlMsg;//标题信息
+        TextView tvFabuTime;//发布日期
+        TextView tvSee;//发布按钮
+    }
+
     /**
      * 更新数据
      * @param ZpxxEntity
@@ -103,10 +111,17 @@ public class JobItemAdapter extends BaseAdapter {
         mQzxxEntity = QzxxEntity;
     }
 
-    static class ViewHolder {
-        TextView tvTitlMsg;//标题信息
-        TextView tvFabuTime;//发布日期
-        TextView tvSee;//发布按钮
+    /**
+     * 设置显示招聘信息还是求职信息
+     * @param zporqz
+     */
+    public void setShowZpOrQz(boolean zporqz){
+        showZpOrQz = zporqz;
+        notifyDataSetChanged();
+    }
+
+    public boolean getShowZpOrQz(){
+        return showZpOrQz;
     }
 
 }
