@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import android.widget.TextView;
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.XTCS_Entity;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.Clc_WXPayUtil;
+import com.clc.learnplatform.util.IPUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +50,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
 
     private ArrayList<XTCS_Entity> mXtcsList;
 
+    private ImageView ivBack;
     private RadioGroup rgMain;
     private TextView tvAdd;
     private TextView tvJian;
@@ -53,6 +58,8 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
 
     private TextView tvCoinNum;
     private TextView tvPrice;
+
+    private Button btnPay;
 
     private AlertDialog alertDialog;//等待对话框
     private Handler mHandler = new Handler(new Handler.Callback() {
@@ -92,6 +99,8 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                 .Builder(this).setMessage("正在加载数据...")
                 .create();
 
+        ivBack = findViewById(R.id.iv_back);
+        ivBack.setOnClickListener(this);
         rgMain = findViewById(R.id.rg_main);
 
         tvAdd = findViewById(R.id.tv_add);
@@ -101,6 +110,8 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
         tvNum = findViewById(R.id.tv_num);
         tvCoinNum = findViewById(R.id.tv_coin_num);
         tvPrice = findViewById(R.id.tv_price);
+        btnPay = findViewById(R.id.btn_pay);
+        btnPay.setOnClickListener(this);
 
         mXtcsList = new ArrayList<>();
         rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -188,6 +199,9 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
             case R.id.tv_add:
                 String num = tvNum.getText().toString();
                 Integer integer = Integer.valueOf(num);
@@ -213,9 +227,24 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.btn_pay://支付
-
-
+                doPay();
                 break;
         }
     }
+
+    /**
+     * 支付
+     */
+    private void doPay() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String netIp = IPUtil.GetNetIp();
+                Log.i(TAG, "doPay: ip="+netIp);
+                Clc_WXPayUtil.TongYiXiaDan(100,netIp);
+            }
+        }).start();
+    }
+
+
 }

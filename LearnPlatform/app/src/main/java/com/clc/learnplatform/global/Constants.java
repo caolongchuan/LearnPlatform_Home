@@ -57,8 +57,12 @@ public class Constants {
     public static final String BAIDU_AK = "aHCwXw5pfhBj6bM2GjTPsggubM7FzIOA";//在AndroidManifest.xml文件夹中已使用
 
     //微信登录所使用的常量
-    public static final String APP_ID = "wxfe78e87df435fca9";
-    public static final String SECRET = "5bfc713e6d516492fcdbaed9d61a5e6c";
+    public static final String APP_ID = "wxfe78e87df435fca9";//appid
+    public static final String SECRET = "5bfc713e6d516492fcdbaed9d61a5e6c";//
+    public static final String MCH_ID = "1566319061";//商户号
+    public static final String BODY = "特种设备考证学习平台-学习币充值";//商品描述
+    public static final String NOTIFY_URL = "http://www.wxfslp.xyz/clcService_war_exploded/PayComplete";//接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数
+    public static final String TRADE_TYPE = "APP";
 
     //讯飞语音合成APPID
     public static final String XF_APP_ID = "5e0d9d44";
