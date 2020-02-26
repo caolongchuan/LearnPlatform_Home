@@ -1,10 +1,13 @@
 package com.clc.learnplatform.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +22,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.SHENG_Entity;
 import com.clc.learnplatform.entity.ZYLB_Entity;
+import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.QyZwlbUtil;
 import com.clc.learnplatform.util.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
@@ -27,10 +31,19 @@ import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.HotCity;
 import com.zaaach.citypicker.model.LocatedCity;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 蓝领求职发布编辑页面
@@ -73,6 +86,21 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
     private String ZpShiName = "";
     private String QzShengName = "";
     private String QzShiName = "";
+
+    public Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 0x01:
+                    Bundle data = msg.getData();
+                    ToastUtil.getInstance().shortShow(data.getString("msg"));
+                    break;
+            }
+            return false;
+        }
+    });
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,13 +180,33 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 mLlQzxx.setVisibility(View.VISIBLE);
                 mZpOrQz = true;
                 break;
-            case R.id.btn_qrtj:
+            case R.id.btn_qrtj://提交信息
                 if(!mZpOrQz){//提交招聘信息
-                    ToastUtil.getInstance().shortShow("确认提交招聘信息");
+                    String bt = mZpBtxx.getText().toString();
+                    String sjh = mZpLxdh.getText().toString();
+                    String zprs = mZpZprs.getText().toString();
+                    String zwlb = mZpZwlb.getText().toString();
+                    String zwms = mZpZwms.getText().toString();
+
+                    if(bt.isEmpty()||sjh.isEmpty()||zprs.isEmpty()||zwlb.isEmpty()
+                            ||zwms.isEmpty()||ZpShengName.isEmpty()||ZpShiName.isEmpty()){
+                        ToastUtil.getInstance().shortShow("请保证必填项都已填写");
+                    }else{
+                        TiJiaoZpxx(bt,ZpShengName,ZpShiName,sjh,zprs,zwlb,zwms);
+                    }
 
                 }else{//提交求职信息
-                    ToastUtil.getInstance().shortShow("确认提交求职信息");
-
+                    String bt = mQzBtxx.getText().toString();
+                    String sjh = mQzLxdh.getText().toString();
+                    String zwlb = mQzZwlb.getText().toString();
+                    String jlms = mQzJlms.getText().toString();
+                    String qzyx = mQzQzyx.getText().toString();
+                    if(bt.isEmpty()||sjh.isEmpty()||zwlb.isEmpty()||jlms.isEmpty()
+                            ||qzyx.isEmpty()||QzShengName.isEmpty()||QzShiName.isEmpty()){
+                        ToastUtil.getInstance().shortShow("请保证必填项都已填写");
+                    }else{
+                        TiJiaoQzxx(bt,QzShengName,QzShiName,sjh,jlms,zwlb,qzyx);
+                    }
                 }
                 break;
             case R.id.tv_szcs://编辑招聘信息选择城市
@@ -239,7 +287,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         //返回的分别是三个级别的选中位置
-                        mZpZwlb.setText(options1Items12.get(options1));
+                        mQzZwlb.setText(options1Items12.get(options1));
                     }
                 }).build();
                 pvOptions12.setTitleText("职位类别");
@@ -248,6 +296,104 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
+    }
+
+    /**
+     * 提交发布求职信息
+     */
+    private void TiJiaoQzxx(String bt, String sss, String shi, String sjh, String jlms, String zwlb, String qzyx) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        StringBuffer sb = new StringBuffer();
+        sb.append("openid=").append(openid).append("&BT=").append(bt).append("&SSS=").append(sss)
+                .append("&SHI=").append(shi).append("&SJH=").append(sjh).append("&JLMS=").append(jlms)
+                .append("&ZWLB=").append(zwlb).append("&QZYX=").append(qzyx);
+        RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
+        final Request request = new Request.Builder()
+                .url(Constants.ZP_FIND_URL)//蓝领求职首页
+                .post(body)//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: 提交发布求职信息失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseInfo = response.body().string();
+                Log.i(TAG, "JobFragment.onResponse: responseInfo===" + responseInfo);
+                String error = null;
+                try {
+                    Message msg = new Message();
+                    msg.what = 0x01;
+                    Bundle bundle = new Bundle();
+                    JSONObject jsonObject = new JSONObject(responseInfo);
+                    error = jsonObject.getString("error");
+                    if (error.equals("true")) {//失败
+                        String message = jsonObject.getString("message");
+                        Log.i(TAG, "JobFragment: message===" + message);
+                        bundle.putString("msg","提交失败");
+                    } else if (error.equals("false")) {//成功
+                        bundle.putString("msg","提交成功");
+                    }
+                    msg.setData(bundle);
+                    mHandler.sendMessage(msg);//通知UI线程更新界面
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 提交发布招聘信息
+     */
+    private void TiJiaoZpxx(String bt,String sss,String shi,String sjh,String zprs,String zwlb,String zwms) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        StringBuffer sb = new StringBuffer();
+        sb.append("openid=").append(openid).append("&BT=").append(bt).append("&SSS=").append(sss)
+            .append("&SHI=").append(shi).append("&SJH=").append(sjh).append("&ZPRS=").append(zprs)
+            .append("&ZWLB=").append(zwlb).append("&ZWMS=").append(zwms);
+        RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
+        final Request request = new Request.Builder()
+                .url(Constants.ZP_FIND_URL)//蓝领求职首页
+                .post(body)//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: 提交发布招聘信息失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseInfo = response.body().string();
+                Log.i(TAG, "JobFragment.onResponse: responseInfo===" + responseInfo);
+                String error = null;
+                try {
+                    Message msg = new Message();
+                    msg.what = 0x01;
+                    Bundle bundle = new Bundle();
+                    JSONObject jsonObject = new JSONObject(responseInfo);
+                    error = jsonObject.getString("error");
+                    if (error.equals("true")) {//失败
+                        String message = jsonObject.getString("message");
+                        Log.i(TAG, "JobFragment: message===" + message);
+                        bundle.putString("msg","提交失败");
+                    } else if (error.equals("false")) {//成功
+                        bundle.putString("msg","提交成功");
+                    }
+                    msg.setData(bundle);
+                    mHandler.sendMessage(msg);//通知UI线程更新界面
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 }

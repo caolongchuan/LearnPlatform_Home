@@ -7,11 +7,13 @@
     tools:context=".activity.WXLoginActivity">
     <TextView
         android:id="@+id/tv_tv1"
+        android:visibility="gone"
         android:text="微信用户信息"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/btn_login"
+        android:visibility="gone"
         android:text="@string/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

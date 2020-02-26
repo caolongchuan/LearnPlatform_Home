@@ -59,18 +59,21 @@ public class WXLoginActivity extends AppCompatActivity {
         SPUtils.put(this, "nickname", "魔鬼的羽毛");
         SPUtils.put(this, "headimgurl", "http://thirdwx.qlogo.cn/mmopen/vi_32/pHLZ8R6Qs4piaLcYyHIEVGOiax6uKVmmYBtzCwZ9jCY3SgZ3IFBsTZlatUbo21IwzztJOVOlOydtHXsOxVUKnQSw/132");
         SPUtils.put(this, "openid", "oGVIZxFp2DOIPKoZM8cVxMbGwXjI");
+        SPUtils.put(this, "unionid", "okBs11VZKzoiNzOiPHT1Q7CXufqU");
 
         initTTSPermissions();//初始化讯飞语音合成
 
         String nickname = (String) SPUtils.get(this, "nickname", "");
         String headimgurl = (String) SPUtils.get(this, "headimgurl", "");
         String openid = (String) SPUtils.get(this, "openid", "");
+        String unionid = (String) SPUtils.get(this, "unionid", "");
         Log.i(TAG, "onCreate: nickname=" + nickname);
         Log.i(TAG, "onCreate: headimgurl=" + headimgurl);
         Log.i(TAG, "onCreate: openid=" + openid);
+        Log.i(TAG, "onCreate: unionid=" + unionid);
 
-        if (!nickname.equals("") && !headimgurl.equals("") && !openid.equals("")) {//已经登陆过直接进入下一个页面
-            gotoLoginActivity(nickname,headimgurl,openid);
+        if (!nickname.equals("") && !headimgurl.equals("") && !unionid.equals("")) {//已经登陆过直接进入下一个页面
+            gotoLoginActivity(nickname,headimgurl,unionid);
         } else {
             regToWx();//进入微信登录授权页面
         }
@@ -93,14 +96,19 @@ public class WXLoginActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(responseInfo);
                 String nickname = jsonObject.getString("nickname");
                 String headimgurl = jsonObject.getString("headimgurl");
-                String openid = (String) SPUtils.get(this, "openid", "");
+                String openid = jsonObject.getString("openid");
+                String unionid = jsonObject.getString("unionid");
+//                String openid = (String) SPUtils.get(this, "openid", "");
                 SPUtils.put(this, "nickname", nickname);
                 SPUtils.put(this, "headimgurl", headimgurl);
+                SPUtils.put(this, "openid", openid);
+                SPUtils.put(this, "unionid", unionid);
                 Log.i(TAG, "onResume: nickname=====" + nickname);
                 Log.i(TAG, "onResume: headimgurl=====" + headimgurl);
                 Log.i(TAG, "onResume: openid=====" + openid);
+                Log.i(TAG, "onResume: unionid=====" + unionid);
                 //跳转到登录页面
-                gotoLoginActivity(nickname,headimgurl,openid);
+                gotoLoginActivity(nickname,headimgurl,unionid);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -213,7 +221,7 @@ public class WXLoginActivity extends AppCompatActivity {
         TTSUtils.getInstance().init(context); //初始化工具类
     }
 
-    //跳转到登录页面
+    //跳转到登录页面 (此方法所接收到的参数openid已经是unionid了)
     private void gotoLoginActivity(String nickname,String headimgurl,String openid){
         Intent intent = new Intent();
         Bundle bundle = new Bundle();

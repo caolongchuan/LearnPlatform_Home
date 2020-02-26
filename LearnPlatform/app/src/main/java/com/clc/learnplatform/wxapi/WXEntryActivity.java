@@ -1,19 +1,13 @@
 package com.clc.learnplatform.wxapi;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.clc.learnplatform.R;
 import com.clc.learnplatform.global.Constants;
-import com.clc.learnplatform.util.SPUtils;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -32,11 +26,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
+public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
 
     private Context mContext;
-    private ProgressDialog mProgressDialog;
+//    private ProgressDialog mProgressDialog;
     private IWXAPI wxapi;
 
     @Override
@@ -104,7 +98,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("fan12", "onFailure: ");
-                mProgressDialog.dismiss();
+//                mProgressDialog.dismiss();
             }
 
             @Override
@@ -113,11 +107,13 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 Log.d("fan12", "onResponse: " + responseInfo);
                 String openId = null;
                 String access = null;
+                String unionid = null;
 
                 try {
                     JSONObject jsonObject = new JSONObject(responseInfo);
                     access = jsonObject.getString("access_token");
                     openId = jsonObject.getString("openid");
+                    unionid = jsonObject.getString("unionid");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -129,19 +125,19 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     //这里我们在请求之前新建一个progressDialog，避免长时间白屏（因为在进行多次网络请求）造成卡死的假象
     private void createProgressDialog() {
         mContext = this;
-        mProgressDialog = new ProgressDialog(mContext);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setCanceledOnTouchOutside(false);
-        mProgressDialog.setTitle("提示");
-        mProgressDialog.setMessage("登录中，请稍后");
-        mProgressDialog.show();
+//        mProgressDialog = new ProgressDialog(mContext);
+//        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
+//        mProgressDialog.setCancelable(false);
+//        mProgressDialog.setCanceledOnTouchOutside(false);
+//        mProgressDialog.setTitle("提示");
+//        mProgressDialog.setMessage("登录中，请稍后");
+//        mProgressDialog.show();
     }
 
     //如果请求成功，我们通过JSON解析获取access和token值，再通过getUserInfo(access, openId)方法获取用户信息
     private void getUserInfo(String access, String openid) {
         //将openid写入sp里边
-        SPUtils.put(this,"openid",openid);
+//        SPUtils.put(this,"openid",openid);
         String getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openid;
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
@@ -153,7 +149,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("fan12", "onFailure: ");
-                mProgressDialog.dismiss();
+//                mProgressDialog.dismiss();
             }
 
             @Override
@@ -164,7 +160,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 editor.putString("responseInfo", responseInfo);
                 editor.commit();
                 finish();
-                mProgressDialog.dismiss();
+//                mProgressDialog.dismiss();
             }
         });
     }
