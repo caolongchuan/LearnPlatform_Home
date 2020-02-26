@@ -1,14 +1,19 @@
 package com.clc.learnplatform.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,6 +37,7 @@ import com.clc.learnplatform.entity.ZPXX_Entity;
 import com.clc.learnplatform.entity.ZYLB_Entity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.pager.HomeMainPager;
+import com.clc.learnplatform.util.QyZwlbUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,11 +88,14 @@ public class JobFragment extends Fragment implements View.OnClickListener {
     private UserInfoEntity mUserInfoEntiry;//用户的信息
 
     private ArrayList<SHENG_Entity> mShengEntity;//省名称集合
+    private ArrayList<ZYLB_Entity> mZylbEntity;//职业类别集合
 
     private ArrayList<ZPXX_Entity> mZpxxEntity;//招聘信息集合（用于给Adapter设置 可以通过条件查询进行过滤）
     private ArrayList<QZXX_Entity> mQzxxEntity;//求职信息集合（用于给Adapter设置 可以通过条件查询进行过滤）
 
-    private ArrayList<ZYLB_Entity> mZylbEntity;//职业类别集合
+
+    private AlertDialog alertDialog;//等待对话框
+
 
     public JobFragment(Activity activity, String openid, UserInfoEntity userInfoEntity) {
         mActivty = activity;
@@ -113,6 +122,7 @@ public class JobFragment extends Fragment implements View.OnClickListener {
                     getDataFromService(py,zwlb,gjc,"02");
                     break;
                 case 0x04://即获取到招聘数据又获取到求职数据以后
+                    alertDialog.dismiss();
                     updataUI();
                     break;
             }
@@ -141,6 +151,9 @@ public class JobFragment extends Fragment implements View.OnClickListener {
                 mJobList.setVisibility(View.VISIBLE);
             }
         }
+        //将更新完的省名称集合与职业类别集合同步到QyUtil中
+        QyZwlbUtil.getInstance().setShengList(mShengEntity);
+        QyZwlbUtil.getInstance().setZwlbList(mZylbEntity);
 
         mAdapter.notifyDataSetChanged();
     }
@@ -288,6 +301,7 @@ public class JobFragment extends Fragment implements View.OnClickListener {
         mSearchText = mView.findViewById(R.id.et_search_text);
         mCityName = mView.findViewById(R.id.tv_location);
         mFabu = mView.findViewById(R.id.ll_fabu);
+        mFabu.setOnClickListener(this);
         tvQuyu = mView.findViewById(R.id.tv_quye);
         tvQuyu.setOnClickListener(this);
         tvZwlb = mView.findViewById(R.id.tv_zwlb);
@@ -300,6 +314,10 @@ public class JobFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
+        alertDialog = new AlertDialog
+                .Builder(mActivty).setMessage("请稍等...")
+                .create();
+
         mCityName.setText(mUserInfoEntiry.SHI);
 
         mShengEntity = new ArrayList<>();
@@ -309,19 +327,41 @@ public class JobFragment extends Fragment implements View.OnClickListener {
 
         mZylbEntity = new ArrayList<>();
 
-        mAdapter = new JobItemAdapter(mActivty, mZpxxEntity, mQzxxEntity, openid);
+        mAdapter = new JobItemAdapter(mActivty,mZylbEntity, mZpxxEntity, mQzxxEntity, openid,qy);
         mJobList.setAdapter(mAdapter);
 
-        //进入发布信息界面
-        mFabu.setOnClickListener(new View.OnClickListener() {
+        //点击了搜索后的事件
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("openid", openid);
-                intent.setClass(mActivty, JobFabuActivity.class);
-                mActivty.startActivity(intent);
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //点击搜索的时候隐藏软键盘
+                    hideKeyboard(mSearchText);
+                    // 在这里写搜索的操作,一般都是网络请求数据
+                    String qy1 = mCityName.getText().toString();
+                    String zwlb = "";
+                    for(int i=0;i<mZylbEntity.size();i++){
+                        if(mZylbEntity.get(i).value.equals(tvZwlb.getText().toString())){
+                            zwlb = mZylbEntity.get(i).id;
+                        }
+                    }
+                    String gjc = mSearchText.getText().toString();
+                    getDataFromService(qy1,zwlb,gjc,"01");
+                    return true;
+                }
+                return false;
             }
         });
+    }
+
+    /**
+     * 隐藏软键盘
+     * @param view    :一般为EditText
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager manager = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     /**
@@ -394,6 +434,8 @@ public class JobFragment extends Fragment implements View.OnClickListener {
      * @param gjc 关键字 可不传
      */
     private void getDataFromService(final String qy1, final String zwlb1, final String gjc, final String lx){
+        alertDialog.show();
+
         OkHttpClient okHttpClient = new OkHttpClient();
         StringBuffer sb = new StringBuffer();
         if(null == gjc){//如果没有关键词
@@ -401,7 +443,7 @@ public class JobFragment extends Fragment implements View.OnClickListener {
                     .append("&zwlb=").append(zwlb1).append("&lx=").append(lx);
         }else{
             sb.append("openid=").append(openid).append("&qy=").append(qy1)
-                    .append("&zwlb=").append(zwlb1).append("&gic=").append(gjc).append("&lx=").append(lx);
+                    .append("&zwlb=").append(zwlb1).append("&gjc=").append(gjc).append("&lx=").append(lx);
         }
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
@@ -546,6 +588,12 @@ public class JobFragment extends Fragment implements View.OnClickListener {
                 pvOptions2.setTitleText("类别");
                 pvOptions2.setPicker(optionsItems1);
                 pvOptions2.show();
+                break;
+            case R.id.ll_fabu://发布
+                Intent intent = new Intent();
+                intent.putExtra("openid", openid);
+                intent.setClass(mActivty, JobFabuActivity.class);
+                mActivty.startActivity(intent);
                 break;
         }
     }

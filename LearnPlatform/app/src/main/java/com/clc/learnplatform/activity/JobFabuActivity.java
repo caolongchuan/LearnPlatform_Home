@@ -13,13 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.clc.learnplatform.R;
+import com.clc.learnplatform.entity.SHENG_Entity;
+import com.clc.learnplatform.entity.ZYLB_Entity;
+import com.clc.learnplatform.util.QyZwlbUtil;
 import com.clc.learnplatform.util.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.HotCity;
-import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
@@ -45,14 +50,29 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
     private boolean mZpOrQz;//标示是招聘还是求职 false为招聘 true为求职
 
     private LinearLayout mLlZpxx;//招聘信息编辑的布局
-    private EditText mChoiceCity1;//选择城市
-
-
-
-
-
+    //招聘信息的编辑界面
+    private EditText mZpBtxx;//标题信息
+    private TextView mZpSzcs;//所在城市
+    private TextView mZpZwlb;//职位类别
+    private EditText mZpLxdh;//联系电话
+    private EditText mZpZprs;//招聘人数
+    private EditText mZpZwms;//职位描述
 
     private LinearLayout mLlQzxx;//求职信息编辑的布局
+    //求职信息的编辑界面
+    private EditText mQzBtxx;//标题信息
+    private TextView mQzSzcs;//所在城市
+    private TextView mQzZwlb;//职位类别
+    private EditText mQzLxdh;//联系电话
+    private EditText mQzJlms;//简历描述
+    private EditText mQzQzyx;//求职意向
+
+    private ArrayList<SHENG_Entity> mShengEntity;//省名称集合
+    private ArrayList<ZYLB_Entity> mZylbEntity;//职业类别集合
+    private String ZpShengName = "";
+    private String ZpShiName = "";
+    private String QzShengName = "";
+    private String QzShiName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +90,8 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initData() {
         mZpOrQz = false;
+        mShengEntity = QyZwlbUtil.getInstance().getShengList();
+        mZylbEntity =  QyZwlbUtil.getInstance().getZylbList();
     }
 
     private void initView() {
@@ -82,11 +104,26 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
         mFabu = findViewById(R.id.btn_qrtj);
         mFabu.setOnClickListener(this);
 
+        //招聘信息编辑的布局与控件
         mLlZpxx = findViewById(R.id.ll_zpxx);
-        mChoiceCity1 =  findViewById(R.id.tv_szcs);
-        mChoiceCity1.setOnClickListener(this);
-
+        mZpBtxx = findViewById(R.id.et_btxx);
+        mZpSzcs = findViewById(R.id.tv_szcs);
+        mZpSzcs.setOnClickListener(this);
+        mZpZwlb = findViewById(R.id.tv_zwlb);
+        mZpZwlb.setOnClickListener(this);
+        mZpLxdh = findViewById(R.id.et_lxdh);
+        mZpZprs = findViewById(R.id.et_zprs);
+        mZpZwms = findViewById(R.id.et_zwms);
+        //求职信息编辑的布局与控件
         mLlQzxx = findViewById(R.id.ll_qzxx);
+        mQzBtxx = findViewById(R.id.et_btxx1);
+        mQzSzcs = findViewById(R.id.tv_szcs1);
+        mQzSzcs.setOnClickListener(this);
+        mQzZwlb = findViewById(R.id.tv_zwlb1);
+        mQzZwlb.setOnClickListener(this);
+        mQzLxdh = findViewById(R.id.et_lxdh1);
+        mQzJlms = findViewById(R.id.et_jlms);
+        mQzQzyx = findViewById(R.id.et_qzyx);
     }
 
 
@@ -115,9 +152,6 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 mLlQzxx.setVisibility(View.VISIBLE);
                 mZpOrQz = true;
                 break;
-            case R.id.tv_szcs://编辑招聘信息选择城市
-                ToastUtil.getInstance().shortShow(ChoiceCity());
-                break;
             case R.id.btn_qrtj:
                 if(!mZpOrQz){//提交招聘信息
                     ToastUtil.getInstance().shortShow("确认提交招聘信息");
@@ -127,56 +161,93 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
                 break;
+            case R.id.tv_szcs://编辑招聘信息选择城市
+                final List<String> options1Items = new ArrayList<>();
+                final List<List<String>> options2Items = new ArrayList<>();
+                for(int i=0;i<mShengEntity.size();i++){
+                    options1Items.add(mShengEntity.get(i).value);
+                    List<String> temp = new ArrayList<>();
+                    for (int j=0;j<mShengEntity.get(i).childs.size();j++){
+                        temp.add(mShengEntity.get(i).childs.get(j).value);
+                    }
+                    options2Items.add(temp);
+                }
+                //条件选择器
+                OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                        //返回的分别是三个级别的选中位置
+                        ZpShengName = options1Items.get(options1);
+                        ZpShiName = options2Items.get(options1).get(option2);
+                        mZpSzcs.setText(ZpShengName + " " +ZpShiName);
+                    }
+                }).build();
+                pvOptions.setTitleText("区域");
+                pvOptions.setPicker(options1Items,options2Items);
+                pvOptions.show();
+                break;
+            case R.id.tv_zwlb://编辑招聘信息职位类别
+                final List<String> options1Items11 = new ArrayList<>();
+                for(int i=0; i<mZylbEntity.size();i++){
+                    options1Items11.add(mZylbEntity.get(i).value);
+                }
+                //条件选择器
+                OptionsPickerView pvOptions11 = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                        //返回的分别是三个级别的选中位置
+                        mZpZwlb.setText(options1Items11.get(options1));
+                    }
+                }).build();
+                pvOptions11.setTitleText("职位类别");
+                pvOptions11.setPicker(options1Items11);
+                pvOptions11.show();
+                break;
+
+            case R.id.tv_szcs1://编辑求职信息选择城市
+                final List<String> options1Items1 = new ArrayList<>();
+                final List<List<String>> options2Items1 = new ArrayList<>();
+                for(int i=0;i<mShengEntity.size();i++){
+                    options1Items1.add(mShengEntity.get(i).value);
+                    List<String> temp = new ArrayList<>();
+                    for (int j=0;j<mShengEntity.get(i).childs.size();j++){
+                        temp.add(mShengEntity.get(i).childs.get(j).value);
+                    }
+                    options2Items1.add(temp);
+                }
+                //条件选择器
+                OptionsPickerView pvOptions1 = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                        //返回的分别是三个级别的选中位置
+                        QzShengName = options1Items1.get(options1);
+                        QzShiName = options2Items1.get(options1).get(option2);
+                        mQzSzcs.setText(QzShengName + " " +QzShiName);
+                    }
+                }).build();
+                pvOptions1.setTitleText("区域");
+                pvOptions1.setPicker(options1Items1,options2Items1);
+                pvOptions1.show();
+                break;
+            case R.id.tv_zwlb1://编辑求职信息职位类别
+                final List<String> options1Items12 = new ArrayList<>();
+                for(int i=0; i<mZylbEntity.size();i++){
+                    options1Items12.add(mZylbEntity.get(i).value);
+                }
+                //条件选择器
+                OptionsPickerView pvOptions12 = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                        //返回的分别是三个级别的选中位置
+                        mZpZwlb.setText(options1Items12.get(options1));
+                    }
+                }).build();
+                pvOptions12.setTitleText("职位类别");
+                pvOptions12.setPicker(options1Items12);
+                pvOptions12.show();
+                break;
+
         }
     }
-
-    /**
-     * 选择城市
-     */
-    private String ChoiceCity() {
-
-        List<HotCity> hotCities = new ArrayList<>();
-        hotCities.add(new HotCity("北京", "北京", "101010100")); //code为城市代码
-        hotCities.add(new HotCity("上海", "上海", "101020100"));
-        hotCities.add(new HotCity("广州", "广东", "101280101"));
-        hotCities.add(new HotCity("深圳", "广东", "101280601"));
-        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
-
-
-        CityPicker.from(this) //activity或者fragment
-                .enableAnimation(true)    //启用动画效果，默认无
-//                .setAnimationStyle(anim)  //自定义动画
-                .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))  //APP自身已定位的城市，传null会自动定位（默认）
-                .setHotCities(hotCities)  //指定热门城市
-                .setOnPickListener(new OnPickListener() {
-                    @Override
-                    public void onPick(int position, City data) {
-                        data.getProvince();
-                        Toast.makeText(getApplicationContext(), data.getName(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCancel(){
-                        Toast.makeText(getApplicationContext(), "取消选择", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onLocate() {
-                        //定位接口，需要APP自身实现，这里模拟一下定位
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                //定位完成之后更新数据
-//                                CityPicker.getInstance()
-//                                        .locateComplete(new LocatedCity("深圳", "广东", "101280601"), LocateState.SUCCESS);
-                            }
-                        }, 3000);
-                    }
-                })
-                .show();
-
-        return "";
-    }
-
 
 }
