@@ -21,15 +21,17 @@
 
             <ImageView
                 android:id="@+id/iv_user_head"
+                android:src="@mipmap/user_head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-            <!--android:src="@mipmap/user_head" -->
+
 
         </com.gcssloop.widget.RCRelativeLayout>
 
 
         <TextView
             android:id="@+id/tv_user_name"
+            android:text="大侦探"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -37,7 +39,7 @@
             android:layout_toRightOf="@+id/rcrl_1"
             android:textColor="@color/user_name_text_color"
             android:textSize="@dimen/user_name_text_size" />
-        <!--android:text="大侦探"-->
+        <!---->
 
         <TextView
             android:id="@+id/tv_phone_number"
@@ -63,6 +65,18 @@
             android:text="ID:D0035"
             android:textColor="@color/user_name_text_color"
             android:textSize="@dimen/phone_number_text_size" />
+
+        <TextView
+            android:id="@+id/tv_shape"
+            android:text="分享"
+            android:textSize="15dp"
+            android:background="@drawable/shape_binding_card_bg"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/clc_white"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

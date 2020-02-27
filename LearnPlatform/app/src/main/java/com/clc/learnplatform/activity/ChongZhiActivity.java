@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.XTCS_Entity;
 import com.clc.learnplatform.global.Constants;
-import com.clc.learnplatform.util.Clc_WXPayUtil;
+import com.clc.learnplatform.util.ClcWXPayUtil;
 import com.clc.learnplatform.util.IPUtil;
 
 import org.json.JSONArray;
@@ -241,7 +241,9 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
             public void run() {
                 String netIp = IPUtil.GetNetIp();
                 Log.i(TAG, "doPay: ip="+netIp);
-                Clc_WXPayUtil.TongYiXiaDan(100,netIp);
+                ClcWXPayUtil.TongYiXiaDan(getApplicationContext(),100,netIp);
+
+//                ClcWXShareUtil.ShareWebPage(getApplicationContext(),openid);
             }
         }).start();
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--发送到聊天界面——WXSceneSession-->
+    <item
+        android:id="@+id/scene_session"
+        android:title="分享到好友"/>
+
+    <!--发送到朋友圈——WXSceneTimeline-->
+    <item
+        android:id="@+id/scene_timeline"
+        android:title="分享到朋友圈"/>
+
+</menu>

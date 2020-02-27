@@ -3,9 +3,11 @@ package com.clc.learnplatform.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ import com.clc.learnplatform.activity.YaoQingMaActivity;
 import com.clc.learnplatform.activity.ZdmxActivity;
 import com.clc.learnplatform.activity.ZhengQueryActivity;
 import com.clc.learnplatform.entity.UserInfoEntity;
+import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.ClcWXShareUtil;
 import com.clc.learnplatform.util.ToastUtil;
 
 import org.json.JSONException;
@@ -39,6 +43,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private TextView tvName;
     private TextView tvPhoneNum;
     private TextView tvID;
+
+    private TextView mShare;//分享按钮
 
     private TextView tvCoinNum;//学习币数量
     private RelativeLayout rlCoinMingXi;//学习币使用明细
@@ -113,6 +119,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
+        mShare = mView.findViewById(R.id.tv_shape);
+        mShare.setOnClickListener(this);
         ivHead = mView.findViewById(R.id.iv_user_head);
         tvName = mView.findViewById(R.id.tv_user_name);
         tvPhoneNum = mView.findViewById(R.id.tv_phone_number);
@@ -205,6 +213,39 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 intent6.putExtra("openid",openid);
                 intent6.setClass(this.getActivity(), WenTiFanKuiActivity.class);
                 startActivity(intent6);
+                break;
+            case R.id.tv_shape://分享
+                // 这里的view代表popupMenu需要依附的view
+                PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                // 获取布局文件
+                popupMenu.getMenuInflater().inflate(R.menu.menu_shape_item, popupMenu.getMenu());
+                popupMenu.show();
+                // 通过上面这几行代码，就可以把控件显示出来了
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // 控件每一个item的点击事件
+                        switch (item.getItemId()){
+                            case R.id.scene_session://分享到好友
+                                ClcWXShareUtil.ShareWebPage(getContext(),openid, Constants.WX_SHAPE_URL,
+                                        Constants.WX_SHAPE_TITLE,Constants.WX_SHAPE_DESCRIPTION,
+                                        Constants.WX_SHAPE_BMP,2);
+                                break;
+                            case R.id.scene_timeline://分享给朋友圈
+                                ClcWXShareUtil.ShareWebPage(getContext(),openid, Constants.WX_SHAPE_URL,
+                                        Constants.WX_SHAPE_TITLE,Constants.WX_SHAPE_DESCRIPTION,
+                                        Constants.WX_SHAPE_BMP,1);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                    @Override
+                    public void onDismiss(PopupMenu menu) {
+                        // 控件消失时的事件
+                    }
+                });
                 break;
         }
     }

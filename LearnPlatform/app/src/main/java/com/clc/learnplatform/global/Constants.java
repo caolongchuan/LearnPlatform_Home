@@ -1,5 +1,7 @@
 package com.clc.learnplatform.global;
 
+import com.clc.learnplatform.R;
+
 public class Constants {
 
     public static final String BASE_URL = "http://www.zixiawangluo.com/zxexam/";
@@ -63,6 +65,13 @@ public class Constants {
     public static final String BODY = "特种设备考证学习平台-学习币充值";//商品描述
     public static final String NOTIFY_URL = "http://www.wxfslp.xyz/clcService_war_exploded/PayComplete";//接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数
     public static final String TRADE_TYPE = "APP";
+    public static final String SECRET_KEY = "sxzxsxzxsxzxsxzxsxzxsxzxsxzxsxzx";//用于支付的秘钥key
+
+    //微信分享
+    public static final String WX_SHAPE_URL = "www.baidu.com";//微信分享的url
+    public static final String WX_SHAPE_TITLE = "微信分享的title";
+    public static final String WX_SHAPE_DESCRIPTION = "微信分享的描述";
+    public static final int WX_SHAPE_BMP = R.mipmap.ic_launcher;
 
     //讯飞语音合成APPID
     public static final String XF_APP_ID = "5e0d9d44";
