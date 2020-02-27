@@ -120,7 +120,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                 choiceIndex = checkedId;
                 String num = tvNum.getText().toString();
                 int integer = Integer.valueOf(num);
-                int i = mXtcsList.get(choiceIndex).LTCS * integer;
+                int i = (mXtcsList.get(choiceIndex).LTCS * integer) + (mXtcsList.get(choiceIndex).ZSLTCS * integer);
                 int i2 = mXtcsList.get(choiceIndex).FY * integer;
                 tvCoinNum.setText(String.valueOf(i));
                 tvPrice.setText(String.valueOf(i2));
@@ -208,7 +208,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                 tvNum.setText(String.valueOf(integer + 1));
                 String num11 = tvNum.getText().toString();
                 int integer11 = Integer.valueOf(num11);
-                int i = mXtcsList.get(choiceIndex).LTCS * integer11;
+                int i = (mXtcsList.get(choiceIndex).LTCS * integer11)+(mXtcsList.get(choiceIndex).ZSLTCS * integer11);
                 int i2 = mXtcsList.get(choiceIndex).FY * integer11;
                 tvCoinNum.setText(String.valueOf(i));
                 tvPrice.setText(String.valueOf(i2));
@@ -220,7 +220,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                     tvNum.setText(String.valueOf(integer1 - 1));
                     String num111 = tvNum.getText().toString();
                     int integer111 = Integer.valueOf(num111);
-                    int ii = mXtcsList.get(choiceIndex).LTCS * integer111;
+                    int ii = (mXtcsList.get(choiceIndex).LTCS * integer111)+(mXtcsList.get(choiceIndex).ZSLTCS * integer111);
                     int ii2 = mXtcsList.get(choiceIndex).FY * integer111;
                     tvCoinNum.setText(String.valueOf(ii));
                     tvPrice.setText(String.valueOf(ii2));

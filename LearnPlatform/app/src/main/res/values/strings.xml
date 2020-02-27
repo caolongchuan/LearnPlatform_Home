@@ -7,5 +7,7 @@
     <string name="tv_vip_4">4、我公司对以上说明享有最终解释权。</string>
     <string name="tv_vip_5">我已阅读以上说明，确认申请成为VIP会员。</string>
 
-
+    <!-- WXPayEntryActivity -->
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
 </resources>

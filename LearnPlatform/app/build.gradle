@@ -56,13 +56,13 @@ dependencies {
     //        androidTestImplementation ('com.android.support.TTSUtileLisenning.espresso: espresso-core: 2.2.2', {
     //            exclude group: 'com.android.support',  module: 'support-annotations'
     //        })
-
     //选项选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     //城市选择器
-    implementation 'com.github.zaaach:CityPicker:2.0.3' //必选
-    implementation 'com.android.support:recyclerview-v7:27.1.1' //必选
-
+    implementation 'com.github.zaaach:CityPicker:2.0.3'
+    //必选
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    //必选
     implementation 'com.youth.banner:banner:1.4.10'
     //轮播图
     implementation 'com.github.bumptech.glide:glide:3.7.0'
@@ -89,4 +89,5 @@ dependencies {
     implementation files('libs/Msc.jar')
     implementation files('libs/commons-lang-2.5.jar')
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1148_43697_sharewithdownloadwithfile_withoutGame_obfs_20190805_175505.jar')
+    implementation files('libs/dom4j-2.0.2.jar')
 }

@@ -1,10 +1,18 @@
 package com.clc.learnplatform.util;
 
+import android.content.Context;
 import android.os.Message;
 import android.util.Log;
 
 import com.clc.learnplatform.global.Constants;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -43,12 +51,57 @@ public class Clc_WXPayUtil {
      * @param total_fee 支付金额（单位是分）
      * @param spbill_create_ip 外网IP
      */
-    public static void TongYiXiaDan(int total_fee,String spbill_create_ip){
+    public static void TongYiXiaDan(Context context, int total_fee,String spbill_create_ip){
         String param = geneParam(total_fee,spbill_create_ip);
         if(null != param){
-            String result = httpsRequest(TYXD_URL, "POST", param);
+            String result_xml = httpsRequest(TYXD_URL, "POST", param);
+            if(null != result_xml){
+                HashMap hashMap = readStringXmlOut(result_xml);
+                if(hashMap.size()>0){//统一下单成功 获取到了prepay_id
+                    String prepay_id = (String) hashMap.get("prepay_id");
+                    //调起支付接口
+                    ZhiFu(context, prepay_id);
+                }
+                int i=0;
+                int j=1;
+                int k = i+j;
+            }
         }
     }
+
+    /**
+     * 支付
+     * @param prepay_id 预支付交易会话ID
+     */
+    private static void ZhiFu(Context context, String prepay_id) {
+        IWXAPI wxapi = WXAPIFactory.createWXAPI(context, Constants.APP_ID, false);
+        wxapi.registerApp(Constants.APP_ID);
+        PayReq request = new PayReq();
+        request.appId = Constants.APP_ID;
+        request.partnerId = Constants.MCH_ID;
+        request.prepayId= prepay_id;
+        request.packageValue = "Sign=WXPay";
+        request.nonceStr= gene_nonceStr();
+        request.timeStamp= gene_out_trade_no();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", Constants.APP_ID);
+        params.put("partnerid", Constants.MCH_ID);
+        params.put("prepayid", request.prepayId);
+        params.put("package", request.packageValue);
+        params.put("noncestr", request.nonceStr);
+        params.put("timestamp", request.timeStamp);
+
+        try {
+            request.sign = WXPaySignUtil.Sign(params, Constants.SECRET);
+            wxapi.sendReq(request);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     /**
      * 生成统一下单xml参数
@@ -100,6 +153,45 @@ public class Clc_WXPayUtil {
         sb.append("</xml>");
         return sb.toString();
     }
+
+    /**
+     * @param xml
+     * @return Map
+     * @description 将xml字符串转换成map
+     */
+    public static HashMap readStringXmlOut(String xml) {
+        HashMap map = new HashMap();
+        Document doc = null;
+        try {
+            // 将字符串转为XML
+            doc = DocumentHelper.parseText(xml);
+            // 获取根节点
+            Element rootElt = doc.getRootElement();
+            String name = rootElt.getName();
+            // 拿到根节点的名称
+
+            String return_code = rootElt.elementText("return_code");
+            String return_msg = rootElt.elementText("return_msg");
+
+            if (return_code.equals("SUCCESS")) {
+//                String nonce_str = rootElt.elementText("nonce_str");
+//                map.put("nonce_str", nonce_str);
+//                String sign = rootElt.elementText("sign");
+//                map.put("sign", sign);
+                String result_code = rootElt.elementText("result_code");
+                if (result_code.equals("SUCCESS")) {
+                    String prepay_id = rootElt.elementText("prepay_id");
+                    map.put("prepay_id", prepay_id);
+                }
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 
     //发起微信支付请求
     private static String httpsRequest(String requestUrl, String requestMethod, String outputStr) {
@@ -155,11 +247,11 @@ public class Clc_WXPayUtil {
     }
 
     /**
-     * 生成商户系统内部订单号（暂时用时间戳作为订单号）
+     * 生成商户系统内部订单号（暂时用时间戳作为订单号 单位是秒）
      * @return
      */
     private static String gene_out_trade_no(){
-        return String.valueOf(new Date().getTime());
+        return String.valueOf(new Date().getTime()/1000);
     }
 
 }

@@ -26,6 +26,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 微信授权登陆回调
+ */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
 
