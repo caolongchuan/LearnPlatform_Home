@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.clc.learnplatform.R;
 import com.clc.learnplatform.global.Constants;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -39,7 +40,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_wxentry);
+        setContentView(R.layout.activity_wxentry);
 //        getSupportActionBar().hide();
         // 隐藏状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -57,24 +58,50 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     //请求回调结果处理
     @Override
     public void onResp(BaseResp baseResp) {
-        //登录回调
-        switch (baseResp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                String code = ((SendAuth.Resp) baseResp).code;
-                //获取accesstoken
-                getAccessToken(code);
-                Log.d("fantasychongwxlogin", code.toString() + "");
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
-                finish();
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消
-                finish();
-                break;
-            default:
-                finish();
-                break;
+        //这里的话我就去拿到BaseResp.getType().去判断去做处理
+        //当然我这里判断拿出来的 分享的返回值是
+        //BaseResp.getType() == 1;则为微信登陆，
+        //BaseResp.getType() == 2;则为微信分享。
+        int type = baseResp.getType();
+        if(baseResp.getType() == 1){
+            Log.i(TAG, "onResp: 登陆的回调调用了");
+            //登录回调
+            switch (baseResp.errCode) {
+                case BaseResp.ErrCode.ERR_OK:
+                    String code = ((SendAuth.Resp) baseResp).code;
+                    //获取accesstoken
+                    getAccessToken(code);
+                    Log.d("fantasychongwxlogin", code.toString() + "");
+                    break;
+                case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
+                    finish();
+                    break;
+                case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消
+                    finish();
+                    break;
+                default:
+                    finish();
+                    break;
+            }
+        }else if(baseResp.getType() == 2) {
+            Log.i(TAG, "onResp: 分享的回调调用了");
+            //分享回调
+            switch (baseResp.errCode) {
+                case BaseResp.ErrCode.ERR_OK:
+                    finish();
+                    break;
+                case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
+                    finish();
+                    break;
+                case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消
+                    finish();
+                    break;
+                default:
+                    finish();
+                    break;
+            }
         }
+
     }
 
     private void getAccessToken(String code) {
