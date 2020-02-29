@@ -61,6 +61,8 @@ public class LsxxActivity extends AppCompatActivity implements View.OnClickListe
 
     private KSXM_Entity mKSXM = null;
 
+    private String mDataString;//首页传过来的数据
+
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
@@ -95,7 +97,7 @@ public class LsxxActivity extends AppCompatActivity implements View.OnClickListe
                 mHomeItemName.add(mKsxmList.get(i).BZ);
             }
         }
-        mHomeItemAdapter = new HomeItemAdapter(this, mHomeItemName,mKsxmList,openid);
+        mHomeItemAdapter = new HomeItemAdapter(this, mHomeItemName,mKsxmList,openid,mDataString);
         mListView.setAdapter(mHomeItemAdapter);
     }
 
@@ -107,6 +109,7 @@ public class LsxxActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().hide();
         Intent intent = getIntent();
         openid = intent.getStringExtra("openid");
+        mDataString = intent.getStringExtra("data_string");
 
         initView();
         getDataFromService();
@@ -240,6 +243,10 @@ public class LsxxActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_recharge://充值
+                Intent intent1 = new Intent();
+                intent1.putExtra("openid",openid);
+                intent1.setClass(this, ChongZhiActivity.class);
+                this.startActivity(intent1);
                 break;
         }
     }

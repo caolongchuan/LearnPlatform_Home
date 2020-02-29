@@ -25,11 +25,14 @@ public class HomeItemAdapter extends BaseAdapter {
     private ArrayList<HomeItemSonAdapter> mSonAdapter;//子listview的adapter list
     private boolean[] showControl;//表明对应的item是否需要展开
 
-    public HomeItemAdapter(Activity activity, ArrayList<String> list, ArrayList<KSXM_Entity> list1,String openid) {
+    private String mDataString;//首页传过来的数据
+
+    public HomeItemAdapter(Activity activity, ArrayList<String> list, ArrayList<KSXM_Entity> list1,String openid,String data_string) {
         mActivity = activity;
         mList = list;
         mKsxmList = list1;
         this.openid = openid;
+        this.mDataString = data_string;
 
         mSonAdapter = new ArrayList<>();
         for(int i=0;i<mList.size();i++){
@@ -41,7 +44,7 @@ public class HomeItemAdapter extends BaseAdapter {
                 }
             }
 
-            HomeItemSonAdapter hisa = new HomeItemSonAdapter(mActivity, kel,openid);
+            HomeItemSonAdapter hisa = new HomeItemSonAdapter(mActivity, kel,openid,mDataString);
             mSonAdapter.add(hisa);
         }
 

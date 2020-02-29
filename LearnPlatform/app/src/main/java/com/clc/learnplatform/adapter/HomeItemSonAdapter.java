@@ -19,11 +19,13 @@ public class HomeItemSonAdapter extends BaseAdapter {
     private Activity mActivity;
     private ArrayList<KSXM_Entity> mList;
     private String openid;
+    private String mDataString;//首页传过来的数据
 
-    public HomeItemSonAdapter(Activity activity, ArrayList<KSXM_Entity> list,String openid){
+    public HomeItemSonAdapter(Activity activity, ArrayList<KSXM_Entity> list,String openid,String data_string){
         mActivity = activity;
         mList = list;
         this.openid = openid;
+        this.mDataString = data_string;
     }
 
     @Override
@@ -63,6 +65,8 @@ public class HomeItemSonAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 intent.putExtra("openid", openid);
                 intent.putExtra("xmid",mList.get(position).ID);
+                intent.putExtra("data_string",mDataString);
+
                 intent.setClass(mActivity, StudiedActivity.class);
                 mActivity.startActivityForResult(intent,100);
             }

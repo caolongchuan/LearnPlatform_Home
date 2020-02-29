@@ -1,8 +1,6 @@
 package com.clc.learnplatform.pager;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -19,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.clc.learnplatform.R;
+import com.clc.learnplatform.activity.ChongZhiActivity;
 import com.clc.learnplatform.activity.LsxxActivity;
 import com.clc.learnplatform.adapter.HomeItemAdapter;
 import com.clc.learnplatform.dialog.ChoiceItemDialog;
@@ -26,7 +25,6 @@ import com.clc.learnplatform.entity.KHZL_Entity;
 import com.clc.learnplatform.entity.KSXM_Entity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.fragment.HomeFragment;
-import com.clc.learnplatform.util.ToastUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -70,6 +68,8 @@ public class HomeMainPager implements View.OnClickListener {
     private KSXM_Entity mZJXXXM;//最近学习项目
     private ArrayList<KSXM_Entity> mKsxmList;//项目list
 
+    private String mDataString;//首页传过来的数据
+
     public HomeMainPager(Fragment fragment, String openid, String data_jsonString) {
         mFragment = fragment;
         this.openid = openid;
@@ -81,6 +81,7 @@ public class HomeMainPager implements View.OnClickListener {
         mView = inflater.inflate(R.layout.fragment_home_main, null);
         mView.setLayoutParams(lp);
 
+        mDataString = data_jsonString;
         analysisData(data_jsonString);//解析首页数据
         initView();
         initData();
@@ -248,7 +249,7 @@ public class HomeMainPager implements View.OnClickListener {
             }
         }
 
-        mHomeItemAdapter = new HomeItemAdapter(mFragment.getActivity(), mHomeItemName,mKsxmList,openid);
+        mHomeItemAdapter = new HomeItemAdapter(mFragment.getActivity(), mHomeItemName,mKsxmList,openid,mDataString);
         mLVItem.setAdapter(mHomeItemAdapter);
     }
 
@@ -277,7 +278,10 @@ public class HomeMainPager implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_recharge://充值
-                Toast.makeText(mFragment.getContext(), "充值", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent();
+                intent1.putExtra("openid",openid);
+                intent1.setClass(mFragment.getContext(), ChongZhiActivity.class);
+                mFragment.startActivity(intent1);
                 break;
             case R.id.tv_see_all://查看全部
                 Intent intent = new Intent();

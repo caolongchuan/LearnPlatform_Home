@@ -101,6 +101,7 @@ public class ZdmxActivity extends AppCompatActivity implements View.OnClickListe
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         String rq = sdf.format(d);
+        tvData.setText(rq.replaceAll("-","年") + "月");
         getDataFromService(rq);
     }
 
@@ -258,7 +259,11 @@ public class ZdmxActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tvData.setText(Year[0] + "年" + Month[0] + "月");
+                        if(Month[0]<10){
+                            tvData.setText(Year[0] + "年0" + Month[0] + "月");
+                        }else{
+                            tvData.setText(Year[0] + "年" + Month[0] + "月");
+                        }
                         if(Month[0]<10){
                             getDataFromService(Year[0] + "-0" + Month[0]);
                         }else{

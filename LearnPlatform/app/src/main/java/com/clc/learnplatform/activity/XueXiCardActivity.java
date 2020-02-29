@@ -54,17 +54,18 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
     private String phone;
     private int coin;
 
+    private ImageView ivBack;
+    private TextView tvMsg;
     private ImageView tvHead;
     private TextView tvName;
     private TextView tvPhone;
     private TextView tvCoin;
 
     private ArrayList<LXK_Entity> mLxkList;
+    private ListView lvListView;
     private MyAdapter mAdapter;
 
-    private ImageView ivBack;
-    private TextView tvMsg;
-    private ListView lvListView;
+    private TextView mRecharge;//充值
     private Button btnAdd;
 
 
@@ -108,7 +109,34 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
         DataString = intent.getStringExtra("data_string");
 
         initView();
+        initData();
         getDataFromService();
+    }
+
+    private void initData() {
+        try {
+            JSONObject jsonObject = new JSONObject(DataString);
+            //解析项目列表
+            mKsxmList = new ArrayList<>();
+            JSONArray ksxmlist = jsonObject.getJSONArray("ksxmlist");
+            for (int i = 0; i < ksxmlist.length(); i++) {
+                JSONObject ksxm_obj = ksxmlist.getJSONObject(i);
+                KSXM_Entity ke = new KSXM_Entity();
+                ke.ID = ksxm_obj.getString("ID");
+                ke.BZ = ksxm_obj.getString("BZ");
+                ke.CTL = ksxm_obj.getInt("CTL");
+                ke.DM = ksxm_obj.getString("DM");
+                ke.MNXH = ksxm_obj.getInt("MNXH");
+                ke.NAME = ksxm_obj.getString("NAME");
+                ke.STXH = ksxm_obj.getInt("STXH");
+                ke.ZLID = ksxm_obj.getString("ZLID");
+                ke.ZT = ksxm_obj.getString("ZT");
+                ke.ZTL = ksxm_obj.getInt("ZTL");
+                mKsxmList.add(ke);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     //从服务器获取数据
@@ -206,33 +234,10 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
         tvMsg = findViewById(R.id.tv_jilu);
         ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(this);
+        mRecharge = findViewById(R.id.btn_recharge);
+        mRecharge.setOnClickListener(this);
         btnAdd = findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
-
-        try {
-            JSONObject jsonObject = new JSONObject(DataString);
-            //解析项目列表
-            mKsxmList = new ArrayList<>();
-            JSONArray ksxmlist = jsonObject.getJSONArray("ksxmlist");
-            for (int i = 0; i < ksxmlist.length(); i++) {
-                JSONObject ksxm_obj = ksxmlist.getJSONObject(i);
-                KSXM_Entity ke = new KSXM_Entity();
-                ke.ID = ksxm_obj.getString("ID");
-                ke.BZ = ksxm_obj.getString("BZ");
-                ke.CTL = ksxm_obj.getInt("CTL");
-                ke.DM = ksxm_obj.getString("DM");
-                ke.MNXH = ksxm_obj.getInt("MNXH");
-                ke.NAME = ksxm_obj.getString("NAME");
-                ke.STXH = ksxm_obj.getInt("STXH");
-                ke.ZLID = ksxm_obj.getString("ZLID");
-                ke.ZT = ksxm_obj.getString("ZT");
-                ke.ZTL = ksxm_obj.getInt("ZTL");
-                mKsxmList.add(ke);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
@@ -240,6 +245,12 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.iv_back://返回
                 finish();
+                break;
+            case R.id.btn_recharge://充值
+                Intent intent1 = new Intent();
+                intent1.putExtra("openid",openid);
+                intent1.setClass(this, ChongZhiActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.btn_add://添加学习卡
                 Intent intent = new Intent();

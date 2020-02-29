@@ -61,6 +61,7 @@ public class CtqhActivity extends AppCompatActivity {
     private MyPagerAdapter mAdapter;
 
     private ImageView mBack;
+    private TextView mTiShi;//提示信息
     private ViewPager mViewPager;
 
     public Handler mHandler = new Handler(new Handler.Callback() {
@@ -68,17 +69,18 @@ public class CtqhActivity extends AppCompatActivity {
         public boolean handleMessage(@NonNull Message message) {
             switch (message.what){
                 case 0x01:
-                    initData();
+                    mViewPager.setVisibility(View.VISIBLE);
+                    mTiShi.setVisibility(View.GONE);
+                    mAdapter.notifyDataSetChanged();//更新
+                    break;
+                case 0x02:
+                    mViewPager.setVisibility(View.GONE);
+                    mTiShi.setVisibility(View.VISIBLE);
                     break;
             }
             return false;
         }
     });
-
-    private void initData() {
-        mAdapter = new MyPagerAdapter(mViewList,mCtjlList);
-        mViewPager.setAdapter(mAdapter);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +127,10 @@ public class CtqhActivity extends AppCompatActivity {
                     error = jsonObject.getString("error");
                     if (error.equals("true")) {//登录失败
                         String message = jsonObject.getString("message");
-                        Log.i(TAG, "CtqhActivity: message===" + message);
+                        Message msg = new Message();
+                        msg.what = 0x02;
+                        mHandler.sendMessage(msg);
+                        //Log.i(TAG, "CtqhActivity: message===" + message);
                     } else if (error.equals("false")) {//成功
                         analysisData(responseInfo);//解析数据
                         Message msg = new Message();
@@ -178,8 +183,11 @@ public class CtqhActivity extends AppCompatActivity {
         mBack = findViewById(R.id.iv_back);
         mViewList = new ArrayList<>();
         mCtjlList = new ArrayList<>();
-
+        mTiShi = findViewById(R.id.tv_tishi);
         mViewPager = findViewById(R.id.vp_ctqh);
+        mAdapter = new MyPagerAdapter(mViewList,mCtjlList);
+        mViewPager.setAdapter(mAdapter);
+
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

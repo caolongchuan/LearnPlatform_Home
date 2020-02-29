@@ -57,6 +57,8 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
     private ImageView mBack;//返回
     private ImageView mHeadIcon;//头像
+
+    private LinearLayout mMain;//主布局 包含下列所以控件 用于显示与隐藏
     private TextView mNickName;//昵称
     private TextView mPhoneNumber;//手机号码
     private TextView mLearnCoin;//学习币
@@ -75,6 +77,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
     private String openid;
     private String xmid;//项目id
+    private String mDataString;//首页传过来的数据
 
     private ArrayList<XMFL_Entity> mXmflList;//项目分类列表 例如基础知识 专业知识等
     private KSXM_Entity mKSXM;//当前项目类
@@ -85,11 +88,17 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
     private int mLXL;//练题率
 
+    private AlertDialog alertDialog;//等待对话框
+    private boolean dataDane;//用来表示数据是否加载完成 用于防止数据没有加载完时关闭发生的程序崩溃
+
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
             switch (message.what) {
                 case 0x01://初始化界面数据
+                    alertDialog.dismiss();//隐藏等待提示框
+                    dataDane = true;
+                    mMain.setVisibility(View.VISIBLE);//初始化完成数据 将所有控件全部显示出来
                     initUI();
                     break;
                 case 0x02://定时更新实际操作的剩余时间
@@ -135,14 +144,19 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         openid = intent.getStringExtra("openid");
         xmid = intent.getStringExtra("xmid");
+        mDataString = intent.getStringExtra("data_string");
 
         initView();
         getDataFromService();//从服务器获取数据
     }
 
     private void initView() {
+        alertDialog = new AlertDialog
+                .Builder(this).setMessage("正在加载数据...")
+                .create();
         mBack = findViewById(R.id.iv_back);
         mBack.setOnClickListener(this);
+        mMain = findViewById(R.id.ll_main);
         mHeadIcon = findViewById(R.id.iv_user_head);
         mNickName = findViewById(R.id.tv_user_name);
         mPhoneNumber = findViewById(R.id.tv_phone_number);
@@ -175,21 +189,23 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back://返回
-                Intent intent = new Intent();
-                intent.putExtra("zjxx_id",mKSXM.ID);
-                intent.putExtra("zjxx_name",mKSXM.NAME);
-                intent.putExtra("zjxx_dm",mKSXM.DM);
-                intent.putExtra("zjxx_bz",mKSXM.BZ);
-                intent.putExtra("zjxx_zt",mKSXM.ZT);
-                intent.putExtra("zjxx_zlid",mKSXM.ZLID);
-                intent.putExtra("zjxx_ztl",mKSXM.ZTL);
-                intent.putExtra("zjxx_mnxh",mKSXM.MNXH);
-                intent.putExtra("zjxx_ctl",mKSXM.CTL);
-                intent.putExtra("zjxx_stxh",mKSXM.STXH);
-                intent.putExtra("zjxx_sxrq",mKSXM.SXRQ);
-                intent.putExtra("coin",mUserInfoEntiry.ZHYE);
-                setResult(1, intent);
-                finish();
+                if(dataDane){
+                    Intent intent = new Intent();
+                    intent.putExtra("zjxx_id",mKSXM.ID);
+                    intent.putExtra("zjxx_name",mKSXM.NAME);
+                    intent.putExtra("zjxx_dm",mKSXM.DM);
+                    intent.putExtra("zjxx_bz",mKSXM.BZ);
+                    intent.putExtra("zjxx_zt",mKSXM.ZT);
+                    intent.putExtra("zjxx_zlid",mKSXM.ZLID);
+                    intent.putExtra("zjxx_ztl",mKSXM.ZTL);
+                    intent.putExtra("zjxx_mnxh",mKSXM.MNXH);
+                    intent.putExtra("zjxx_ctl",mKSXM.CTL);
+                    intent.putExtra("zjxx_stxh",mKSXM.STXH);
+                    intent.putExtra("zjxx_sxrq",mKSXM.SXRQ);
+                    intent.putExtra("coin",mUserInfoEntiry.ZHYE);
+                    setResult(1, intent);
+                    finish();
+                }
                 break;
             case R.id.tv_theoretical://理论知识
                 if (mContainer != null && tsp != null) {
@@ -212,10 +228,21 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.btn_recharge://充值
-                ToastUtil.getInstance().shortShow("充值");
+                Intent intent1 = new Intent();
+                intent1.putExtra("openid",openid);
+                intent1.setClass(this, ChongZhiActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.tv_binding_card://绑定学习卡
-                ToastUtil.getInstance().shortShow("绑定学习卡");
+                Intent intent3 = new Intent();
+                intent3.putExtra("openid",openid);
+                intent3.putExtra("head",mUserInfoEntiry.HEADIMGURL);
+                intent3.putExtra("name",mUserInfoEntiry.NC);
+                intent3.putExtra("phone",mUserInfoEntiry.SJH);
+                intent3.putExtra("coin",mUserInfoEntiry.ZHYE);
+                intent3.putExtra("data_string",mDataString);
+                intent3.setClass(this, XueXiCardActivity.class);
+                startActivity(intent3);
                 break;
         }
     }
@@ -223,28 +250,35 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Intent intent = new Intent();
-            intent.putExtra("zjxx_id",mKSXM.ID);
-            intent.putExtra("zjxx_name",mKSXM.NAME);
-            intent.putExtra("zjxx_dm",mKSXM.DM);
-            intent.putExtra("zjxx_bz",mKSXM.BZ);
-            intent.putExtra("zjxx_zt",mKSXM.ZT);
-            intent.putExtra("zjxx_zlid",mKSXM.ZLID);
-            intent.putExtra("zjxx_ztl",mKSXM.ZTL);
-            intent.putExtra("zjxx_mnxh",mKSXM.MNXH);
-            intent.putExtra("zjxx_ctl",mKSXM.CTL);
-            intent.putExtra("zjxx_stxh",mKSXM.STXH);
-            intent.putExtra("zjxx_sxrq",mKSXM.SXRQ);
-            intent.putExtra("coin",mUserInfoEntiry.ZHYE);
-            setResult(1, intent);
-            finish();
-            return true;
+            if(dataDane){
+                Intent intent = new Intent();
+                intent.putExtra("zjxx_id",mKSXM.ID);
+                intent.putExtra("zjxx_name",mKSXM.NAME);
+                intent.putExtra("zjxx_dm",mKSXM.DM);
+                intent.putExtra("zjxx_bz",mKSXM.BZ);
+                intent.putExtra("zjxx_zt",mKSXM.ZT);
+                intent.putExtra("zjxx_zlid",mKSXM.ZLID);
+                intent.putExtra("zjxx_ztl",mKSXM.ZTL);
+                intent.putExtra("zjxx_mnxh",mKSXM.MNXH);
+                intent.putExtra("zjxx_ctl",mKSXM.CTL);
+                intent.putExtra("zjxx_stxh",mKSXM.STXH);
+                intent.putExtra("zjxx_sxrq",mKSXM.SXRQ);
+                intent.putExtra("coin",mUserInfoEntiry.ZHYE);
+                setResult(1, intent);
+                finish();
+                return true;
+            }else{
+                return false;
+            }
+
         }
         return super.onKeyDown(keyCode, event);
     }
 
     //从服务器获取数据
     private void getDataFromService() {
+        alertDialog.show();//显示等待提示框
+
         //开始获取项目学习数据
         StringBuffer sb = new StringBuffer();
         sb.append("openid=")

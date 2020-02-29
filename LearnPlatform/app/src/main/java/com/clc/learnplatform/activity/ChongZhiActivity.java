@@ -61,19 +61,23 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
 
     private Button btnPay;
 
-    private AlertDialog alertDialog;//等待对话框
+//    private AlertDialog alertDialog;//等待对话框
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
             switch (message.what) {
                 case 0x01://从服务器获取到数据解析后更新
-                    alertDialog.dismiss();
+//                    alertDialog.dismiss();
                     for (int i = 0; i < mXtcsList.size(); i++) {
                         RadioButton rb = new RadioButton(ChongZhiActivity.this);
                         rb.setId(i);
+                        if(i ==0 ){ //默认选择第一个
+                            rb.setChecked(true);
+                        }
                         rb.setText(mXtcsList.get(i).NR);
                         rgMain.addView(rb);
                     }
+
                     break;
             }
             return false;
@@ -95,9 +99,9 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initView() {
-        alertDialog = new AlertDialog
-                .Builder(this).setMessage("正在加载数据...")
-                .create();
+//        alertDialog = new AlertDialog
+//                .Builder(this).setMessage("正在加载数据...")
+//                .create();
 
         ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(this);
@@ -129,7 +133,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getDataFromService() {
-        alertDialog.show();
+//        alertDialog.show();
 
         //获取账单明细数据
         StringBuffer sb = new StringBuffer();
@@ -227,23 +231,24 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.btn_pay://支付
-                doPay();
+                String price = tvPrice.getText().toString();
+                Integer price_int = Integer.valueOf(price);
+                doPay(price_int * 100);//支付 将单位元转换为分
                 break;
         }
     }
 
     /**
      * 支付
+     * @param total_fee 支付金额 单位是分
      */
-    private void doPay() {
+    private void doPay(final int total_fee) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String netIp = IPUtil.GetNetIp();
                 Log.i(TAG, "doPay: ip="+netIp);
-                ClcWXPayUtil.TongYiXiaDan(getApplicationContext(),100,netIp);
-
-//                ClcWXShareUtil.ShareWebPage(getApplicationContext(),openid);
+                ClcWXPayUtil.TongYiXiaDan(getApplicationContext(),total_fee,netIp);
             }
         }).start();
     }
