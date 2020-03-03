@@ -55,11 +55,11 @@ public class WXLoginActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_wxlogin);
 
-        //临时初始化微信用户信息 假数据 用于调试
-        SPUtils.put(this, "nickname", "魔鬼的羽毛");
-        SPUtils.put(this, "headimgurl", "http://thirdwx.qlogo.cn/mmopen/vi_32/pHLZ8R6Qs4piaLcYyHIEVGOiax6uKVmmYBtzCwZ9jCY3SgZ3IFBsTZlatUbo21IwzztJOVOlOydtHXsOxVUKnQSw/132");
-        SPUtils.put(this, "openid", "oGVIZxFp2DOIPKoZM8cVxMbGwXjI");
-        SPUtils.put(this, "unionid", "okBs11VZKzoiNzOiPHT1Q7CXufqU");
+//        //临时初始化微信用户信息 假数据 用于调试
+//        SPUtils.put(this, "nickname", "魔鬼的羽毛");
+//        SPUtils.put(this, "headimgurl", "http://thirdwx.qlogo.cn/mmopen/vi_32/pHLZ8R6Qs4piaLcYyHIEVGOiax6uKVmmYBtzCwZ9jCY3SgZ3IFBsTZlatUbo21IwzztJOVOlOydtHXsOxVUKnQSw/132");
+//        SPUtils.put(this, "openid", "oGVIZxFp2DOIPKoZM8cVxMbGwXjI");
+//        SPUtils.put(this, "unionid", "okBs11VZKzoiNzOiPHT1Q7CXufqU");
 
         initTTSPermissions();//初始化讯飞语音合成
 

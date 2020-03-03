@@ -191,6 +191,8 @@
             android:textSize="20dp" />
         <Button
             android:id="@+id/bte_get_xzm"
+            android:textSize="17dp"
+            android:textColor="@color/clc_white"
             android:text="获取验证码"
             android:background="@drawable/selector_main_button"
             android:paddingLeft="20dp"
@@ -211,7 +213,7 @@
 
     <LinearLayout
         android:id="@+id/ll_doit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -224,7 +226,8 @@
             android:id="@+id/btn_doit"
             android:background="@drawable/selector_main_button"
             android:textSize="20dp"
-            android:layout_width="wrap_content"
+            android:textColor="@color/clc_white"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="立即体验" />
 

@@ -5,7 +5,7 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="30dp" />
-            <solid android:color="@color/button_back_press" />
+            <solid android:color="@color/main_text_normal" />
 
             <!--<size android:height="40dp" android:width="120dp" />-->
 

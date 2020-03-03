@@ -88,6 +88,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     ToastUtil.getInstance().shortShow("该微信号未注册 请先注册！");
                     mRlPb.setVisibility(View.GONE);
                     break;
+                case 0x04://获取短信验证码失败
+                    String message = msg.getData().getString("message");
+                    mEtPhoneNo.setText("");//清空手机号编辑框
+                    mBtnGetXZM.setPressed(false);
+                    mBtnGetXZM.setEnabled(true);//设置获取验证码按钮为可点击
+                    ToastUtil.getInstance().shortShow(message);
+                    break;
+                case 0x05://验证码按钮倒计时
+                    int time = msg.getData().getInt("time");
+                    if (time > 0) {
+                        mBtnGetXZM.setEnabled(false);//设置获取验证码按钮为不可点击
+                        mBtnGetXZM.setPressed(true);
+                        mBtnGetXZM.setText(time+"s");
+                    }else{
+                        mBtnGetXZM.setPressed(false);
+                        mBtnGetXZM.setEnabled(true);//设置获取验证码按钮为可点击
+                        mBtnGetXZM.setText("获取验证码");
+                    }
+                    break;
                 default:
                     break;
             }
@@ -221,12 +240,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (resultData != null) {
                             JSONObject jo = new JSONObject(resultData.toString());
                             String error = jo.getString("error");
-                            if (error.equals("false")) {
+                            if (error.equals("false")) {//获取验证码正确
+                                //定时 点击获取验证码按钮后60秒不可再点击
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int time = 60;
+                                        while (time>=0){
+                                            Message msg  = new Message();
+                                            msg.what = 0x05;
+                                            Bundle bundle = new Bundle();
+                                            bundle.putInt("time",time);
+                                            msg.setData(bundle);
+                                            mHandler.sendMessage(msg);
+                                            try {
+                                                Thread.sleep(1000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                            time--;
+                                        }
+                                    }
+                                }).start();
+
                                 String yzm = jo.getString("yzm");
                                 Message msg = new Message();
                                 msg.what = 0x01;
                                 Bundle bundle = new Bundle();
                                 bundle.putString("yzm", yzm);
+                                msg.setData(bundle);
+                                mHandler.sendMessage(msg);
+                            } else if(error.equals("true")){
+                                Message msg = new Message();
+                                msg.what = 0x04;
+                                String message = jo.getString("message");
+                                Bundle bundle = new Bundle();
+                                bundle.putString("message", message);
                                 msg.setData(bundle);
                                 mHandler.sendMessage(msg);
                             }
@@ -320,6 +369,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (phone_number.equals("")) {
                     Toast.makeText(LoginActivity.this, "请输入手机号码", Toast.LENGTH_SHORT).show();
                 } else {
+                    mBtnGetXZM.setPressed(true);
+                    mBtnGetXZM.setEnabled(false);//设置获取验证码按钮为不可点击
                     getSMS_YZM(phone_number);//获取验证码
                 }
                 break;

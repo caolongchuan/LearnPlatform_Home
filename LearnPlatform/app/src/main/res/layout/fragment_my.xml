@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_coin_blue" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_coin_use_info" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -189,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_chongzhi" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_tiyan_card" />
 
             <TextView
                 android:id="@+id/tv_tiyanka"
@@ -267,7 +267,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_xuexi_card" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -305,7 +305,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_yaoqing_ma" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -343,7 +343,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_vip" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -389,7 +389,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_zhengshu_search" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -428,7 +428,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_coin" />
+                android:src="@mipmap/icon_wenti_fankui" />
 
             <TextView
                 android:layout_width="wrap_content"

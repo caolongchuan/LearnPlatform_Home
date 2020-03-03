@@ -8,13 +8,14 @@
 
     <color name="clc_black">#000000</color>
     <color name="clc_white">#ffffff</color>
+    <color name="clc_white1">#E6D8D8</color>
     <color name="clc_gray">#7A7878</color>
     <color name="clc_blue">#4775FC</color>
     <color name="clc_transparent">#00FFFFFF</color>
 
     <!--//按钮背景-->
     <color name="button_back_press">#8B4775FC</color>
-    <color name="button_back">#4775FC</color>
+    <color name="button_back">#7594EC</color>
     <color name="Transparent">#00123213</color>
     <color name="textBlack">#000000</color>
     <color name="textBlack1">#4B4949</color>

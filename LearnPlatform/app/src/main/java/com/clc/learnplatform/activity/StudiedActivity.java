@@ -234,15 +234,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent1);
                 break;
             case R.id.tv_binding_card://绑定学习卡
-                Intent intent3 = new Intent();
-                intent3.putExtra("openid",openid);
-                intent3.putExtra("head",mUserInfoEntiry.HEADIMGURL);
-                intent3.putExtra("name",mUserInfoEntiry.NC);
-                intent3.putExtra("phone",mUserInfoEntiry.SJH);
-                intent3.putExtra("coin",mUserInfoEntiry.ZHYE);
-                intent3.putExtra("data_string",mDataString);
-                intent3.setClass(this, XueXiCardActivity.class);
-                startActivity(intent3);
+                Intent intent = new Intent();
+                intent.putExtra("openid",openid);
+                intent.putExtra("data_string",mDataString);
+                intent.setClass(this, AddCardActivity.class);
+                startActivity(intent);
                 break;
         }
     }

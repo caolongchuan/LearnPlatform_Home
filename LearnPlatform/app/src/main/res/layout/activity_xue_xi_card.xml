@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/clc_white1"
     tools:context=".activity.XueXiCardActivity">
     <RelativeLayout
         android:id="@+id/rl_head"
@@ -48,15 +49,17 @@
 
             <ImageView
                 android:id="@+id/iv_user_head"
+                android:src="@mipmap/user_head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-            <!--android:src="@mipmap/user_head" -->
+            <!-- -->
 
         </com.gcssloop.widget.RCRelativeLayout>
 
 
         <TextView
             android:id="@+id/tv_user_name"
+            android:text="大侦探"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -64,10 +67,11 @@
             android:layout_toRightOf="@+id/rcrl_1"
             android:textColor="@color/user_name_text_color"
             android:textSize="@dimen/user_name_text_size" />
-        <!--android:text="大侦探"-->
+        <!---->
 
         <TextView
             android:id="@+id/tv_phone_number"
+            android:text="15832947121"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_user_name"
@@ -75,7 +79,7 @@
             android:layout_toRightOf="@+id/rcrl_1"
             android:textColor="@color/user_name_text_color"
             android:textSize="@dimen/phone_number_text_size" />
-        <!--android:text="15832947121"-->
+        <!---->
 
         <TextView
             android:id="@+id/tv_learn_b"
@@ -113,7 +117,7 @@
         android:layout_marginBottom="60dp"
         android:orientation="vertical"
         android:layout_below="@+id/rl_1"
-        android:background="@drawable/shape_recharge_bg"
+        android:background="@drawable/shape_xuexika_list_bg"
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -122,7 +126,7 @@
             android:text="暂无绑卡记录"
             android:drawablePadding="6dp"
             android:layout_gravity="center_horizontal"
-            android:drawableTop="@mipmap/user_head"
+            android:drawableTop="@mipmap/icon_tishi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -134,6 +138,7 @@
 
     <Button
         android:id="@+id/btn_add"
+        android:textColor="@color/clc_white"
         android:text="添加学习卡"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
