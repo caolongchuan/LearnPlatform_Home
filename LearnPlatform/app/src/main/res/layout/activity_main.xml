@@ -37,7 +37,7 @@
             android:id="@+id/tab_job"
             android:gravity="center"
             android:button="@null"
-            android:drawableTop="@drawable/selector_tab_home"
+            android:drawableTop="@drawable/selector_tab_job"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

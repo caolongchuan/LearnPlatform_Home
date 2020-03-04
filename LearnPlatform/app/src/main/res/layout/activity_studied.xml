@@ -48,15 +48,16 @@
                 android:id="@+id/rcrl_1"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 app:round_corner="100dp">
 
                 <ImageView
                     android:id="@+id/iv_user_head"
+                    android:src="@mipmap/user_head"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-                <!--android:src="@mipmap/user_head" -->
+                <!-- -->
 
             </com.gcssloop.widget.RCRelativeLayout>
 
@@ -73,6 +74,7 @@
 
             <TextView
                 android:id="@+id/tv_phone_number"
+                android:text="15832947121"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_user_name"
@@ -80,22 +82,23 @@
                 android:layout_toRightOf="@+id/rcrl_1"
                 android:textColor="@color/user_name_text_color"
                 android:textSize="@dimen/phone_number_text_size" />
-            <!--android:text="15832947121"-->
+            <!---->
 
             <TextView
                 android:id="@+id/tv_learn_b"
+                android:text="1000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_phone_number"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="7dp"
                 android:layout_toRightOf="@+id/rcrl_1"
                 android:background="@drawable/shape_learn_b_bg"
                 android:drawableLeft="@mipmap/icon_learn_b"
                 android:drawablePadding="5dp"
                 android:textColor="@color/user_name_text_color"
                 android:textSize="@dimen/phone_number_text_size" />
-            <!--android:text="1000"-->
+            <!---->
 
             <TextView
                 android:id="@+id/btn_recharge"
@@ -108,7 +111,7 @@
                 android:background="@drawable/shape_recharge_bg"
                 android:text="充值"
                 android:textColor="@color/user_name_text_color"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_binding_card"

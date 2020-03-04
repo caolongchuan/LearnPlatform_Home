@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Handler;
 
+/**
+ * 实际操作（在项目学习里边）
+ */
 public class ActualOperationPager {
     private Activity mActivity;
     private View mView;

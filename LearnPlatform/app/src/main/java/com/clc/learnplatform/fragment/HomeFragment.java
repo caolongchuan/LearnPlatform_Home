@@ -38,6 +38,14 @@ public class HomeFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mHomeMainPager != null){
+            mHomeMainPager.setCoin(getContext());
+        }
+    }
+
     private void initView() {
         mMain = mView.findViewById(R.id.ll_home_main);
     }
@@ -59,9 +67,9 @@ public class HomeFragment extends Fragment {
         startActivityForResult(intent, 100);
     }
 
-    //设置金币值与最近学习项目
-    public void setCoinAndZuijingStudy(KSXM_Entity ke,int coin){
-        mHomeMainPager.setCoinAndZuijingStudy(ke, coin);
+    //设置最近学习项目
+    public void setZuijingStudy(KSXM_Entity ke){
+        mHomeMainPager.setZuijingStudy(ke);
     }
 
 

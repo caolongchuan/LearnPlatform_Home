@@ -29,6 +29,7 @@ import com.clc.learnplatform.activity.ZhengQueryActivity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.ClcWXShareUtil;
+import com.clc.learnplatform.util.SPUtils;
 import com.clc.learnplatform.util.ToastUtil;
 
 import org.json.JSONException;
@@ -104,12 +105,19 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        int coin_num = (int) SPUtils.get(getContext(), "COIN_NUM", 0);
+        tvCoinNum.setText(coin_num + "个");
+    }
+
     private void initData() {
         Glide.with(getActivity()).load((String) mUserInfoEntiry.HEADIMGURL).into(ivHead);//显示头像
         tvName.setText(mUserInfoEntiry.NC);//显示昵称
         tvPhoneNum.setText(mUserInfoEntiry.SJH);//显示手机号码
         tvID.setText("ID:" + mUserInfoEntiry.ID);//显示用户id
-        tvCoinNum.setText(String.valueOf(mUserInfoEntiry.ZHYE)+"个");
+        tvCoinNum.setText(mUserInfoEntiry.ZHYE +"个");
 
         if(mUserInfoEntiry.KH.equals("null")) {//如果没有绑定体验卡
             tvTiYanKa.setText("体验卡");

@@ -61,7 +61,7 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
     private TextView tvPhone;
     private TextView tvCoin;
 
-    private ArrayList<LXK_Entity> mLxkList;
+    private ArrayList<LXK_Entity> mLxkList;//学习卡list
     private ListView lvListView;
     private MyAdapter mAdapter;
 
@@ -110,10 +110,18 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
 
         initView();
         initData();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getDataFromService();
     }
 
     private void initData() {
+        mLxkList = new ArrayList<>();
+
         try {
             JSONObject jsonObject = new JSONObject(DataString);
             //解析项目列表
@@ -152,7 +160,7 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
                 .append(openid);
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
-                .url(Constants.MNKS_URL)//模拟考试接口
+                .url(Constants.XXK_URL)//学习卡列表
                 .post(body)//默认就是GET请求，可以不写
                 .build();
         Call call = okHttpClient.newCall(request);
@@ -293,12 +301,12 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
                 holder = (ViewHolder) convertView.getTag();
             }
             for(int j=0;j<mKsxmList.size();j++){
-                if(mKsxmList.get(i).ID.equals(mLxkList.get(i).XMID)){
-                    holder.tvItemName.setText(mKsxmList.get(i).NAME);
+                if(mKsxmList.get(j).ID.equals(mLxkList.get(i).XMID)){
+                    holder.tvItemName.setText(mKsxmList.get(j).NAME);
                 }
             }
-            holder.tvSearchTime.setText(mLxkList.get(i).STCS);
-            holder.tvYouXiaoQi.setText(mLxkList.get(i).YXQ);
+            holder.tvSearchTime.setText(mLxkList.get(i).STCS+"次搜题");
+            holder.tvYouXiaoQi.setText("有效期："+mLxkList.get(i).YXQ);
 
             return convertView;
         }

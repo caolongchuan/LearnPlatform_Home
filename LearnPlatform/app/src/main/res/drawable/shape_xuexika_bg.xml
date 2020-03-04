@@ -5,9 +5,9 @@
     <solid android:color="@color/clc_blue" />
 
     <!-- 内边距 -->
-    <padding
-        android:bottom="4dp"
-        android:left="10dp"
-        android:right="10dp"
-        android:top="4dp" />
+    <!--<padding-->
+        <!--android:bottom="4dp"-->
+        <!--android:left="10dp"-->
+        <!--android:right="10dp"-->
+        <!--android:top="4dp" />-->
 </shape>

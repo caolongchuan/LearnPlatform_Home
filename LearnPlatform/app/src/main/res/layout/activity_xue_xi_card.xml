@@ -36,7 +36,7 @@
         android:id="@+id/rl_1"
         android:layout_below="@+id/rl_head"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:background="@mipmap/userbg1">
 
         <com.gcssloop.widget.RCRelativeLayout
@@ -111,24 +111,25 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="-50dp"
+        android:layout_marginTop="-25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="60dp"
         android:orientation="vertical"
         android:layout_below="@+id/rl_1"
         android:background="@drawable/shape_xuexika_list_bg"
-        android:padding="20dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_jilu"
+            android:visibility="gone"
             android:text="暂无绑卡记录"
-            android:drawablePadding="6dp"
             android:layout_gravity="center_horizontal"
-            android:drawableTop="@mipmap/icon_tishi"
+            android:drawableTop="@mipmap/icon_tishi_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <!--android:drawablePadding="6dp"-->
 
         <ListView
             android:id="@+id/lv_list"

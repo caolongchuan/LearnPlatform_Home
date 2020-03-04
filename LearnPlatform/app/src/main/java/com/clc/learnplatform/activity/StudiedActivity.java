@@ -22,6 +22,7 @@ import com.clc.learnplatform.R;
 import com.clc.learnplatform.dialog.WeiZuoTiDialog;
 import com.clc.learnplatform.entity.KHZL_Entity;
 import com.clc.learnplatform.entity.KSXM_Entity;
+import com.clc.learnplatform.entity.LXK_Entity;
 import com.clc.learnplatform.entity.SJCZ_Entity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.entity.WDCJ_Entity;
@@ -29,6 +30,7 @@ import com.clc.learnplatform.entity.XMFL_Entity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.pager.ActualOperationPager;
 import com.clc.learnplatform.pager.TheoryStudiedPager;
+import com.clc.learnplatform.util.SPUtils;
 import com.clc.learnplatform.util.TTSUtils;
 import com.clc.learnplatform.util.ToastUtil;
 
@@ -66,6 +68,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     private TextView mItemName;//项目名称
     private TextView mItemSign;//项目代号
     private TextView mBindingCard;//绑定学习卡
+    private boolean isBindingCard = false;//标示是否有绑定学习卡
 
     private LinearLayout mContainer;//view容器 理论知识、实际操作
     Drawable drawable;
@@ -88,6 +91,9 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
     private int mLXL;//练题率
 
+    private KHZL_Entity mKhzlEntity;//证书种类
+    private ArrayList<LXK_Entity> mLxkList;//学习卡列表
+
     private AlertDialog alertDialog;//等待对话框
     private boolean dataDane;//用来表示数据是否加载完成 用于防止数据没有加载完时关闭发生的程序崩溃
 
@@ -99,6 +105,14 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                     alertDialog.dismiss();//隐藏等待提示框
                     dataDane = true;
                     mMain.setVisibility(View.VISIBLE);//初始化完成数据 将所有控件全部显示出来
+                    //判读当前项目是否有绑定学习卡
+                    for(int i=0;i<mLxkList.size();i++){
+                        if(mKSXM.ID.equals(mLxkList.get(i).XMID)){
+                            mBindingCard.setText("已绑定学习卡");
+                            isBindingCard = true;
+                            break;
+                        }
+                    }
                     initUI();
                     break;
                 case 0x02://定时更新实际操作的剩余时间
@@ -150,6 +164,17 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         getDataFromService();//从服务器获取数据
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //设置学习币
+        int coin_num = (int) SPUtils.get(this, "COIN_NUM", 0);
+        mLearnCoin.setText(String.valueOf(coin_num));
+        if(tsp!=null){
+            tsp.updataUI();
+        }
+    }
+
     private void initView() {
         alertDialog = new AlertDialog
                 .Builder(this).setMessage("正在加载数据...")
@@ -177,10 +202,26 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
         mrecharge = findViewById(R.id.btn_recharge);
         mrecharge.setOnClickListener(this);
+
+        mKhzlEntity = new KHZL_Entity();
+        try {
+            JSONObject jsonObject = new JSONObject(mDataString);
+            JSONObject khzl = jsonObject.getJSONObject("khzl");
+            mKhzlEntity.ID = khzl.getString("ID");
+            mKhzlEntity.JGFS = khzl.getInt("JGFS");
+            mKhzlEntity.KSFZ = khzl.getInt("KSFZ");
+            mKhzlEntity.MF = khzl.getInt("MF");
+            mKhzlEntity.NAME = khzl.getString("NAME");
+            mKhzlEntity.ZT = khzl.getString("ZT");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mLxkList = new ArrayList<>();
     }
 
     private void initData() {
-        tsp = new TheoryStudiedPager(this,mLXL,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM);
+        tsp = new TheoryStudiedPager(this,mLXL,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity);
         aop = new ActualOperationPager(this, mUserInfoEntiry.ZHYE);
         mContainer.addView(tsp.getmView());
     }
@@ -234,11 +275,14 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent1);
                 break;
             case R.id.tv_binding_card://绑定学习卡
-                Intent intent = new Intent();
-                intent.putExtra("openid",openid);
-                intent.putExtra("data_string",mDataString);
-                intent.setClass(this, AddCardActivity.class);
-                startActivity(intent);
+                //先判断是否已经绑定学习卡
+                if(!isBindingCard){
+                    Intent intent = new Intent();
+                    intent.putExtra("openid",openid);
+                    intent.putExtra("data_string",mDataString);
+                    intent.setClass(this, AddCardActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -305,9 +349,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                     if (error.equals("false")) {//获取项目学习数据成功
                         Log.d(TAG, "onResponse: 获取项目学习数据成功");
                         nalysisData(responseInfo);//解析数据
-                        Message msg = new Message();
-                        msg.what = 0x01;
-                        mHandler.sendMessage(msg);
+                        getLxkList();//获取学习卡列表
                     } else if (error.equals("true")) {//获取项目学习数据失败
                         String message = jsonObject.getString("message");
                         Log.d(TAG, "onResponse: 获取项目学习数据失败--失败信息是：" + message);
@@ -424,9 +466,84 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
+     * 获取学习卡列表
+     */
+    private void getLxkList() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("openid=")
+                .append(openid);
+        RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
+        final Request request = new Request.Builder()
+                .url(Constants.XXK_URL)//学习卡列表
+                .post(body)//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: 获取学习卡数据失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseInfo = response.body().string();
+                Log.i(TAG, "autoSignIn.onResponse: responseInfo===" + responseInfo);
+                String error = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(responseInfo);
+                    error = jsonObject.getString("error");
+                    if (error.equals("true")) {//获取学习卡数据失败
+                        String message = jsonObject.getString("message");
+                        Log.i(TAG, "onResponse: message===" + message);
+                    } else if (error.equals("false")) {//获取学习卡数据成功
+                        analysisLxkData(responseInfo);//解析数据
+                        Message msg = new Message();
+                        msg.what = 0x01;
+                        mHandler.sendMessage(msg);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //解析学习卡数据
+    private void analysisLxkData(String responseInfo) {
+        try {
+            JSONObject jsonObject = new JSONObject(responseInfo);
+            JSONArray xxklist = jsonObject.getJSONArray("xxklist");
+            for (int i = 0; i < xxklist.length(); i++) {
+                JSONObject xxk = xxklist.getJSONObject(i);
+                LXK_Entity le = new LXK_Entity();
+                le.KH = xxk.getString("KH");
+                le.MM = xxk.getString("MM");
+                le.ZT = xxk.getString("ZT");
+                le.BDSJ = xxk.getString("BDSJ");
+                le.XXB = xxk.getInt("XXB");
+                le.YHID = xxk.getString("YHID");
+                le.LX = xxk.getString("LX");
+                le.ZDTGY = xxk.getString("ZDTGY");
+                le.YXTS = xxk.getInt("YXTS");
+                le.XMID = xxk.getString("XMID");
+                le.YXQ = xxk.getString("YXQ");
+                le.STCS = xxk.getInt("STCS");
+                mLxkList.add(le);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
      * 减少金币值
      */
     public void changeCoin(int coin) {
+        SPUtils.put(this,"COIN_NUM",coin);
         mUserInfoEntiry.ZHYE = coin;
         mLearnCoin.setText(coin + "");
     }

@@ -25,6 +25,7 @@ import com.clc.learnplatform.entity.KHZL_Entity;
 import com.clc.learnplatform.entity.KSXM_Entity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.fragment.HomeFragment;
+import com.clc.learnplatform.util.SPUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -286,6 +287,7 @@ public class HomeMainPager implements View.OnClickListener {
             case R.id.tv_see_all://查看全部
                 Intent intent = new Intent();
                 intent.putExtra("openid",openid);
+                intent.putExtra("data_string",mDataString);
                 intent.setClass(mFragment.getActivity(), LsxxActivity.class);
                 mFragment.startActivityForResult(intent,200);
                 break;
@@ -299,12 +301,17 @@ public class HomeMainPager implements View.OnClickListener {
         }
     }
 
-    //设置金币值与最近学习项目
-    public void setCoinAndZuijingStudy(KSXM_Entity ke,int coin){
+    //设置最近学习项目
+    public void setZuijingStudy(KSXM_Entity ke){
         mZJXXXM = ke;
-        mLearnCoin.setText(String.valueOf(coin));
         mLatelyStudyName.setText(mZJXXXM.NAME);
         mLatelyStudySign.setText(mZJXXXM.DM);
+    }
+
+    //设置金币值
+    public void setCoin(Context context) {
+        int coin_num = (int) SPUtils.get(context, "COIN_NUM", 0);
+        mLearnCoin.setText(String.valueOf(coin_num));
     }
 
     //自定义的图片加载器 轮播图使用

@@ -126,7 +126,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_b" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -142,7 +142,7 @@
                         android:id="@+id/tv_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/icon_xuanxiang_e"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_c"
                         android:drawablePadding="6dp"
                         android:gravity="center_vertical"
                         android:text="无色"
@@ -154,7 +154,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_c" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -182,7 +182,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_d" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,7 +198,7 @@
                         android:id="@+id/tv_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/icon_xuanxiang_d"
+                        android:drawableLeft="@mipmap/icon_xuanxiang_e"
                         android:drawablePadding="6dp"
                         android:gravity="center_vertical"
                         android:text="无色"
@@ -210,7 +210,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_e" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -238,7 +238,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_f" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -266,7 +266,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_g" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -294,7 +294,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_h" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -322,7 +322,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_i" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -350,7 +350,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_xuanxiang_a" />
+                        android:src="@mipmap/icon_xuanxiang_j" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -18,9 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.baidu.LocationUtil;
+import com.clc.learnplatform.entity.LXK_Entity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.ToastUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,6 +32,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -113,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;
         }
     });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,7 +15,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-
+/**
+ * 微信支付的回调
+ */
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	
 	private static final String TAG = "WXPayEntryActivity";
@@ -45,12 +47,20 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	public void onResp(BaseResp resp) {
 		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {//支付回调
+			switch (resp.errCode){
+				case BaseResp.ErrCode.ERR_OK://支付成功
 
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("提示");
-			builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-			builder.show();
+					finish();
+					break;
+				case BaseResp.ErrCode.ERR_COMM://错误
+					finish();
+					break;
+				case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消
+					finish();
+					break;
+			}
+
 		}
 	}
 }

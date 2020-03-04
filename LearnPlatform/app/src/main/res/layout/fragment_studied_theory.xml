@@ -137,20 +137,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="消耗"
-                    android:textColor="@color/clc_white"
-                    android:textSize="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
                     android:id="@+id/tv_mnks_coin_num"
-                    android:text="2"
+                    android:text="消耗2"
                     android:textColor="@color/clc_white"
                     android:textSize="20dp"
                     android:layout_marginLeft="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:id="@+id/iv_coin"
                     android:src="@mipmap/icon_coin"
                     android:layout_marginLeft="3dp"
                     android:layout_width="wrap_content"

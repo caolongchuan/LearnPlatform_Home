@@ -19,6 +19,7 @@ import com.clc.learnplatform.fragment.HomeFragment;
 import com.clc.learnplatform.fragment.JobFragment;
 import com.clc.learnplatform.fragment.MapFragment;
 import com.clc.learnplatform.fragment.MyFragment;
+import com.clc.learnplatform.util.SPUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +68,10 @@ public class MainActivity extends AppCompatActivity {
             mUserInfoEntiry.NC = syzh_obj.getString("NC");
             mUserInfoEntiry.SJH = syzh_obj.getString("SJH");
             mUserInfoEntiry.LX = syzh_obj.getString("LX");
-            mUserInfoEntiry.ZHYE = syzh_obj.getInt("ZHYE");
+            mUserInfoEntiry.ZHYE = syzh_obj.getInt("ZHYE");//账户余额 也就是学习币值
+            //每次在刚打开app时将学习币保存到sp里边
+            SPUtils.put(this, "COIN_NUM", mUserInfoEntiry.ZHYE);
+
             mUserInfoEntiry.SSS = syzh_obj.getString("SSS");
             mUserInfoEntiry.SHI = syzh_obj.getString("SHI");
             mUserInfoEntiry.ZHDLSJ = syzh_obj.getString("ZHDLSJ");
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 ke.SXRQ = data.getIntExtra("zjxx_sxrq", 0);
                 int coin = data.getIntExtra("coin", 0);
 
-                ((HomeFragment)mFragments.get(0)).setCoinAndZuijingStudy(ke,coin);
+                ((HomeFragment)mFragments.get(0)).setZuijingStudy(ke);
                 break;
         }
 

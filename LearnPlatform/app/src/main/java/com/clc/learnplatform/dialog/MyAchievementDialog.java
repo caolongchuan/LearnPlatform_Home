@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.WDCJ_Entity;
 
 public class MyAchievementDialog extends Dialog implements View.OnClickListener {
+    private static final String TAG = "MyAchievementDialog";
     //在构造方法里提前加载了样式
     private Context context;//上下文
     private int layoutResID;//布局文件id
@@ -37,6 +39,13 @@ public class MyAchievementDialog extends Dialog implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState!=null){
+            Log.i(TAG, "onCreate: savedInstanceState != null");
+        }else{
+            Log.i(TAG, "onCreate: saveInstanceState == null");
+        }
+
         //提前设置Dialog的一些样式
         Window dialogWindow = getWindow();
         dialogWindow.setGravity(Gravity.CENTER);//设置dialog显示居中

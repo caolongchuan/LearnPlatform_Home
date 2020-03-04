@@ -28,6 +28,7 @@ import com.clc.learnplatform.activity.StudiedActivity;
 import com.clc.learnplatform.activity.WeiZuoTiActivity;
 import com.clc.learnplatform.dialog.MyAchievementDialog;
 import com.clc.learnplatform.dialog.WeiZuoTiDialog;
+import com.clc.learnplatform.entity.KHZL_Entity;
 import com.clc.learnplatform.entity.KSXM_Entity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.entity.WDCJ_Entity;
@@ -54,7 +55,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * 理论知识
+ * 理论知识（在项目学习里边）
  */
 public class TheoryStudiedPager implements View.OnClickListener {
     private static final String TAG = "TheoryStudiedPager";
@@ -70,6 +71,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
 
     private RelativeLayout mMnks;//模拟考试
     private TextView mMnksCoin;//模拟考试消耗金币数
+    private ImageView mIvCoin;//金币小图标
     private ImageView mCtlx;//错题练习
     private ImageView mMyAchievement;//我的成绩
     private ImageView mWeiZuoTi;//未做题练习
@@ -85,13 +87,17 @@ public class TheoryStudiedPager implements View.OnClickListener {
 
     private int mLXL;//练题率
 
-    public TheoryStudiedPager(Activity activity,int lxl, UserInfoEntity userInfoEntity, String xmid, WDCJ_Entity wdcj_entity, KSXM_Entity ksxm) {
+    private KHZL_Entity mKhzlEntity;//证书种类
+
+    public TheoryStudiedPager(Activity activity,int lxl, UserInfoEntity userInfoEntity,
+                              String xmid, WDCJ_Entity wdcj_entity, KSXM_Entity ksxm,KHZL_Entity khzl_entity) {
         mActivity = activity;
         mUserInfoEntiry = userInfoEntity;
         this.mLXL = lxl;
         mKSXM = ksxm;
         this.xmid = xmid;
         mWdcj = wdcj_entity;
+        this.mKhzlEntity = khzl_entity;
         // TODO 动态添加布局(xml方式)
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);       //LayoutInflater inflater1=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -112,6 +118,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
         mMnks = mView.findViewById(R.id.rl_mnks);
         mMnks.setOnClickListener(this);
         mMnksCoin = mView.findViewById(R.id.tv_mnks_coin_num);
+        mIvCoin = mView.findViewById(R.id.iv_coin);
         mCtlx = mView.findViewById(R.id.iv_button_ctqh);
         mCtlx.setOnClickListener(this);
         mMyAchievement = mView.findViewById(R.id.iv_button_wdcj);
@@ -124,7 +131,22 @@ public class TheoryStudiedPager implements View.OnClickListener {
     }
 
     public void initData(ArrayList<XMFL_Entity> list) {
-        mMnksCoin.setText(String.valueOf(mKSXM.MNXH));
+        //判断是否已消耗金币进行模拟考试
+        long time = new Date().getTime();
+        //用项目id作为sp的key
+        final String key = mKSXM.ID;
+        final long sur_time = (long) SPUtils.get(mActivity, key, 0L);
+        long l = time - sur_time;//从点击到现在的毫秒值
+        long ll = l / 1000;//转换成秒
+        int lll = (int) (mKhzlEntity.KSFZ * 60 - ll);//还剩余的秒值
+        if (0 >= lll) {
+            mMnksCoin.setText("消耗"+String.valueOf(mKSXM.MNXH));
+            mIvCoin.setVisibility(View.VISIBLE);
+        } else {
+            mMnksCoin.setText("继续答题");
+            mIvCoin.setVisibility(View.GONE);
+        }
+
         this.mXmflList = list;
         mAdapter = new GridViewAdapter(mActivity);
         mKnowledge.setAdapter(mAdapter);
@@ -147,6 +169,26 @@ public class TheoryStudiedPager implements View.OnClickListener {
         }).start();
 
     }
+
+    //更新界面
+    public void updataUI(){
+        //判断是否已消耗金币进行模拟考试
+        long time = new Date().getTime();
+        //用项目id作为sp的key
+        final String key = mKSXM.ID;
+        final long sur_time = (long) SPUtils.get(mActivity, key, 0L);
+        long l = time - sur_time;//从点击到现在的毫秒值
+        long ll = l / 1000;//转换成秒
+        int lll = (int) (mKhzlEntity.KSFZ * 60 - ll);//还剩余的秒值
+        if (0 >= lll) {
+            mMnksCoin.setText("消耗"+String.valueOf(mKSXM.MNXH));
+            mIvCoin.setVisibility(View.VISIBLE);
+        } else {
+            mMnksCoin.setText("继续答题");
+            mIvCoin.setVisibility(View.GONE);
+        }
+    }
+
 
     //更新时间
     public void updataTime() {
@@ -171,38 +213,59 @@ public class TheoryStudiedPager implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_mnks://模拟考试
-                //判读学习币够不够
-                if(mUserInfoEntiry.ZHYE<mKSXM.MNXH){
-                    ToastUtil.getInstance().shortShow("学习币不足，请充值后再试");
-                }else {
-                    new AlertDialog
-                            .Builder(mActivity).setTitle("")
-                            .setMessage("确定要消耗学习币进行模拟考试吗？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //ToDo: 你想做的事情
-                                    //改变金币值
-                                    mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mKSXM.MNXH;
-                                    ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
-                                    //进入模拟考试
-                                    Intent intent = new Intent();
-                                    intent.putExtra("openid", mUserInfoEntiry.WXCODE);
-                                    intent.putExtra("xmid", xmid);
-                                    intent.setClass(mActivity, MnksActivity.class);
-                                    mActivity.startActivity(intent);
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //ToDo: 你想做的事情
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
+                //判断是否已经购买过 并且没有过期
+                long now_time = new Date().getTime();
+                //用项目id作为sp的key
+                final String key = mKSXM.ID;
+                long sur_time1 = (long) SPUtils.get(mActivity, key, 0L);
+                long l = (now_time - sur_time1) / 1000;
+                int ll = (int) (mKhzlEntity.KSFZ * 60 - l);
+                if (ll > 0) {//已经购买过 直接进去
+                    //进入模拟考试
+                    Intent intent = new Intent();
+                    intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                    intent.putExtra("xmid", xmid);
+                    intent.setClass(mActivity, MnksActivity.class);
+                    mActivity.startActivity(intent);
+                } else {
+                    //判读学习币够不够
+                    if(mUserInfoEntiry.ZHYE<mKSXM.MNXH){
+                        ToastUtil.getInstance().shortShow("学习币不足，请充值后再试");
+                    }else {
+                        new AlertDialog
+                                .Builder(mActivity).setTitle("")
+                                .setMessage("将消耗"+ mKSXM.MNXH +"个学习币，确定继续吗")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //ToDo: 你想做的事情
+                                        //改变金币值
+                                        mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mKSXM.MNXH;
+                                        ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
+                                        //保存消耗学习币进行学习的时间 用于计算倒计时
+                                        long time = new Date().getTime();
+                                        SPUtils.put(mActivity, key, time);
+                                        //进入模拟考试
+                                        Intent intent = new Intent();
+                                        intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                                        intent.putExtra("xmid", xmid);
+                                        intent.setClass(mActivity, MnksActivity.class);
+                                        mActivity.startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //ToDo: 你想做的事情
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }
+
                 }
+
                 break;
             case R.id.iv_button_ctqh://错题强化
                 Intent intent2 = new Intent();
@@ -230,6 +293,9 @@ public class TheoryStudiedPager implements View.OnClickListener {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //ToDo: 你想做的事情
+                                //更新学习币
+                                mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mKSXM.STXH;
+                                ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
                                 //进入搜答案
                                 Intent intent3 = new Intent();
                                 intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
@@ -387,13 +453,16 @@ public class TheoryStudiedPager implements View.OnClickListener {
                         if (mUserInfoEntiry.ZHYE >= mXmflList.get(position).ZZDXH) {
                             new AlertDialog
                                     .Builder(mActivity).setTitle("")
-                                    .setMessage("确定要消耗学习币进行学习吗？")
+                                    .setMessage("将消耗"+ mXmflList.get(position).ZZDXH
+                                            +"个学习币，可在" + mXmflList.get(position).XSFZ +"分钟内阅读，确定继续吗")
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             //ToDo: 你想做的事情
+                                            //更新学习币
                                             mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mXmflList.get(position).ZZDXH;
                                             ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
+                                            //保存消耗学习币进行学习的时间 用于计算倒计时
                                             long time = new Date().getTime();
                                             SPUtils.put(mActivity, key, time);
                                             //进入题库学习页面
