@@ -176,6 +176,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_recharge://充值
                 Intent intent1 = new Intent();
                 intent1.putExtra("openid",openid);
+                intent1.putExtra("YHID",mUserInfoEntiry.ID);
                 intent1.setClass(this.getActivity(), ChongZhiActivity.class);
                 startActivity(intent1);
                 break;
@@ -192,6 +193,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_card_xuexi://学习卡
                 Intent intent3 = new Intent();
                 intent3.putExtra("openid",openid);
+                intent3.putExtra("YHID",mUserInfoEntiry.ID);
                 intent3.putExtra("head",mUserInfoEntiry.HEADIMGURL);
                 intent3.putExtra("name",mUserInfoEntiry.NC);
                 intent3.putExtra("phone",mUserInfoEntiry.SJH);

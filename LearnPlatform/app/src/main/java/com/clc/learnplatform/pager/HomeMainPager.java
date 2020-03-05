@@ -281,6 +281,7 @@ public class HomeMainPager implements View.OnClickListener {
             case R.id.btn_recharge://充值
                 Intent intent1 = new Intent();
                 intent1.putExtra("openid",openid);
+                intent1.putExtra("YHID",mUserInfoEntiry.ID);
                 intent1.setClass(mFragment.getContext(), ChongZhiActivity.class);
                 mFragment.startActivity(intent1);
                 break;

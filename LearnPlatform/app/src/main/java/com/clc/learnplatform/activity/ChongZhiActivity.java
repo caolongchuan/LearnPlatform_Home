@@ -21,6 +21,7 @@ import com.clc.learnplatform.entity.XTCS_Entity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.ClcWXPayUtil;
 import com.clc.learnplatform.util.IPUtil;
+import com.clc.learnplatform.util.SPUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +47,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
     private static final String TAG = "ChongZhiActivity";
 
     private String openid;
+    private String YHID;//用户id 用于充值
     private int choiceIndex = -1;
 
     private ArrayList<XTCS_Entity> mXtcsList;
@@ -93,6 +95,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().hide();
         Intent intent = getIntent();
         openid = intent.getStringExtra("openid");
+        YHID = intent.getStringExtra("YHID");
 
         initView();
         getDataFromService();
@@ -232,6 +235,8 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_pay://支付
                 String coinNum = tvCoinNum.getText().toString();
+                //将学习币值保存起来 用于在支付完成回调时更新学习币使用
+                SPUtils.put(getApplicationContext(),"coin_num",coinNum);
                 String price = tvPrice.getText().toString();
                 Integer price_int = Integer.valueOf(price);
                 doPay(price_int * 100,coinNum);//支付 将单位元转换为分
@@ -249,14 +254,7 @@ public class ChongZhiActivity extends AppCompatActivity implements View.OnClickL
             public void run() {
                 String netIp = IPUtil.GetNetIp();
                 Log.i(TAG, "doPay: ip="+netIp);
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("YHID",openid);
-                    jsonObject.put("XXBSL",coin_num);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String attach = jsonObject.toString();
+                String attach = "{\"YHID\":\""+YHID+"\",\"XXBSL\":\""+coin_num+"\"}";
                 Log.i(TAG, "doPay: attach="+attach);
                 ClcWXPayUtil.TongYiXiaDan(getApplicationContext(),total_fee,netIp,attach);
             }

@@ -328,13 +328,13 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 doWeiZuoTiLianXi();
                 break;
             case R.id.iv_button_sda://搜答案
-                if(isBindingCard){//绑定了学习卡
+                if(isBindingCard){//已绑定学习卡
                     //进入搜答案
                     Intent intent3 = new Intent();
                     intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
                     intent3.putExtra("xmid", xmid);
                     intent3.setClass(mActivity, SerchAnswerActivity.class);
-                    mActivity.startActivityForResult(intent3, 100);
+                    mActivity.startActivityForResult(intent3, 101);
                 }else{//未绑定学习卡
                     new AlertDialog
                             .Builder(mActivity).setTitle("")

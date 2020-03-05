@@ -296,6 +296,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_recharge://充值
                 Intent intent1 = new Intent();
                 intent1.putExtra("openid",openid);
+                intent1.putExtra("YHID",mUserInfoEntiry.ID);
                 intent1.setClass(this, ChongZhiActivity.class);
                 startActivity(intent1);
                 break;

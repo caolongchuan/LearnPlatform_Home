@@ -49,6 +49,7 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
     private String DataString;
     private ArrayList<KSXM_Entity> mKsxmList;//项目list
     private String openid;
+    private String YHID;//用户id 用于充值
     private String head;
     private String name;
     private String phone;
@@ -102,6 +103,7 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
 
         Intent intent = getIntent();
         openid = intent.getStringExtra("openid");
+        YHID = intent.getStringExtra("YHID");
         head = intent.getStringExtra("head");
         name = intent.getStringExtra("name");
         phone = intent.getStringExtra("phone");
@@ -257,6 +259,7 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_recharge://充值
                 Intent intent1 = new Intent();
                 intent1.putExtra("openid",openid);
+                intent1.putExtra("YHID",YHID);
                 intent1.setClass(this, ChongZhiActivity.class);
                 startActivity(intent1);
                 break;

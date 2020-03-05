@@ -55,6 +55,7 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
     private String xmid;
 
     private ImageView mBack;
+    private TextView mSYTime;//剩余次数
     private EditText mSearchText;
     private ImageView mSearchIcon;
     private TextView mMsg;
@@ -77,10 +78,18 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
                     //判断有没有搜索到内容
                     if(mStList.size()>0){
                         mMsg.setVisibility(View.GONE);
+                        //更新剩余次数
+                        mSearchTime++;
+                        getShengYuTime();//从服务器获取剩余次数
                     }else{
                         mMsg.setVisibility(View.VISIBLE);
                     }
                     mAdapter.notifyDataSetChanged();
+                    break;
+                case 0x02://获取剩余次数
+                    Bundle data = message.getData();
+                    String sycs = data.getString("sycs");
+                    mSYTime.setText(sycs);
                     break;
             }
             return false;
@@ -99,7 +108,57 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
 
         initView();
         initData();
+        getShengYuTime();//从服务器获取剩余次数
     }
+
+    /**
+     * 从服务器获取剩余次数
+     */
+    private void getShengYuTime() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        StringBuffer sb = new StringBuffer();
+        String xzda = mSearchText.getText().toString().trim();
+        sb.append("openid=").append(openid).append("&xmid=").append(xmid);
+        RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
+        final Request request = new Request.Builder()
+                .url(Constants.XX_TOST_URL)//搜答案
+                .post(body)//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: 失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseInfo = response.body().string();
+                Log.i(TAG, "onResponse: responseInfo===" + responseInfo);
+                String error = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(responseInfo);
+                    error = jsonObject.getString("error");
+                    if (error.equals("true")) {//失败
+                        String message = jsonObject.getString("message");
+                        Log.i(TAG, "onResponse: message===" + message);
+                    } else if (error.equals("false")) {//成功
+                        JSONObject jsonObject1 = new JSONObject(responseInfo);
+                        JSONObject zda = jsonObject1.getJSONObject("zda");
+                        String sycs = zda.getString("SYCS");
+                        Bundle bundle = new Bundle();
+                        bundle.putString("sycs",sycs);
+                        Message msg = new Message();
+                        msg.what = 0x02;
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });    }
 
     private void initData() {
         alertDialog = new AlertDialog
@@ -110,6 +169,7 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
     private void initView() {
         mBack = findViewById(R.id.iv_back);
         mBack.setOnClickListener(this);
+        mSYTime = findViewById(R.id.tv_surplus_time);//剩余次数
         mSearchText = findViewById(R.id.tv_search);
         mSearchIcon = findViewById(R.id.iv_search);
         mSearchIcon.setOnClickListener(this);
@@ -161,7 +221,6 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
 
     //执行搜索
     private void doSearch() {
-        mSearchTime++;
         OkHttpClient okHttpClient = new OkHttpClient();
 
         StringBuffer sb = new StringBuffer();
