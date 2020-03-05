@@ -67,6 +67,10 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
 
     private String xmid = "";
 
+    private String isMypage;//用来标示是否是我的页面传过来的数据 00标示是 01标示从项目学习页面过来的数据
+    private String mKSXM_Name;//预制数据 项目名称 （只在是项目学习页面转过来时使用）
+    private String mKhzl_Name;//预制数据 证书种类名称 （只在是项目学习页面转过来时使用）
+
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
@@ -97,11 +101,26 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         openid = intent.getStringExtra("openid");
         mDataJsonString = intent.getStringExtra("data_string");
+        isMypage = intent.getStringExtra("ismypage");
+        if(isMypage!=null){
+            if(isMypage.equals("01")){//如果是从项目学习页面转过来的
+                mKSXM_Name = intent.getStringExtra("ksxm_name");
+                mKhzl_Name = intent.getStringExtra("khzl_name");
+            }else if(isMypage.equals("00")){//如果是从我的页面转过来
+                mKSXM_Name = "";
+                mKhzl_Name = "";
+            }
+        }
+
         initView();
         initData();
     }
 
     private void initData() {
+        if(isMypage!=null && isMypage.equals("01")){//如果是项目学习页面跳转过来的 就将项目名称与证书种类预制上
+            tvItemClass.setText(mKhzl_Name);
+            tvItem.setText(mKSXM_Name);
+        }
         try {
             JSONObject jsonObject = new JSONObject(mDataJsonString);
             //解析证书种类list证书种类list

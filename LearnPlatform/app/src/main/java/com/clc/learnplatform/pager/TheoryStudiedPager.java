@@ -42,6 +42,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -88,9 +90,11 @@ public class TheoryStudiedPager implements View.OnClickListener {
     private int mLXL;//练题率
 
     private KHZL_Entity mKhzlEntity;//证书种类
+    private boolean isBindingCard;//标示是否有绑定学习卡
 
     public TheoryStudiedPager(Activity activity,int lxl, UserInfoEntity userInfoEntity,
-                              String xmid, WDCJ_Entity wdcj_entity, KSXM_Entity ksxm,KHZL_Entity khzl_entity) {
+                              String xmid, WDCJ_Entity wdcj_entity,
+                              KSXM_Entity ksxm,KHZL_Entity khzl_entity,boolean bindCard) {
         mActivity = activity;
         mUserInfoEntiry = userInfoEntity;
         this.mLXL = lxl;
@@ -98,6 +102,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
         this.xmid = xmid;
         mWdcj = wdcj_entity;
         this.mKhzlEntity = khzl_entity;
+        this.isBindingCard = bindCard;
         // TODO 动态添加布局(xml方式)
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);       //LayoutInflater inflater1=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -140,8 +145,13 @@ public class TheoryStudiedPager implements View.OnClickListener {
         long ll = l / 1000;//转换成秒
         int lll = (int) (mKhzlEntity.KSFZ * 60 - ll);//还剩余的秒值
         if (0 >= lll) {
-            mMnksCoin.setText("消耗"+String.valueOf(mKSXM.MNXH));
-            mIvCoin.setVisibility(View.VISIBLE);
+            if(isBindingCard){
+                mMnksCoin.setText("开始答题");
+                mIvCoin.setVisibility(View.GONE);
+            }else{
+                mMnksCoin.setText("消耗"+String.valueOf(mKSXM.MNXH));
+                mIvCoin.setVisibility(View.VISIBLE);
+            }
         } else {
             mMnksCoin.setText("继续答题");
             mIvCoin.setVisibility(View.GONE);
@@ -181,8 +191,13 @@ public class TheoryStudiedPager implements View.OnClickListener {
         long ll = l / 1000;//转换成秒
         int lll = (int) (mKhzlEntity.KSFZ * 60 - ll);//还剩余的秒值
         if (0 >= lll) {
-            mMnksCoin.setText("消耗"+String.valueOf(mKSXM.MNXH));
-            mIvCoin.setVisibility(View.VISIBLE);
+            if(isBindingCard){
+                mMnksCoin.setText("开始答题");
+                mIvCoin.setVisibility(View.GONE);
+            }else{
+                mMnksCoin.setText("消耗"+String.valueOf(mKSXM.MNXH));
+                mIvCoin.setVisibility(View.VISIBLE);
+            }
         } else {
             mMnksCoin.setText("继续答题");
             mIvCoin.setVisibility(View.GONE);
@@ -213,58 +228,85 @@ public class TheoryStudiedPager implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_mnks://模拟考试
-                //判断是否已经购买过 并且没有过期
-                long now_time = new Date().getTime();
                 //用项目id作为sp的key
                 final String key = mKSXM.ID;
-                long sur_time1 = (long) SPUtils.get(mActivity, key, 0L);
-                long l = (now_time - sur_time1) / 1000;
-                int ll = (int) (mKhzlEntity.KSFZ * 60 - l);
-                if (ll > 0) {//已经购买过 直接进去
-                    //进入模拟考试
-                    Intent intent = new Intent();
-                    intent.putExtra("openid", mUserInfoEntiry.WXCODE);
-                    intent.putExtra("xmid", xmid);
-                    intent.setClass(mActivity, MnksActivity.class);
-                    mActivity.startActivity(intent);
-                } else {
-                    //判读学习币够不够
-                    if(mUserInfoEntiry.ZHYE<mKSXM.MNXH){
-                        ToastUtil.getInstance().shortShow("学习币不足，请充值后再试");
-                    }else {
-                        new AlertDialog
-                                .Builder(mActivity).setTitle("")
-                                .setMessage("将消耗"+ mKSXM.MNXH +"个学习币，确定继续吗")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //ToDo: 你想做的事情
-                                        //改变金币值
-                                        mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mKSXM.MNXH;
-                                        ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
-                                        //保存消耗学习币进行学习的时间 用于计算倒计时
-                                        long time = new Date().getTime();
-                                        SPUtils.put(mActivity, key, time);
-                                        //进入模拟考试
-                                        Intent intent = new Intent();
-                                        intent.putExtra("openid", mUserInfoEntiry.WXCODE);
-                                        intent.putExtra("xmid", xmid);
-                                        intent.setClass(mActivity, MnksActivity.class);
-                                        mActivity.startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //ToDo: 你想做的事情
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .create()
-                                .show();
+                //先判断是否绑定了学习卡
+                if(isBindingCard){//已经绑定了学习卡
+                    //判断是否已经进去过 并且没有过期
+                    long now_time = new Date().getTime();
+                    long sur_time1 = (long) SPUtils.get(mActivity, key, 0L);
+                    long l = (now_time - sur_time1) / 1000;
+                    int ll = (int) (mKhzlEntity.KSFZ * 60 - l);
+                    if (ll > 0) {//已经进去过过 直接进去
+                        //进入模拟考试
+                        Intent intent = new Intent();
+                        intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                        intent.putExtra("xmid", xmid);
+                        intent.setClass(mActivity, MnksActivity.class);
+                        mActivity.startActivity(intent);
+                    }else{
+                        //保存进去的时间 用于计算模拟考试倒计时
+                        long time = new Date().getTime();
+                        SPUtils.put(mActivity, key, time);
+                        //进入模拟考试
+                        Intent intent = new Intent();
+                        intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                        intent.putExtra("xmid", xmid);
+                        intent.setClass(mActivity, MnksActivity.class);
+                        mActivity.startActivity(intent);
                     }
-
+                }else {//未绑定学习卡
+                    //判断是否已经购买过 并且没有过期
+                    long now_time = new Date().getTime();
+                    long sur_time1 = (long) SPUtils.get(mActivity, key, 0L);
+                    long l = (now_time - sur_time1) / 1000;
+                    int ll = (int) (mKhzlEntity.KSFZ * 60 - l);
+                    if (ll > 0) {//已经购买过 直接进去
+                        //进入模拟考试
+                        Intent intent = new Intent();
+                        intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                        intent.putExtra("xmid", xmid);
+                        intent.setClass(mActivity, MnksActivity.class);
+                        mActivity.startActivity(intent);
+                    } else {
+                        //判读学习币够不够
+                        if(mUserInfoEntiry.ZHYE<mKSXM.MNXH){
+                            ToastUtil.getInstance().shortShow("学习币不足，请充值后再试");
+                        }else {
+                            new AlertDialog
+                                    .Builder(mActivity).setTitle("")
+                                    .setMessage("将消耗"+ mKSXM.MNXH +"个学习币，确定继续吗")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //ToDo: 你想做的事情
+                                            //改变金币值
+                                            mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mKSXM.MNXH;
+                                            ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
+                                            //保存消耗学习币进行学习的时间 用于计算倒计时
+                                            long time = new Date().getTime();
+                                            SPUtils.put(mActivity, key, time);
+                                            //进入模拟考试
+                                            Intent intent = new Intent();
+                                            intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                                            intent.putExtra("xmid", xmid);
+                                            intent.setClass(mActivity, MnksActivity.class);
+                                            mActivity.startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //ToDo: 你想做的事情
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
+                    }
                 }
+
 
                 break;
             case R.id.iv_button_ctqh://错题强化
@@ -286,35 +328,39 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 doWeiZuoTiLianXi();
                 break;
             case R.id.iv_button_sda://搜答案
-                new AlertDialog
-                        .Builder(mActivity).setTitle("")
-                        .setMessage("答案搜索消耗" + mKSXM.STXH + "个学习币/次，确定继续吗？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //ToDo: 你想做的事情
-                                //更新学习币
-                                mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mKSXM.STXH;
-                                ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
-                                //进入搜答案
-                                Intent intent3 = new Intent();
-                                intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
-                                intent3.putExtra("xmid", xmid);
-                                intent3.setClass(mActivity, SerchAnswerActivity.class);
-                                mActivity.startActivityForResult(intent3, 100);
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //ToDo: 你想做的事情
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .create()
-                        .show();
-
-
+                if(isBindingCard){//绑定了学习卡
+                    //进入搜答案
+                    Intent intent3 = new Intent();
+                    intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
+                    intent3.putExtra("xmid", xmid);
+                    intent3.setClass(mActivity, SerchAnswerActivity.class);
+                    mActivity.startActivityForResult(intent3, 100);
+                }else{//未绑定学习卡
+                    new AlertDialog
+                            .Builder(mActivity).setTitle("")
+                            .setMessage("答案搜索消耗" + mKSXM.STXH + "个学习币/次，确定继续吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //ToDo: 你想做的事情
+                                    //进入搜答案
+                                    Intent intent3 = new Intent();
+                                    intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
+                                    intent3.putExtra("xmid", xmid);
+                                    intent3.setClass(mActivity, SerchAnswerActivity.class);
+                                    mActivity.startActivityForResult(intent3, 100);
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //ToDo: 你想做的事情
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                }
                 break;
         }
     }
@@ -417,77 +463,112 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tvItemName.setText(mXmflList.get(position).FLNC);
-            //判断是否已消耗金币进行观看
-            long time = new Date().getTime();
-            //用项目id与分类名称作为sp的key
-            final String key = mXmflList.get(position).XMID + mXmflList.get(position).FLNC;
-            final long sur_time = (long) SPUtils.get(mActivity, key, 0L);
-            long l = time - sur_time;//从点击到现在的毫秒值
-            long ll = l / 1000;//转换成秒
-            int lll = (int) (mXmflList.get(position).XSFZ * 60 - ll);//还剩余的秒值
-            if (0 >= lll) {
-                holder.tvMsg.setText("查阅消耗");
-                holder.tvCoin.setText(mXmflList.get(position).ZZDXH + "");
-                holder.ivCoin.setVisibility(View.VISIBLE);
-            } else {
-                holder.tvMsg.setText("剩余时间");
-                holder.tvCoin.setText(TimeUtil.getTimeString(lll));
-                holder.ivCoin.setVisibility(View.GONE);
-            }
-            holder.linerLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //判断是否已经购买过 并且没有过期
-                    long now_time = new Date().getTime();
-                    long sur_time1 = (long) SPUtils.get(mActivity, key, 0L);
-                    long l = (now_time - sur_time1) / 1000;
-                    int ll = (int) (mXmflList.get(position).XSFZ * 60 - l);
-                    if (ll > 0) {//已经购买过 直接进去
-                        //进入题库学习页面
-                        Intent intent = new Intent();
-                        intent.putExtra("openid", mUserInfoEntiry.WXCODE);
-                        intent.putExtra("flid", mXmflList.get(position).ID);
-                        intent.setClass(mActivity, ItemBankStudyActivity.class);
-                        mActivity.startActivity(intent);
-                    } else {
-                        if (mUserInfoEntiry.ZHYE >= mXmflList.get(position).ZZDXH) {
-                            new AlertDialog
-                                    .Builder(mActivity).setTitle("")
-                                    .setMessage("将消耗"+ mXmflList.get(position).ZZDXH
-                                            +"个学习币，可在" + mXmflList.get(position).XSFZ +"分钟内阅读，确定继续吗")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            //ToDo: 你想做的事情
-                                            //更新学习币
-                                            mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mXmflList.get(position).ZZDXH;
-                                            ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
-                                            //保存消耗学习币进行学习的时间 用于计算倒计时
-                                            long time = new Date().getTime();
-                                            SPUtils.put(mActivity, key, time);
-                                            //进入题库学习页面
-                                            Intent intent = new Intent();
-                                            intent.putExtra("openid", mUserInfoEntiry.WXCODE);
-                                            intent.putExtra("flid", mXmflList.get(position).ID);
-                                            intent.setClass(mActivity, ItemBankStudyActivity.class);
-                                            mActivity.startActivity(intent);
-                                        }
-                                    })
-                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            //ToDo: 你想做的事情
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-                        }else {
-                            ToastUtil.getInstance().shortShow("您的学习不足，请充值后再试");
+            if(isBindingCard){//如果已经绑定了学习卡
+                //获取绑定的学习卡有效期
+                String yxq = (String) SPUtils.get(mActivity, mKSXM.ID + mKSXM.NAME, "");
+                Log.i(TAG, "getView: yxq = " + yxq);
+                if(!yxq.isEmpty()){
+                    SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" );
+                    try {
+                        String s = yxq.replaceAll("-", " ");
+                        String s1 = s.replaceAll(":", " ");
+                        Date date=sdf.parse( s1.replaceAll(" +","") );
+                        long time = date.getTime();//有效期的时间
+                        Log.i(TAG, "getView: time="+time);
+                        long time1 = new Date().getTime();//现在的时间
+                        Log.i(TAG, "getView: time1="+time1);
+                        long l = time - time1;//距离到有效期结束还剩余的毫秒值
+                        long ll = l/1000;//转换成秒
+                        holder.tvMsg.setText("剩余时间");
+                        holder.tvCoin.setText(TimeUtil.getTimeString((int) ll));
+                        holder.ivCoin.setVisibility(View.GONE);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    holder.linerLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //进入题库学习页面
+                            Intent intent = new Intent();
+                            intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                            intent.putExtra("flid", mXmflList.get(position).ID);
+                            intent.setClass(mActivity, ItemBankStudyActivity.class);
+                            mActivity.startActivity(intent);                        }
+                    });
+                }
+            }else{//未绑定学习卡
+                //判断是否已消耗金币进行观看
+                long time = new Date().getTime();
+                //用项目id与分类名称作为sp的key
+                final String key = mXmflList.get(position).XMID + mXmflList.get(position).FLNC;
+                final long sur_time = (long) SPUtils.get(mActivity, key, 0L);
+                long l = time - sur_time;//从点击到现在的毫秒值
+                long ll = l / 1000;//转换成秒
+                int lll = (int) (mXmflList.get(position).XSFZ * 60 - ll);//还剩余的秒值
+                if (0 >= lll) {
+                    holder.tvMsg.setText("查阅消耗");
+                    holder.tvCoin.setText(mXmflList.get(position).ZZDXH + "");
+                    holder.ivCoin.setVisibility(View.VISIBLE);
+                } else {
+                    holder.tvMsg.setText("剩余时间");
+                    holder.tvCoin.setText(TimeUtil.getTimeString(lll));
+                    holder.ivCoin.setVisibility(View.GONE);
+                }
+                holder.linerLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //判断是否已经购买过 并且没有过期
+                        long now_time = new Date().getTime();
+                        long sur_time1 = (long) SPUtils.get(mActivity, key, 0L);
+                        long l = (now_time - sur_time1) / 1000;
+                        int ll = (int) (mXmflList.get(position).XSFZ * 60 - l);
+                        if (ll > 0) {//已经购买过 直接进去
+                            //进入题库学习页面
+                            Intent intent = new Intent();
+                            intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                            intent.putExtra("flid", mXmflList.get(position).ID);
+                            intent.setClass(mActivity, ItemBankStudyActivity.class);
+                            mActivity.startActivity(intent);
+                        } else {
+                            if (mUserInfoEntiry.ZHYE >= mXmflList.get(position).ZZDXH) {
+                                new AlertDialog
+                                        .Builder(mActivity).setTitle("")
+                                        .setMessage("将消耗"+ mXmflList.get(position).ZZDXH
+                                                +"个学习币，可在" + mXmflList.get(position).XSFZ +"分钟内阅读，确定继续吗")
+                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                //ToDo: 你想做的事情
+                                                //更新学习币
+                                                mUserInfoEntiry.ZHYE = mUserInfoEntiry.ZHYE - mXmflList.get(position).ZZDXH;
+                                                ((StudiedActivity) mActivity).changeCoin(mUserInfoEntiry.ZHYE);
+                                                //保存消耗学习币进行学习的时间 用于计算倒计时
+                                                long time = new Date().getTime();
+                                                SPUtils.put(mActivity, key, time);
+                                                //进入题库学习页面
+                                                Intent intent = new Intent();
+                                                intent.putExtra("openid", mUserInfoEntiry.WXCODE);
+                                                intent.putExtra("flid", mXmflList.get(position).ID);
+                                                intent.setClass(mActivity, ItemBankStudyActivity.class);
+                                                mActivity.startActivity(intent);
+                                            }
+                                        })
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                //ToDo: 你想做的事情
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .create()
+                                        .show();
+                            }else {
+                                ToastUtil.getInstance().shortShow("您的学习不足，请充值后再试");
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
             return convertView;
         }
 

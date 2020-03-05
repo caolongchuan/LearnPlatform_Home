@@ -39,7 +39,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -108,8 +111,30 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                     //判读当前项目是否有绑定学习卡
                     for(int i=0;i<mLxkList.size();i++){
                         if(mKSXM.ID.equals(mLxkList.get(i).XMID)){
-                            mBindingCard.setText("已绑定学习卡");
-                            isBindingCard = true;
+                            //先判断是否过期
+                            SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" );
+                            try {
+                                String s = mLxkList.get(i).YXQ.replaceAll("-", " ");
+                                String s1 = s.replaceAll(":", " ");
+                                Date date = sdf.parse(s1.replaceAll(" +", ""));
+                                long time = date.getTime();//有效期的时间
+                                Log.i(TAG, "getView: time=" + time);
+                                long time1 = new Date().getTime();//现在的时间
+                                Log.i(TAG, "getView: time1=" + time1);
+                                //判断有效期是否已经过期
+                                if (time1 < time) {//未过期
+                                    mBindingCard.setText("已绑定学习卡");
+                                    isBindingCard = true;
+                                    //将该学习卡的结束时间记录起来 用于计算显示倒计时（用该项目的ID与NAME加起来作为key）
+                                    String key = mKSXM.ID + mKSXM.NAME;
+                                    SPUtils.put(StudiedActivity.this,key,mLxkList.get(i).YXQ);
+                                }else{//已过期
+                                    mBindingCard.setText("绑定学习卡");
+                                    isBindingCard = false;
+                                }
+                            }catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                             break;
                         }
                     }
@@ -221,8 +246,8 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initData() {
-        tsp = new TheoryStudiedPager(this,mLXL,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity);
-        aop = new ActualOperationPager(this, mUserInfoEntiry.ZHYE);
+        tsp = new TheoryStudiedPager(this,mLXL,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity,isBindingCard);
+        aop = new ActualOperationPager(this,mKSXM, mUserInfoEntiry.ZHYE,isBindingCard);
         mContainer.addView(tsp.getmView());
     }
 
@@ -280,6 +305,9 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                     Intent intent = new Intent();
                     intent.putExtra("openid",openid);
                     intent.putExtra("data_string",mDataString);
+                    intent.putExtra("ismypage","01");
+                    intent.putExtra("khzl_name",mKhzl.NAME);
+                    intent.putExtra("ksxm_name",mKSXM.NAME);
                     intent.setClass(this, AddCardActivity.class);
                     startActivity(intent);
                 }

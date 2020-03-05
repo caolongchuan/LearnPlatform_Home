@@ -264,6 +264,7 @@ public class XueXiCardActivity extends AppCompatActivity implements View.OnClick
                 Intent intent = new Intent();
                 intent.putExtra("openid",openid);
                 intent.putExtra("data_string",DataString);
+                intent.putExtra("ismypage","00");
                 intent.setClass(this, AddCardActivity.class);
                 startActivity(intent);
                 break;

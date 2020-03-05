@@ -51,8 +51,8 @@ public class ClcWXPayUtil {
      * @param total_fee 支付金额（单位是分）
      * @param spbill_create_ip 外网IP
      */
-    public static void TongYiXiaDan(Context context, int total_fee,String spbill_create_ip){
-        String param = geneParam(total_fee,spbill_create_ip);
+    public static void TongYiXiaDan(Context context, int total_fee,String spbill_create_ip,String attach){
+        String param = geneParam(total_fee,spbill_create_ip,attach);
         if(null != param){
             String result_xml = httpsRequest(TYXD_URL, "POST", param);
             if(null != result_xml){
@@ -107,15 +107,17 @@ public class ClcWXPayUtil {
      * 生成统一下单xml参数
      * @param total_fee 支付金额（单位是分）
      * @param spbill_create_ip 外网IP
+     * @param attach 附加参数 YHID XXBSL 用户id与学习币数量json字符串
      * @return 生成的参数
      */
-    public static String geneParam(int total_fee,String spbill_create_ip){
+    public static String geneParam(int total_fee,String spbill_create_ip,String attach){
         String sign = "";
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", Constants.APP_ID);
         params.put("mch_id", Constants.MCH_ID);
         params.put("nonce_str", gene_nonceStr());
         params.put("body", Constants.BODY);
+        params.put("attach", attach);
         params.put("out_trade_no", gene_out_trade_no());
         params.put("total_fee", String.valueOf(total_fee));
         params.put("spbill_create_ip", spbill_create_ip);
