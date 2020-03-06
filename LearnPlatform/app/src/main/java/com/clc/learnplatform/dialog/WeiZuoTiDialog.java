@@ -77,15 +77,15 @@ public class WeiZuoTiDialog extends Dialog {
         tvLtl = findViewById(R.id.tv_ltl_sign);
         tvRightLv = findViewById(R.id.tv_rightlv_sign);
 
-        if (mMnksTime > MNCSBZ) {
+        if (mMnksTime >= MNCSBZ) {
             tvMnksTime.setText("已达标");
             tvMnksTime.setBackground(context.getResources().getDrawable(R.drawable.shape_yidabiao_bg));
         }
-        if (mLtl > LXLBZ) {
+        if (mLtl >= LXLBZ) {
             tvLtl.setText("已达标");
             tvLtl.setBackground(context.getResources().getDrawable(R.drawable.shape_yidabiao_bg));
         }
-        if (mRightLv > ZQLBZ) {
+        if (mRightLv >= ZQLBZ) {
             tvRightLv.setText("已达标");
             tvRightLv.setBackground(context.getResources().getDrawable(R.drawable.shape_yidabiao_bg));
         }

@@ -69,7 +69,9 @@ public class HomeFragment extends Fragment {
 
     //设置最近学习项目
     public void setZuijingStudy(KSXM_Entity ke){
-        mHomeMainPager.setZuijingStudy(ke);
+        if(mHomeMainPager!=null&&ke!=null){
+            mHomeMainPager.setZuijingStudy(ke);
+        }
     }
 
 
