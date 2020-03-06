@@ -100,6 +100,10 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     private AlertDialog alertDialog;//等待对话框
     private boolean dataDane;//用来表示数据是否加载完成 用于防止数据没有加载完时关闭发生的程序崩溃
 
+    private int MNCSBZ;//规定模拟考试次数
+    private int ZQLBZ;//规定正确率
+    private int LXLBZ;//规定练体率
+
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
@@ -146,7 +150,9 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 case 0x03://未做题练习不到标准
                     //定义一个自己的dialog
                     WeiZuoTiDialog myDialog2new =
-                            new WeiZuoTiDialog(StudiedActivity.this,mWdcj.MNCS,mLXL, mWdcj.ZQL);
+                            new WeiZuoTiDialog(StudiedActivity.this,
+                                    MNCSBZ,ZQLBZ,LXLBZ,
+                                    mWdcj.MNCS,mLXL, mWdcj.ZQL);
                     //实例化自定义的dialog
                     myDialog2new.show();
                     break;
@@ -246,7 +252,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initData() {
-        tsp = new TheoryStudiedPager(this,mLXL,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity,isBindingCard);
+        tsp = new TheoryStudiedPager(this,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity,isBindingCard);
         aop = new ActualOperationPager(this,mKSXM, mUserInfoEntiry.ZHYE,isBindingCard);
         mContainer.addView(tsp.getmView());
     }
@@ -477,6 +483,12 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             mKhzl.JGFS = zl_obj.getInt("JGFS");
             mKhzl.MF = zl_obj.getInt("MF");
             mKhzl.ZT = zl_obj.getString("ZT");
+            //解析出规定模拟考试次数
+            MNCSBZ = jsonObject.getInt("mncsbz");
+            //解析出规定正确率
+            ZQLBZ = jsonObject.getInt("zqlbz");
+            //解析出规定练体率
+            LXLBZ = jsonObject.getInt("lxlbz");
         } catch (JSONException e) {
             e.printStackTrace();
         }

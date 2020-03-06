@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,17 +88,14 @@ public class TheoryStudiedPager implements View.OnClickListener {
 
     private AlertDialog alertDialog;
 
-    private int mLXL;//练题率
-
     private KHZL_Entity mKhzlEntity;//证书种类
     private boolean isBindingCard;//标示是否有绑定学习卡
 
-    public TheoryStudiedPager(Activity activity,int lxl, UserInfoEntity userInfoEntity,
+    public TheoryStudiedPager(Activity activity, UserInfoEntity userInfoEntity,
                               String xmid, WDCJ_Entity wdcj_entity,
                               KSXM_Entity ksxm,KHZL_Entity khzl_entity,boolean bindCard) {
         mActivity = activity;
         mUserInfoEntiry = userInfoEntity;
-        this.mLXL = lxl;
         mKSXM = ksxm;
         this.xmid = xmid;
         mWdcj = wdcj_entity;
@@ -333,8 +331,9 @@ public class TheoryStudiedPager implements View.OnClickListener {
                     Intent intent3 = new Intent();
                     intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
                     intent3.putExtra("xmid", xmid);
+                    intent3.putExtra("bind_crad",true);
                     intent3.setClass(mActivity, SerchAnswerActivity.class);
-                    mActivity.startActivityForResult(intent3, 101);
+                    mActivity.startActivityForResult(intent3, 100);
                 }else{//未绑定学习卡
                     new AlertDialog
                             .Builder(mActivity).setTitle("")
@@ -347,6 +346,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
                                     Intent intent3 = new Intent();
                                     intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
                                     intent3.putExtra("xmid", xmid);
+                                    intent3.putExtra("bind_crad",false);
                                     intent3.setClass(mActivity, SerchAnswerActivity.class);
                                     mActivity.startActivityForResult(intent3, 100);
                                 }

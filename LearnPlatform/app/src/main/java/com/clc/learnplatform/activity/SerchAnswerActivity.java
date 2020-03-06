@@ -55,7 +55,9 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
     private String xmid;
 
     private ImageView mBack;
+    private TextView mTishi1;//剩余或者消耗
     private TextView mSYTime;//剩余次数
+    private TextView mTishi2;//
     private EditText mSearchText;
     private ImageView mSearchIcon;
     private TextView mMsg;
@@ -68,6 +70,7 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
     private int mSearchTime = 0;//记录搜索次数
 
     private AlertDialog alertDialog;//等待对话框
+    private boolean isBindingCard;//标示是否有绑定学习卡
 
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -79,8 +82,11 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
                     if(mStList.size()>0){
                         mMsg.setVisibility(View.GONE);
                         //更新剩余次数
-                        mSearchTime++;
-                        getShengYuTime();//从服务器获取剩余次数
+                        if(isBindingCard){
+                            getShengYuTime();//从服务器获取剩余次数
+                        }else{
+                            mSearchTime++;
+                        }
                     }else{
                         mMsg.setVisibility(View.VISIBLE);
                     }
@@ -105,10 +111,10 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
         Intent intent = getIntent();
         this.openid = intent.getStringExtra("openid");
         this.xmid = intent.getStringExtra("xmid");
+        this.isBindingCard = intent.getBooleanExtra("bind_crad",false);
 
         initView();
         initData();
-        getShengYuTime();//从服务器获取剩余次数
     }
 
     /**
@@ -164,12 +170,24 @@ public class SerchAnswerActivity extends AppCompatActivity implements View.OnCli
         alertDialog = new AlertDialog
                 .Builder(this).setMessage("正在检索数据，请稍候...")
                 .create();
+
+        if(isBindingCard){
+            mTishi1.setText("剩余：");
+            mTishi2.setText("次");
+            getShengYuTime();//从服务器获取剩余次数
+        }else{
+            mTishi1.setText("消耗：");
+            mSYTime.setText("1");
+            mTishi2.setText("个学习币/次");
+        }
     }
 
     private void initView() {
         mBack = findViewById(R.id.iv_back);
         mBack.setOnClickListener(this);
+        mTishi1 = findViewById(R.id.tv_tishi1);
         mSYTime = findViewById(R.id.tv_surplus_time);//剩余次数
+        mTishi2 = findViewById(R.id.tv_tishi2);
         mSearchText = findViewById(R.id.tv_search);
         mSearchIcon = findViewById(R.id.iv_search);
         mSearchIcon.setOnClickListener(this);

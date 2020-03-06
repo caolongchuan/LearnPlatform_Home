@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_tishi1"
                 android:text="剩余："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -50,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_tishi2"
                 android:text="次"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

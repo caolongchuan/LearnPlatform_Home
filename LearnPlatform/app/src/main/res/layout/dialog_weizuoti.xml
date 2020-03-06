@@ -47,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_1"
                 android:text="模拟考试次数满15次"
                 android:textColor="@color/clc_black"
                 android:layout_centerVertical="true"
@@ -67,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_2"
                 android:textColor="@color/clc_black"
                 android:text="练题率70%"
                 android:layout_centerVertical="true"
@@ -87,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_3"
                 android:text="正确率70%"
                 android:textColor="@color/clc_black"
                 android:layout_centerVertical="true"
