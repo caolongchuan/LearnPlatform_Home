@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.clc.learnplatform.R;
@@ -34,14 +35,22 @@ public class ChoiceItemDialog extends Dialog {
     private ListView mListView;
     private MyAdapter mAdapter;
 
+    private int zszl_index = -1;//当下选择的证书种类的索引
+
     public SeleListener seleListener;//选择监听接口
 
-    public ChoiceItemDialog(Context context,ArrayList<KHZL_Entity> list,SeleListener seleListener) {
+    public ChoiceItemDialog(Context context,ArrayList<KHZL_Entity> list,String zszl,SeleListener seleListener) {
         super(context, R.style.ChoiceItemDialog);//加载dialog的样式
         this.context = context;
         this.mKHZL_List = list;
         this.layoutResID = R.layout.dialog_choice_item;
         this.seleListener = seleListener;
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).NAME.equals(zszl)){
+                zszl_index = i;
+                break;
+            }
+        }
     }
 
     @Override
@@ -90,12 +99,17 @@ public class ChoiceItemDialog extends Dialog {
             if (convertView == null) {
                 convertView = View.inflate(context, R.layout.list_item_choice, null);
                 holder = new ViewHolder();
-                holder.tvItemName = convertView.findViewById(R.id.tv_item_name);
+                holder.tvItemName = convertView.findViewById(R.id.rb_item_name);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tvItemName.setText(mKHZL_List.get(i).NAME);
+            if(zszl_index == i){
+                holder.tvItemName.setChecked(true);
+            }else{
+                holder.tvItemName.setChecked(false);
+            }
             holder.tvItemName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -109,13 +123,13 @@ public class ChoiceItemDialog extends Dialog {
         }
 
         class ViewHolder {
-            TextView tvItemName;
+            RadioButton tvItemName;
         }
     }
 
     //选择监听接口
     public interface SeleListener {
-        public void sele(KHZL_Entity ke);
+        void sele(KHZL_Entity ke);
     }
 
 }

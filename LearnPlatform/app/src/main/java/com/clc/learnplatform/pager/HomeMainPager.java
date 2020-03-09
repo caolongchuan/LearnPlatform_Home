@@ -26,6 +26,7 @@ import com.clc.learnplatform.entity.KSXM_Entity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.fragment.HomeFragment;
 import com.clc.learnplatform.util.SPUtils;
+import com.clc.learnplatform.util.ToastUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -296,7 +297,14 @@ public class HomeMainPager implements View.OnClickListener {
                 ((HomeFragment) mFragment).gotoStudiedPager(mZJXXXM.ID);
                 break;
             case R.id.tv_item_change://切换
-                ChoiceItemDialog cid = new ChoiceItemDialog(mFragment.getContext(),mKHZL_List,null);
+                String zszl_name = mCertificateClass.getText().toString();
+                ChoiceItemDialog cid = new ChoiceItemDialog(
+                        mFragment.getContext(), mKHZL_List, zszl_name, new ChoiceItemDialog.SeleListener() {
+                    @Override
+                    public void sele(KHZL_Entity ke) {
+                        ToastUtil.getInstance().shortShow("切换完成回调");
+                    }
+                });
                 cid.show();
                 break;
         }

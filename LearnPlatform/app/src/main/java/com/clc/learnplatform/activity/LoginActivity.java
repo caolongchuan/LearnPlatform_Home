@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        int time = 60;
+                                        int time = Constants.YZM_TIME;
                                         while (time>=0){
                                             Message msg  = new Message();
                                             msg.what = 0x05;

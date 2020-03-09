@@ -82,4 +82,7 @@ public class Constants {
 
     //运费语音时间系数 需要阅读的字数*0.241 = 读完所需要的时间（秒）
     public static final double TIME_XISHU = 0.241;
+
+    //验证码的有效期 在有效期内设这获取验证码按钮不可以（默认是5分钟 也就是300秒）
+    public static final int YZM_TIME = 300;
 }

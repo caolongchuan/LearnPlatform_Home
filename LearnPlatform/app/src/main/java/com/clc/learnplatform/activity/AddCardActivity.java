@@ -269,7 +269,9 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.rl_1://选择项目种类
-                ChoiceItemDialog cid = new ChoiceItemDialog(this, mKHZL_List, new ChoiceItemDialog.SeleListener() {
+                String item_class = tvItemClass.getText().toString();
+                ChoiceItemDialog cid = new ChoiceItemDialog(
+                        this, mKHZL_List, item_class,new ChoiceItemDialog.SeleListener() {
                     @Override
                     public void sele(KHZL_Entity ke) {
                         tvItemClass.setText(ke.NAME);
@@ -279,7 +281,9 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 cid.show();
                 break;
             case R.id.rl_2://选择项目
-                ChoiceItemNameDialog cind = new ChoiceItemNameDialog(this, mKsxmList, new ChoiceItemNameDialog.SeleListener() {
+                String name = tvItem.getText().toString();
+                ChoiceItemNameDialog cind = new ChoiceItemNameDialog(
+                        this, mKsxmList,name, new ChoiceItemNameDialog.SeleListener() {
                     @Override
                     public void sele(KSXM_Entity ke) {
                         tvItem.setText(ke.NAME);

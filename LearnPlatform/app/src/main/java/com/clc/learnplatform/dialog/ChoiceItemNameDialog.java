@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.clc.learnplatform.R;
@@ -32,14 +33,22 @@ public class ChoiceItemNameDialog extends Dialog {
     private ListView mListView;
     private MyAdapter mAdapter;
 
-    public SeleListener seleListener;
+    public SeleListener seleListener;//选择回调接口
 
-    public ChoiceItemNameDialog(Context context,ArrayList<KSXM_Entity> list,SeleListener seleListener) {
+    private int xm_index = -1;////当下选择的项目的索引
+
+    public ChoiceItemNameDialog(Context context,ArrayList<KSXM_Entity> list,String xm_name,SeleListener seleListener) {
         super(context, R.style.ChoiceItemNameDialog);//加载dialog的样式
         this.context = context;
         this.mKsxmList = list;
         this.layoutResID = R.layout.dialog_choice_name_item;
         this.seleListener = seleListener;
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).NAME.equals(xm_name)){
+                xm_index = i;
+                break;
+            }
+        }
     }
 
     @Override
@@ -87,12 +96,17 @@ public class ChoiceItemNameDialog extends Dialog {
             if (convertView == null) {
                 convertView = View.inflate(context, R.layout.list_item_choice, null);
                 holder = new ViewHolder();
-                holder.tvItemName = convertView.findViewById(R.id.tv_item_name);
+                holder.tvItemName = convertView.findViewById(R.id.rb_item_name);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder)convertView.getTag();
             }
             holder.tvItemName.setText(mKsxmList.get(i).NAME);
+            if(xm_index == i){
+                holder.tvItemName.setChecked(true);
+            }else{
+                holder.tvItemName.setChecked(false);
+            }
             holder.tvItemName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,7 +120,7 @@ public class ChoiceItemNameDialog extends Dialog {
         }
 
         class ViewHolder {
-            TextView tvItemName;
+            RadioButton tvItemName;
         }
     }
 

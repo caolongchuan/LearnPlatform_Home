@@ -335,31 +335,36 @@ public class TheoryStudiedPager implements View.OnClickListener {
                     intent3.setClass(mActivity, SerchAnswerActivity.class);
                     mActivity.startActivityForResult(intent3, 100);
                 }else{//未绑定学习卡
-                    new AlertDialog
-                            .Builder(mActivity).setTitle("")
-                            .setMessage("答案搜索消耗" + mKSXM.STXH + "个学习币/次，确定继续吗？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //ToDo: 你想做的事情
-                                    //进入搜答案
-                                    Intent intent3 = new Intent();
-                                    intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
-                                    intent3.putExtra("xmid", xmid);
-                                    intent3.putExtra("bind_crad",false);
-                                    intent3.setClass(mActivity, SerchAnswerActivity.class);
-                                    mActivity.startActivityForResult(intent3, 100);
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //ToDo: 你想做的事情
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
+                    //判断学习币是否够用
+                    if(mUserInfoEntiry.ZHYE<mKSXM.STXH){
+                        ToastUtil.getInstance().shortShow("学习币不足，请充值后再试");
+                    }else{
+                        new AlertDialog
+                                .Builder(mActivity).setTitle("")
+                                .setMessage("答案搜索消耗" + mKSXM.STXH + "个学习币/次，确定继续吗？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //ToDo: 你想做的事情
+                                        //进入搜答案
+                                        Intent intent3 = new Intent();
+                                        intent3.putExtra("openid", mUserInfoEntiry.WXCODE);
+                                        intent3.putExtra("xmid", xmid);
+                                        intent3.putExtra("bind_crad",false);
+                                        intent3.setClass(mActivity, SerchAnswerActivity.class);
+                                        mActivity.startActivityForResult(intent3, 100);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //ToDo: 你想做的事情
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }
                 }
                 break;
         }

@@ -51,16 +51,14 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
     private EditText etPhoneNum;
     private EditText etNeiRong;
 
-    private WTFK_Entity mWtfkEntity;//问题反馈实体
-
     private AlertDialog alertDialog;//等待对话框
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0x01:
-                    alertDialog.dismiss();
+//                    alertDialog.dismiss();
                     ToastUtil.getInstance().shortShow(msg.getData().getString("message"));
                     break;
             }
@@ -82,7 +80,7 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initData() {
-        mWtfkEntity = new WTFK_Entity();
+
     }
 
     private void initView() {
@@ -111,28 +109,20 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
                 String s = etTitle.getText().toString();
                 String s1 = etPhoneNum.getText().toString();
                 String s2 = etNeiRong.getText().toString();
-                if(s.equals("")){
+                if (s.equals("")) {
                     ToastUtil.getInstance().shortShow("标题不能为空");
                     return;
                 }
-                if(s1.equals("")){
+                if (s1.equals("")) {
                     ToastUtil.getInstance().shortShow("手机号不能为空");
                     return;
                 }
-                if(s2.equals("")){
+                if (s2.equals("")) {
                     ToastUtil.getInstance().shortShow("内容不能为空");
                     return;
                 }
-                JSONObject  jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("BT",s);
-                    jsonObject.put("SJH",s1);
-                    jsonObject.put("CONTENT",s2);
-                    String wtfk = jsonObject.toString();
-                    doTiJiao(wtfk);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                doTiJiao(s, s1, s2);
+
                 break;
             case R.id.btn_cancle:
                 finish();
@@ -141,21 +131,19 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
     }
 
     //提交问题反馈
-    private void doTiJiao(String wtfk) {
-        //初始化问题反馈实体
-        mWtfkEntity.BT = etTitle.getText().toString();
-        mWtfkEntity.SJH = etPhoneNum.getText().toString();
-        mWtfkEntity.CONTENT = etNeiRong.getText().toString();
-
-
-        alertDialog.show();
+    private void doTiJiao(String bt, String sjh, String content) {
+//        alertDialog.show();
         OkHttpClient okHttpClient = new OkHttpClient();
 
         StringBuffer sb = new StringBuffer();
         sb.append("openid=")
                 .append(openid)
-                .append("&wtfk=")
-                .append(wtfk);
+                .append("&sjh=")
+                .append(sjh)
+                .append("&bt=")
+                .append(bt)
+                .append("&content=")
+                .append(content);
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
                 .url(Constants.WTFK_URL)//问题反馈接口
@@ -181,7 +169,7 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
                         Message msg = new Message();
                         msg.what = 0x01;
                         Bundle bundle = new Bundle();
-                        bundle.putString("message",message);
+                        bundle.putString("message", message);
                         msg.setData(bundle);
                         mHandler.sendMessage(msg);
                         Log.i(TAG, "onResponse: message===" + message);
@@ -190,7 +178,7 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
                         Message msg = new Message();
                         msg.what = 0x01;
                         Bundle bundle = new Bundle();
-                        bundle.putString("message",message);
+                        bundle.putString("message", message);
                         msg.setData(bundle);
                         mHandler.sendMessage(msg);
                         Log.i(TAG, "onResponse: message===" + message);
