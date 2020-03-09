@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.clc.learnplatform.R;
@@ -38,6 +40,7 @@ import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.SPUtils;
 import com.clc.learnplatform.util.TimeUtil;
 import com.clc.learnplatform.util.ToastUtil;
+import com.clc.learnplatform.view.RoundProgressBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,6 +94,21 @@ public class TheoryStudiedPager implements View.OnClickListener {
     private KHZL_Entity mKhzlEntity;//证书种类
     private boolean isBindingCard;//标示是否有绑定学习卡
 
+    private RoundProgressBar rpbProgress;
+    private int mProgress = 300;//进度（暂时初始化为300）
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 0x01:
+                    rpbProgress.setProgress(mProgress);
+                    break;
+            }
+            return false;
+        }
+    });
+
     public TheoryStudiedPager(Activity activity, UserInfoEntity userInfoEntity,
                               String xmid, WDCJ_Entity wdcj_entity,
                               KSXM_Entity ksxm,KHZL_Entity khzl_entity,boolean bindCard) {
@@ -130,7 +148,9 @@ public class TheoryStudiedPager implements View.OnClickListener {
         mWeiZuoTi.setOnClickListener(this);
         mSearchAnswer = mView.findViewById(R.id.iv_button_sda);
         mSearchAnswer.setOnClickListener(this);
-
+        rpbProgress = mView.findViewById(R.id.roundProgressBar);
+        rpbProgress.setMax(1000);
+        rpbProgress.setRotation(-90);
     }
 
     public void initData(ArrayList<XMFL_Entity> list) {
@@ -175,7 +195,6 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 }
             }
         }).start();
-
     }
 
     //更新界面
@@ -427,6 +446,28 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    //开启一个线程实现进图条动画
+    public void startProgress() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (i<mProgress){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    i++;
+                    Message msg = new Message();
+                    msg.what = 0x01;
+                    mHandler.sendMessage(msg);
+                }
+            }
+        }).start();
     }
 
 

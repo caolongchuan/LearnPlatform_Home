@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android_custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -159,6 +160,23 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </RelativeLayout>
+
+        <com.clc.learnplatform.view.RoundProgressBar
+            android:id="@+id/roundProgressBar"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4dp"
+
+            android_custom:roundColor="#B3B1B1"
+            android_custom:roundProgressColor="#3F51B5"
+            android_custom:textColor="#9A32CD"
+            android_custom:textIsDisplayable="false"
+            android_custom:roundWidth="7dip"
+            android_custom:textSize="18sp"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -303,6 +303,7 @@ public class HomeMainPager implements View.OnClickListener {
                     @Override
                     public void sele(KHZL_Entity ke) {
                         ToastUtil.getInstance().shortShow("切换完成回调");
+
                     }
                 });
                 cid.show();

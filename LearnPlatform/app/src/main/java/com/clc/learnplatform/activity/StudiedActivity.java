@@ -177,6 +177,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         mItemSign.setText(mKSXM.DM);//学习的项目的代号
         initData();
         tsp.initData(mXmflList);//初始化理论知识数据
+        tsp.startProgress();//开始进度条动画
         aop.initData(mSjczList);//初始化实际操作数据
     }
 

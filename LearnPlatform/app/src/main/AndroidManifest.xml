@@ -35,7 +35,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.JobFabuActivity" android:theme="@style/DefaultCityPickerTheme"></activity>
+        <activity
+            android:name=".activity.JobFabuActivity"
+            android:theme="@style/DefaultCityPickerTheme" />
         <activity android:name=".activity.JobMsgActivity" />
         <activity android:name=".activity.WenTiFanKuiActivity" />
         <activity android:name=".activity.ZhengQueryActivity" />
@@ -65,7 +67,7 @@
             android:exported="true"
             android:label="LearnPlatform"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".activity.StudiedActivity" />
 
         <meta-data
