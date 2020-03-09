@@ -41,6 +41,9 @@ public class ActualOperationPager {
     private Activity mActivity;
     private View mView;
 
+    private String openid;
+
+
     private TextView mTishi;//暂无相关信息提示
     private ListView mListView;
     private ActualItemAdapter mAdapter;
@@ -52,7 +55,8 @@ public class ActualOperationPager {
     private ArrayList<SJCZ_Entity> mSjczList;//实际操作list
     private boolean isBindingCard;//标示是否有绑定学习卡
 
-    public ActualOperationPager(Activity activity,KSXM_Entity ksxm_entity, int coin,boolean bindCard) {
+    public ActualOperationPager(Activity activity,String openid,KSXM_Entity ksxm_entity, int coin,boolean bindCard) {
+        this.openid = openid;
         this.mCurr_Coin = coin;
         mActivity = activity;
         this.mKSXM = ksxm_entity;
@@ -170,7 +174,7 @@ public class ActualOperationPager {
                         @Override
                         public void onClick(View v) {
                             //跳转到实际操作页面
-                            gotoActualActiviay();
+                            gotoActualActiviay(mSjczList.get(position).ID);
                         }
                     });
                 }
@@ -200,7 +204,7 @@ public class ActualOperationPager {
                         int ll = (int) (mSjczList.get(position).XSFZ * 60 - l);
                         if (ll > 0) {//已经购买过
                             //跳转到实际操作页面
-                            gotoActualActiviay();
+                            gotoActualActiviay(mSjczList.get(position).ID);
                         } else {
                             if (mCurr_Coin >= mSjczList.get(position).XH) {
                                 new AlertDialog
@@ -215,7 +219,7 @@ public class ActualOperationPager {
                                                 long time = new Date().getTime();
                                                 SPUtils.put(mActivity, String.valueOf(mSjczList.get(position).ID), time);
                                                 //跳转到实际操作页面
-                                                gotoActualActiviay();
+                                                gotoActualActiviay(mSjczList.get(position).ID);
                                             }
                                         })
                                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -260,11 +264,13 @@ public class ActualOperationPager {
     }
 
     /**
-     * 跳转到实际学习activity
+     * 跳转到实际操作activity
      */
-    private void gotoActualActiviay() {
+    private void gotoActualActiviay(String sjcz_id ) {
         Intent intent = new Intent();
-        intent.putExtra("TTSUtileLisenning", "TTSUtileLisenning");
+        intent.putExtra("openid", openid);
+        intent.putExtra("sjczid",sjcz_id);
+        intent.putExtra("xmid",mKSXM.ID);
         intent.setClass(mActivity, ActualActivity.class);
         mActivity.startActivity(intent);
     }

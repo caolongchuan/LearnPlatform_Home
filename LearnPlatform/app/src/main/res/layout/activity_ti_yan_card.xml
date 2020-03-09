@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@mipmap/user_head"
+            android:src="@mipmap/icon_tishi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_1"
-            android:src="@mipmap/icon_coin"
+            android:src="@mipmap/icon_xuexi_card_gray"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/iv_delete_text"
-            android:src="@mipmap/icon_delete_text"
+            android:src="@mipmap/icon_edit_delete"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_2"
-            android:src="@mipmap/icon_coin"
+            android:src="@mipmap/icon_xuexi_car_password"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -119,7 +119,7 @@
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/iv_delete_password"
-            android:src="@mipmap/icon_delete_text"
+            android:src="@mipmap/icon_edit_delete"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"

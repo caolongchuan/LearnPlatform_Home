@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.clc.learnplatform.R;
+import com.clc.learnplatform.entity.WTFK_Entity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.ToastUtil;
 
@@ -50,6 +51,8 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
     private EditText etPhoneNum;
     private EditText etNeiRong;
 
+    private WTFK_Entity mWtfkEntity;//问题反馈实体
+
     private AlertDialog alertDialog;//等待对话框
 
     private Handler mHandler = new Handler(new Handler.Callback() {
@@ -57,6 +60,7 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 0x01:
+                    alertDialog.dismiss();
                     ToastUtil.getInstance().shortShow(msg.getData().getString("message"));
                     break;
             }
@@ -78,7 +82,7 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initData() {
-
+        mWtfkEntity = new WTFK_Entity();
     }
 
     private void initView() {
@@ -138,6 +142,12 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
 
     //提交问题反馈
     private void doTiJiao(String wtfk) {
+        //初始化问题反馈实体
+        mWtfkEntity.BT = etTitle.getText().toString();
+        mWtfkEntity.SJH = etPhoneNum.getText().toString();
+        mWtfkEntity.CONTENT = etNeiRong.getText().toString();
+
+
         alertDialog.show();
         OkHttpClient okHttpClient = new OkHttpClient();
 

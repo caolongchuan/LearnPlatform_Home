@@ -57,9 +57,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     private RelativeLayout rlItem;
     private TextView tvItemClass;
     private TextView tvItem;
-    private TextView tvCardNum;
-    private TextView tvCardPassword;
+    private EditText etCardNum;
+    private EditText etCardPassword;
     private Button btnOk;
+
+    private ImageView ivClearCard;
+    private ImageView ivClearPassword;
 
     private String mDataJsonString;
     private ArrayList<KHZL_Entity> mKHZL_List;//证书种类list
@@ -84,6 +87,8 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     Bundle data = message.getData();
                     String msg = data.getString("msg");
                     ToastUtil.getInstance().shortShow(msg);
+                    break;
+                case 0x03:
                     break;
             }
             return false;
@@ -114,6 +119,80 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
 
         initView();
         initData();
+    }
+
+    /**
+     *根据证书种类id获取项目list
+     * @param zlid 证书种类id
+     */
+    private void getXmList(String zlid){
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("zlid=")
+                .append(zlid);
+        RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
+        final Request request = new Request.Builder()
+                .url(Constants.YH_GETXM_URL)//绑定学习卡页切换证书种类，查询此种类下的项目
+                .post(body)//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: 获取数据失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseInfo = response.body().string();
+                Log.i(TAG, "onResponse: responseInfo===" + responseInfo);
+                String error = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(responseInfo);
+                    error = jsonObject.getString("error");
+                    if (error.equals("true")) {//失败
+
+                    } else if (error.equals("false")) {//成功
+//                        mKHZL_List.clear();
+//                        JSONArray zllist = jsonObject.getJSONArray("zllist");
+//                        for(int i=0;i<zllist.length();i++){
+//                            JSONObject zl = zllist.getJSONObject(i);
+//                            KHZL_Entity ke = new KHZL_Entity();
+//                            ke.ID = zl.getString("ID");
+//                            ke.NAME = zl.getString("NAME");
+//                            ke.JGFS = zl.getInt("JGFS");
+//                            ke.MF = zl.getInt("MF");
+//                            mKHZL_List.add(ke);
+//                        }
+                        mKsxmList.clear();
+                        JSONArray xmlist = jsonObject.getJSONArray("xmlist");
+                        for (int i=0;i<xmlist.length();i++){
+                            JSONObject xm = xmlist.getJSONObject(i);
+                            KSXM_Entity ke = new KSXM_Entity();
+                            ke.ID = xm.getString("ID");
+                            ke.NAME = xm.getString("NAME");
+                            ke.DM = xm.getString("DM");
+                            ke.BZ = xm.getString("BZ");
+                            ke.ZT = xm.getString("ZT");
+                            ke.ZLID = xm.getString("ZLID");
+                            ke.ZTL = xm.getInt("ZTL");
+                            ke.MNXH = xm.getInt("MNXH");
+                            ke.CTL = xm.getInt("CTL");
+                            ke.STXH = xm.getInt("STXH");
+                            mKsxmList.add(ke);
+                        }
+
+                        Message msg = new Message();
+                        msg.what = 0x03;
+                        mHandler.sendMessage(msg);//通知UI线程更新界面
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void initData() {
@@ -175,9 +254,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         tvItem = findViewById(R.id.tv_item_name);
         btnOk = findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
-        tvCardNum = findViewById(R.id.et_card_num);
-        tvCardPassword = findViewById(R.id.et_card_password);
-
+        etCardNum = findViewById(R.id.et_card_num);
+        etCardPassword = findViewById(R.id.et_card_password);
+        ivClearCard = findViewById(R.id.iv_delete_text1);
+        ivClearCard.setOnClickListener(this);
+        ivClearPassword = findViewById(R.id.iv_delete_password);
+        ivClearPassword.setOnClickListener(this);
     }
 
     @Override
@@ -191,6 +273,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void sele(KHZL_Entity ke) {
                         tvItemClass.setText(ke.NAME);
+                        getXmList(ke.ID);
                     }
                 });
                 cid.show();
@@ -208,18 +291,24 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_ok://确定
                 doOk();
                 break;
+            case R.id.iv_delete_text1:
+                etCardNum.setText("");
+                break;
+            case R.id.iv_delete_password:
+                etCardPassword.setText("");
+                break;
         }
 
 
     }
 
     private void doOk() {
-        String cardNum = tvCardNum.getText().toString();
+        String cardNum = etCardNum.getText().toString();
         if (cardNum.equals("")) {
             ToastUtil.getInstance().shortShow("卡号不能为空");
             return;
         }
-        String cardPassword = tvCardPassword.getText().toString();
+        String cardPassword = etCardPassword.getText().toString();
         if (cardPassword.equals("")) {
             ToastUtil.getInstance().shortShow("卡密不能为空");
             return;

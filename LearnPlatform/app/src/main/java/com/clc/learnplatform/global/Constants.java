@@ -53,6 +53,10 @@ public class Constants {
     public static final String KSJG_URL = BASE_URL + "yh_ksjg";
     //蓝领求职首页
     public static final String ZP_FIND_URL = BASE_URL + "zp_find";
+    //实际操作查看
+    public static final String XX_SJCZ_URL = BASE_URL + "xx_sjcz";
+    //绑定学习卡页切换证书种类，查询此种类下的项目
+    public static final String YH_GETXM_URL = BASE_URL + "yh_getxm";
 
 
     //百度地图 应用AK

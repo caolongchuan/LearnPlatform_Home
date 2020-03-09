@@ -253,7 +253,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initData() {
         tsp = new TheoryStudiedPager(this,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity,isBindingCard);
-        aop = new ActualOperationPager(this,mKSXM, mUserInfoEntiry.ZHYE,isBindingCard);
+        aop = new ActualOperationPager(this,openid,mKSXM, mUserInfoEntiry.ZHYE,isBindingCard);
         mContainer.addView(tsp.getmView());
     }
 

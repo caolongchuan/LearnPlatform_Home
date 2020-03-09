@@ -13,16 +13,41 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_ksjg"
-            android:padding="10dp"
-            android:background="@color/clc_white"
-            android:gravity="center_horizontal"
-            android:text="邢台市考试机构列表"
-            android:textColor="@color/clc_black"
-            android:textSize="20dp"
+        <RelativeLayout
+            android:background="@drawable/shape_map_title_bg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_city"
+                android:text="邢台市"
+                android:textSize="15dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/clc_black"
+                android:layout_marginLeft="20dp"
+                android:drawableRight="@mipmap/icon_marka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_ksjg"
+                android:padding="10dp"
+                android:text="考试机构列表"
+                android:textColor="@color/clc_black"
+                android:textSize="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_zhankai"
+                android:text="收起"
+                android:textSize="15dp"
+                android:background="@drawable/shape_map_zhankai_bg"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/clc_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
         <ListView
             android:id="@+id/lv_addr"
             android:background="@color/clc_white"

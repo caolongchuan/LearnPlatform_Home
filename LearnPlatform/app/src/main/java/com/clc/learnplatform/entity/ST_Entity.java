@@ -1,5 +1,8 @@
 package com.clc.learnplatform.entity;
 
+/**
+ * 试题
+ */
 public class ST_Entity {
     public String ID;//ID
     public String TM;//题目

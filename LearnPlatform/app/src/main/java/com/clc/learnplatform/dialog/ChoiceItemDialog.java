@@ -34,7 +34,7 @@ public class ChoiceItemDialog extends Dialog {
     private ListView mListView;
     private MyAdapter mAdapter;
 
-    public SeleListener seleListener;
+    public SeleListener seleListener;//选择监听接口
 
     public ChoiceItemDialog(Context context,ArrayList<KHZL_Entity> list,SeleListener seleListener) {
         super(context, R.style.ChoiceItemDialog);//加载dialog的样式

@@ -6,13 +6,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,11 +35,14 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
 import com.baidu.mapapi.utils.route.RouteParaOption;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.clc.learnplatform.R;
-import com.clc.learnplatform.activity.StudiedActivity;
 import com.clc.learnplatform.entity.KSJG_Entity;
+import com.clc.learnplatform.entity.SHENG_Entity;
 import com.clc.learnplatform.global.Constants;
-import com.clc.learnplatform.util.SPUtils;
+import com.clc.learnplatform.util.QyZwlbUtil;
 import com.clc.learnplatform.util.ToastUtil;
 
 import org.json.JSONArray;
@@ -50,7 +51,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -65,7 +66,6 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     private static final String TAG = "--MapFragment--";
 
-
     private Activity mActivty;
     private View mView;
 
@@ -75,14 +75,14 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private MapView mMapView = null;
     private LocationClient mLocationClient;
 
-    private TextView tvTitle;
+    private TextView tvCityName;//选择城市 显示城市名称
+    private TextView tvZhanKai;//展开与收起按钮
     private ListView lvAddr;
     private MyAdapter mAdapter;
 
     private boolean isFirstLocation;
     private double myLatitude;//我的位置
     private double myLongitude;//我的位置
-
 
     private ArrayList<KSJG_Entity> mKsjgList;
 
@@ -110,13 +110,21 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     //从服务器获取考试结构列表
-    private void getKsjgListFromService() {
+    private void getKsjgListFromService(String shi) {
         mKsjgList.clear();
         mAdapter.notifyDataSetChanged();
         OkHttpClient okHttpClient = new OkHttpClient();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("openid=").append(openid);
+        if(shi == null){
+            sb.append("openid=")
+                    .append(openid);
+        }else{
+            sb.append("openid=")
+                    .append(openid)
+                    .append("&shi=")
+                    .append(shi);
+        }
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
                 .url(Constants.KSJG_URL)
@@ -206,7 +214,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
         mView = inflater.inflate(R.layout.fragment_map, container, false);
         initView();
-        getKsjgListFromService();
+        getKsjgListFromService(null);
         initData();
 //        mTest.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -239,8 +247,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         //获取地图控件引用
         mMapView = (MapView) mView.findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
-        tvTitle = mView.findViewById(R.id.tv_ksjg);
-        tvTitle.setOnClickListener(this);
+        tvCityName = mView.findViewById(R.id.tv_city);
+        tvCityName.setOnClickListener(this);
+        tvZhanKai = mView.findViewById(R.id.tv_zhankai);
+        tvZhanKai.setOnClickListener(this);
         lvAddr = mView.findViewById(R.id.lv_addr);
         mAdapter = new MyAdapter();
         lvAddr.setAdapter(mAdapter);
@@ -269,11 +279,39 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_ksjg:
+            case R.id.tv_city://选择城市
+                ArrayList<SHENG_Entity> mShengEntity = QyZwlbUtil.getInstance().getShengList();
+                final List<String> options1Items = new ArrayList<>();
+                final List<List<String>> options2Items = new ArrayList<>();
+                for (int i = 0; i < mShengEntity.size(); i++) {
+                    options1Items.add(mShengEntity.get(i).value);
+                    List<String> temp = new ArrayList<>();
+                    for (int j = 0; j < mShengEntity.get(i).childs.size(); j++) {
+                        temp.add(mShengEntity.get(i).childs.get(j).value);
+                    }
+                    options2Items.add(temp);
+                }
+                //条件选择器
+                OptionsPickerView pvOptions = new OptionsPickerBuilder(mActivty, new OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                        //返回的分别是三个级别的选中位置
+                        tvCityName.setText(options2Items.get(options1).get(option2));
+                        //根据城市名获取地址列表
+                        getKsjgListFromService(options2Items.get(options1).get(option2));
+                    }
+                }).build();
+                pvOptions.setTitleText("选择城市");
+                pvOptions.setPicker(options1Items, options2Items);
+                pvOptions.show();
+                break;
+            case R.id.tv_zhankai://展开与收起
                 if (lvAddr.getVisibility() == View.GONE) {
                     lvAddr.setVisibility(View.VISIBLE);
+                    tvZhanKai.setText("收起");
                 } else {
                     lvAddr.setVisibility(View.GONE);
+                    tvZhanKai.setText("展开");
                 }
                 break;
         }
@@ -394,7 +432,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     //ToDo: 你想做的事情
 
-                                    //定义起终点坐标（天安门和百度大厦）
+                                    //定义起终点坐标
                                     LatLng startPoint = new LatLng(myLatitude, myLongitude);
                                     LatLng endPoint = new LatLng(Double.valueOf(mKsjgList.get(position).WD), Double.valueOf(mKsjgList.get(position).JD));
 

@@ -13,12 +13,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.SPUtils;
 import com.clc.learnplatform.util.ToastUtil;
 
 import org.json.JSONException;
@@ -45,9 +47,12 @@ public class TiYanCardActivity extends AppCompatActivity implements View.OnClick
     private String openid;
 
     private ImageView ivBack;
-    private TextView tvCardNum;
-    private TextView tvCardPassword;
+    private EditText tvCardNum;
+    private EditText tvCardPassword;
     private Button btnOk;
+
+    private ImageView ivClearCard;
+    private ImageView ivClearPassword;
 
     private UserInfoEntity mUser = null;
 
@@ -62,6 +67,8 @@ public class TiYanCardActivity extends AppCompatActivity implements View.OnClick
                 case 0x01://绑定成功
                     alertDialog.dismiss();
                     bangkazhuangtai = 1;
+                    //更新学习币值
+                    SPUtils.put(getApplicationContext(),"COIN_NUM",mUser.ZHYE);
                     ToastUtil.getInstance().shortShow("绑定成功");
                     break;
                 case 0x02://绑定失败
@@ -100,6 +107,10 @@ public class TiYanCardActivity extends AppCompatActivity implements View.OnClick
         tvCardPassword = findViewById(R.id.et_card_password);
         btnOk = findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
+        ivClearCard = findViewById(R.id.iv_delete_text);
+        ivClearCard.setOnClickListener(this);
+        ivClearPassword = findViewById(R.id.iv_delete_password);
+        ivClearPassword.setOnClickListener(this);
     }
 
     @Override
@@ -112,6 +123,12 @@ public class TiYanCardActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.btn_ok:
                 doOk();
+                break;
+            case R.id.iv_delete_text://清空卡号内容
+                tvCardNum.setText("");
+                break;
+            case R.id.iv_delete_password://清空密码内容
+                tvCardPassword.setText("");
                 break;
         }
     }
@@ -181,6 +198,9 @@ public class TiYanCardActivity extends AppCompatActivity implements View.OnClick
                         Log.i(TAG, "onResponse: message===" + message);
                     } else if (error.equals("false")) {//绑定成功
                         analysisData(responseInfo);//解析数据
+                        Message msg = new Message();
+                        msg.what = 0x01;
+                        mHandler.sendMessage(msg);//通知UI线程更新界面
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -211,10 +231,6 @@ public class TiYanCardActivity extends AppCompatActivity implements View.OnClick
             mUser.ZJXXXM = syzh.getString("ZJXXXM");
             mUser.WXCODE = syzh.getString("WXCODE");
             mUser.SQVIP = syzh.getString("SQVIP");
-
-            Message msg = new Message();
-            msg.what = 0x01;
-            mHandler.sendMessage(msg);//通知UI线程更新界面
         } catch (JSONException e) {
             e.printStackTrace();
         }

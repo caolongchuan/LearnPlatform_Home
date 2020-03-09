@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         // init view pager
         mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(2);//设置预加载2个页面
         // register listener
         mViewPager.addOnPageChangeListener(mPageChangeListener);
         mTabRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
