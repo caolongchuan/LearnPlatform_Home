@@ -106,12 +106,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_phone_number"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="7dp"
                 android:layout_toRightOf="@+id/tv_learn_b"
                 android:background="@drawable/shape_recharge_bg"
                 android:text="充值"
                 android:textColor="@color/user_name_text_color"
-                android:textSize="15dp" />
+                android:textSize="11dp" />
 
             <TextView
                 android:id="@+id/tv_binding_card"
@@ -143,21 +143,21 @@
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="锅炉水处理"
+                android:text="特种设备安全管理"
                 android:maxEms="8"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/clc_white"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/tv_item_sign"
                 android:text="G3"
                 android:textColor="@color/clc_white"
-                android:textSize="20dp"
-                android:layout_marginLeft="5dp"
+                android:textSize="18dp"
+                android:layout_marginRight="30dp"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tv_item_name"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/shape_studied_item_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

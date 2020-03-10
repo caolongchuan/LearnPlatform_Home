@@ -10,7 +10,7 @@
     <!-- 内边距 -->
     <padding
         android:bottom="4dp"
-        android:left="15dp"
+        android:left="10dp"
         android:right="10dp"
         android:top="2dp" />
 </shape>

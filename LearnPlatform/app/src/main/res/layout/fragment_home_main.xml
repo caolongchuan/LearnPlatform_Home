@@ -71,6 +71,7 @@
                     android:background="@drawable/shape_learn_b_bg"
                     android:drawableLeft="@mipmap/icon_learn_b"
                     android:drawablePadding="5dp"
+                    android:text="1000"
                     android:textColor="@color/user_name_text_color"
                     android:textSize="@dimen/phone_number_text_size" />
                 <!--android:text="1000"-->
@@ -81,12 +82,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_phone_number"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="9dp"
                     android:layout_toRightOf="@+id/tv_learn_b"
                     android:background="@drawable/shape_recharge_bg"
                     android:text="充值"
                     android:textColor="@color/user_name_text_color"
-                    android:textSize="20dp" />
+                    android:textSize="12dp" />
             </RelativeLayout>
 
             <LinearLayout

@@ -95,14 +95,16 @@ public class TheoryStudiedPager implements View.OnClickListener {
     private boolean isBindingCard;//标示是否有绑定学习卡
 
     private RoundProgressBar rpbProgress;
-    private int mProgress = 300;//进度（暂时初始化为300）
+    private int mProgress;//进度
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 0x01:
-                    rpbProgress.setProgress(mProgress);
+                    Bundle data = msg.getData();
+                    int progress = data.getInt("progress");
+                    rpbProgress.setProgress(progress);
                     break;
             }
             return false;
@@ -149,8 +151,8 @@ public class TheoryStudiedPager implements View.OnClickListener {
         mSearchAnswer = mView.findViewById(R.id.iv_button_sda);
         mSearchAnswer.setOnClickListener(this);
         rpbProgress = mView.findViewById(R.id.roundProgressBar);
-        rpbProgress.setMax(1000);
-        rpbProgress.setRotation(-90);
+        rpbProgress.setMax(mKSXM.ZTL);
+        rpbProgress.setRotation(-90);//逆时针旋转90度
     }
 
     public void initData(ArrayList<XMFL_Entity> list) {
@@ -450,20 +452,24 @@ public class TheoryStudiedPager implements View.OnClickListener {
 
     //开启一个线程实现进图条动画
     public void startProgress() {
-
+        mProgress = mWdcj.ZTZS;//当前进度
+//        mProgress = 10;//当前进度
         new Thread(new Runnable() {
             @Override
             public void run() {
                 int i = 0;
                 while (i<mProgress){
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(3);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("progress",i);
                     i++;
                     Message msg = new Message();
                     msg.what = 0x01;
+                    msg.setData(bundle);
                     mHandler.sendMessage(msg);
                 }
             }

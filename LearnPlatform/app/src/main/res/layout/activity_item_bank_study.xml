@@ -57,12 +57,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="30dp"
-                android:maxEms="6"
+                android:maxEms="10"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="锅炉水处理"
+                android:text="特种设备安全管理"
                 android:textColor="@color/clc_white"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:background="@drawable/shape_studied_item_bg"
                 android:text="G3"
                 android:textColor="@color/clc_white"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_item_class"
@@ -86,7 +86,7 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/shape_studied_item_bg"
                 android:text="基础知识"
-                android:maxEms="4"
+                android:maxEms="6"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/clc_white"

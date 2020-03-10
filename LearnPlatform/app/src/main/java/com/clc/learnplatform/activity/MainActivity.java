@@ -20,6 +20,7 @@ import com.clc.learnplatform.fragment.JobFragment;
 import com.clc.learnplatform.fragment.MapFragment;
 import com.clc.learnplatform.fragment.MyFragment;
 import com.clc.learnplatform.util.SPUtils;
+import com.clc.learnplatform.util.VersionUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
 
         initUserInfo(getIntent());//解析用户信息
         initView();
+        //检查更新
+        checkVersion();
+    }
+
+    /**
+     * 检查更新
+     */
+    private void checkVersion() {
+        String appVersionCode = VersionUtil.getAppVersionCode(this);
+        String appVersionName = VersionUtil.getAppVersionName(this);
     }
 
     //解析用户信息

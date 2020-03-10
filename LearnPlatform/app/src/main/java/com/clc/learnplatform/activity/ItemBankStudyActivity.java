@@ -60,6 +60,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
     private TextView mNextPager;//下一页
 
     private boolean mPlaying;//播放标志
+    private boolean mRun;//运行标示
     private ImageView mBitPlayStop;//播放停止 (大图）
     private ImageView mPlayStop;//播放停止
     private ProgressBar mProgressBar;//进度条
@@ -76,9 +77,8 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
     private ArrayList<ZSD_Entity> mZsdList;//知识点list
     private ItemBankDetialAdapter mAdapter;
 
-    private StringBuilder mAllZsdString;//本页所以知识点String
+    private StringBuilder mAllZsdString;//本页所有知识点String
 
-    private boolean mRun;
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
@@ -88,6 +88,15 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                     break;
                 case 0x02://更新时间
                     mCurrTime.setText(TimeUtil.getTimeString(mcurrTime));
+                    break;
+                case 0x03://自动进入下一页获取数据成功
+                    updateUI();
+                    mPlaying = true;
+                    mPlayStop.setImageResource(R.mipmap.icon_stop);
+                    TTSUtils.getInstance().resume();
+                    if (!mRun) {
+                        mRun = true;
+                    }
                     break;
             }
             return false;
@@ -106,7 +115,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
         flid = intent.getIntExtra("flid", 0);
 
         initView();
-        getDataFromService();
+        getDataFromService(false);
 
         new Thread(new Runnable() {
             @Override
@@ -117,10 +126,10 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (mcurrTime >= mtotalTime) {
-                        mRun = false;
-                        break;
-                    }
+//                    if (mcurrTime >= mtotalTime) {
+//                        mRun = false;
+//                        break;
+//                    }
                     if (mPlaying) {
                         mcurrTime = mcurrTime + 1;
                         Message msg = new Message();
@@ -133,7 +142,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
     }
 
     //从服务器获取数据
-    private void getDataFromService() {
+    private void getDataFromService(final boolean play) {
         mZsdList.clear();
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -202,9 +211,15 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                         }
 
                         mtotalPager = jsonObject.getString("pageCount");
-                        Message msg = new Message();
-                        msg.what = 0x01;
-                        mHandler.sendMessage(msg);
+                        if (play) {
+                            Message msg = new Message();
+                            msg.what = 0x03;
+                            mHandler.sendMessage(msg);
+                        } else {
+                            Message msg = new Message();
+                            msg.what = 0x01;
+                            mHandler.sendMessage(msg);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -259,7 +274,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
         mAllZsdString = null;
         mAllZsdString = new StringBuilder();
         for (int i = 0; i < mZsdList.size(); i++) {
-            mAllZsdString.append("。" + (i + 1) + "。");
+            mAllZsdString.append("。" + ((mCurrentPager - 1) * 5 + i + 1) + "。");
             mAllZsdString.append(mZsdList.get(i).NR);
         }
 
@@ -282,9 +297,16 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                 mcurrTime = 0;
                 mCurrTime.setText(TimeUtil.getTimeString(mcurrTime));
                 mProgressBar.setProgress(0);
-                mRun = false;
+                TTSUtils.getInstance().stop();
+                if (mCurrentPager == Integer.valueOf(mtotalPager)) {
+                    ToastUtil.getInstance().shortShow("已经是最后一页");
+                } else {
+                    mCurrentPager++;
+                    getDataFromService(true);
+                }
             }
         });
+        mPlaying = false;
         TTSUtils.getInstance().pause();//初始化后先暂停
     }
 
@@ -300,7 +322,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                     ToastUtil.getInstance().shortShow("已经是第一页");
                 } else {
                     mCurrentPager--;
-                    getDataFromService();
+                    getDataFromService(false);
                 }
                 break;
             case R.id.tv_next_page://下一页
@@ -309,7 +331,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                     ToastUtil.getInstance().shortShow("已经是最后一页");
                 } else {
                     mCurrentPager++;
-                    getDataFromService();
+                    getDataFromService(false);
                 }
                 break;
             case R.id.iv_big_play_stop://大播放
@@ -322,7 +344,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                     mPlayStop.setImageResource(R.mipmap.icon_stop);
                     TTSUtils.getInstance().resume();
                 }
-                if(!mRun){
+                if (!mRun) {
                     mRun = true;
                 }
                 break;
@@ -336,7 +358,7 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
                     mPlayStop.setImageResource(R.mipmap.icon_stop);
                     TTSUtils.getInstance().resume();
                 }
-                if(!mRun){
+                if (!mRun) {
                     mRun = true;
                 }
                 break;
