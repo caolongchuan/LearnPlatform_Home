@@ -22,7 +22,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
         testInstrumentationRunner "androidx.TTSUtileLisenning.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -70,6 +70,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.liulishuo.filedownloader:library:1.7.3'//FileDownloader文件下载器
+
     //        androidTestImplementation ('com.android.support.TTSUtileLisenning.espresso: espresso-core: 2.2.2', {
     //            exclude group: 'com.android.support',  module: 'support-annotations'
     //        })

@@ -57,7 +57,11 @@ public class Constants {
     public static final String XX_SJCZ_URL = BASE_URL + "xx_sjcz";
     //绑定学习卡页切换证书种类，查询此种类下的项目
     public static final String YH_GETXM_URL = BASE_URL + "yh_getxm";
-
+    //获取版本号
+    public static final String VERSION_URL = BASE_URL + "yh_getversion";
+    //安装包下载地址
+//    public static final String APK_DOWNLOAD_RUL = "http://www.zixiawangluo.com/apkdown/kzxx.apk";
+    public static final String APK_DOWNLOAD_RUL = "http://www.wxfslp.xyz/mer_picture/xxpt.apk";
 
     //百度地图 应用AK
     public static final String BAIDU_AK = "aHCwXw5pfhBj6bM2GjTPsggubM7FzIOA";//在AndroidManifest.xml文件夹中已使用

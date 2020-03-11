@@ -21,6 +21,7 @@ import com.clc.learnplatform.entity.KSXM_Entity;
 import com.clc.learnplatform.entity.XMFL_Entity;
 import com.clc.learnplatform.entity.ZSD_Entity;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.SPUtils;
 import com.clc.learnplatform.util.TTSUtils;
 import com.clc.learnplatform.util.TimeUtil;
 import com.clc.learnplatform.util.ToastUtil;
@@ -45,6 +46,8 @@ import static com.clc.learnplatform.activity.LoginActivity.FORM_CONTENT_TYPE;
  */
 public class ItemBankStudyActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "ItemBankStudyActivity";
+    private final String SP_KEY = "tkxx_";
+
     private String openid;
     private int flid;//分类id
 
@@ -252,7 +255,8 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
         mTotalTime = findViewById(R.id.tv_cuttent_total_time);
 
         mcurrTime = 0;
-        mCurrentPager = 1;//初始化第一页
+        mCurrentPager = (int) SPUtils.get(getApplicationContext(),
+                SP_KEY + flid,1);//初始化当前页数 用flid作为key
         mXmflEntiy = new XMFL_Entity();
         mKsxmEntity = new KSXM_Entity();
         mZsdList = new ArrayList<>();
@@ -368,7 +372,9 @@ public class ItemBankStudyActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRun = false;
+        mRun = false;//关闭线程
+        //关闭时将当前页数保存起来 用于下次进入时直接定位页数
+        SPUtils.put(getApplicationContext(),SP_KEY + flid,mCurrentPager);
         TTSUtils.getInstance().stop();
     }
 
