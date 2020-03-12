@@ -7,12 +7,13 @@
 
     <LinearLayout
         android:padding="10dp"
+        android:layout_above="@+id/rl_rl1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <RelativeLayout
             android:background="@drawable/shape_studied_1_bg"
             android:layout_width="50dp"
-            android:layout_height="110dp">
+            android:layout_height="match_parent">
             <TextView
                 android:ems="1"
                 android:id="@+id/tv_left"
@@ -30,153 +31,226 @@
             android:id="@+id/grid_knowledge"
             android:layout_toRightOf="@+id/tv_left"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="match_parent"
             android:numColumns="2"/>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_rl1"
+        android:paddingBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:paddingBottom="20dp"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginBottom="100dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iv_button_ctqh"
-                android:src="@mipmap/icon_ctqh"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
-            <TextView
-                android:text="错题强化"
-                android:textSize="13dp"
-                android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
             android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="30dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iv_button_wztlx"
-                android:src="@mipmap/icon_wztlx"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
-            <TextView
-                android:text="未做题练习"
-                android:textSize="13dp"
-                android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="100dp"
-            android:layout_marginRight="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iv_button_wdcj"
-                android:src="@mipmap/icon_wdcj"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
-            <TextView
-                android:text="我的成绩"
-                android:textSize="13dp"
-                android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iv_button_sda"
-                android:src="@mipmap/icon_sda"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
-            <TextView
-                android:text="搜答案"
-                android:textSize="13dp"
-                android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_mnks"
-            android:background="@mipmap/icon_mnks"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp"
-            android:layout_width="140dp"
-            android:layout_height="140dp">
-            <TextView
-                android:id="@+id/tv_tv1"
-                android:text="模拟考试"
-                android:textColor="@color/clc_white"
-                android:textSize="21dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
             <LinearLayout
-                android:layout_below="@+id/tv_tv1"
-                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tv_mnks_coin_num"
-                    android:text="消耗2"
-                    android:textColor="@color/clc_white"
-                    android:textSize="15dp"
-                    android:layout_marginLeft="3dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
                 <ImageView
-                    android:id="@+id/iv_coin"
-                    android:src="@mipmap/icon_coin"
-                    android:layout_marginLeft="3dp"
+                    android:id="@+id/iv_button_ctqh"
+                    android:src="@mipmap/icon_ctqh"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+                <TextView
+                    android:text="错题强化"
+                    android:textSize="13dp"
+                    android:textColor="@color/clc_black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_button_wztlx"
+                    android:src="@mipmap/icon_wztlx"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+                <TextView
+                    android:text="未做题练习"
+                    android:textSize="13dp"
+                    android:textColor="@color/clc_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/rl_mnks"
+                android:layout_marginTop="50dp"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:background="@mipmap/icon_mnks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_tv1"
+                    android:text="模拟考试"
+                    android:textColor="@color/clc_white"
+                    android:textSize="21dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_below="@+id/tv_tv1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_mnks_coin_num"
+                        android:text="消耗2"
+                        android:textColor="@color/clc_white"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/iv_coin"
+                        android:src="@mipmap/icon_coin"
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <com.clc.learnplatform.view.RoundProgressBar
+                android:id="@+id/roundProgressBar"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+
+                android:layout_marginTop="12dp"
+                android:layout_centerHorizontal="true"
+
+                android_custom:roundColor="#B3B1B1"
+                android_custom:roundProgressColor="#3F51B5"
+                android_custom:textColor="#9A32CD"
+                android_custom:textIsDisplayable="false"
+                android_custom:roundWidth="7dip"
+                android_custom:textSize="18sp"/>
+
+
         </RelativeLayout>
 
-        <com.clc.learnplatform.view.RoundProgressBar
-            android:id="@+id/roundProgressBar"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_button_wdcj"
+                    android:src="@mipmap/icon_wdcj"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+                <TextView
+                    android:text="我的成绩"
+                    android:textSize="13dp"
+                    android:textColor="@color/clc_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_button_sda"
+                    android:src="@mipmap/icon_sda"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+                <TextView
+                    android:text="搜答案"
+                    android:textSize="13dp"
+                    android:textColor="@color/clc_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
+        </LinearLayout>
 
-            android_custom:roundColor="#B3B1B1"
-            android_custom:roundProgressColor="#3F51B5"
-            android_custom:textColor="#9A32CD"
-            android_custom:textIsDisplayable="false"
-            android_custom:roundWidth="7dip"
-            android_custom:textSize="18sp"/>
 
-    </RelativeLayout>
+
+
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginBottom="100dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+            <!---->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+        <!--</LinearLayout>-->
+        <!---->
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="100dp"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+            <!---->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+        <!--</LinearLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_mnks"-->
+            <!--android:background="@mipmap/icon_mnks"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_width="140dp"-->
+            <!--android:layout_height="140dp">-->
+            <!---->
+        <!--</RelativeLayout>-->
+
+
+    </LinearLayout>
 
 </RelativeLayout>

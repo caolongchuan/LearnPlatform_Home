@@ -88,6 +88,13 @@ public class WXLoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //获取授权状态
+        String shouquan = (String) SPUtils.get(getApplicationContext(), "shouquan", "true");
+        if(shouquan.equals("false")){
+            finish();
+        }
+
         SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
         String responseInfo = sp.getString("responseInfo", "");
 

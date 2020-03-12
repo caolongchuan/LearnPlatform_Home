@@ -18,7 +18,7 @@
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
             android:textColor="@color/clc_white"
-            android:textSize="90dp"
+            android:textSize="70dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -33,7 +33,7 @@
 
     <LinearLayout
         android:layout_weight="3"
-        android:padding="15dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="0dp">
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -113,13 +113,13 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:text="限时内未答完次数"
                 android:textColor="@color/clc_black"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_wdw_time"
@@ -134,7 +134,7 @@
 
         <TextView
             android:text="模拟考试连续8次，成绩均可达到80分左右方可通过考试。"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/shape_my_achieve_msg_bg"
             android:textColor="@color/clc_black"
             android:layout_width="match_parent"

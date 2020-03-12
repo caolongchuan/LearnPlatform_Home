@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.WDCJ_Entity;
 
+/**
+ * 我的成绩
+ */
 public class MyAchievementDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = "MyAchievementDialog";
     //在构造方法里提前加载了样式

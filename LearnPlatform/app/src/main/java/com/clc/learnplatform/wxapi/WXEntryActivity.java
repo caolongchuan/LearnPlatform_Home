@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.SPUtils;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -69,14 +70,17 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (baseResp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
                     String code = ((SendAuth.Resp) baseResp).code;
+                    SPUtils.put(getApplicationContext(),"shouquan","true");
                     //获取accesstoken
                     getAccessToken(code);
                     Log.d("fantasychongwxlogin", code.toString() + "");
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
+                    SPUtils.put(getApplicationContext(),"shouquan","false");
                     finish();
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消
+                    SPUtils.put(getApplicationContext(),"shouquan","false");
                     finish();
                     break;
                 default:
@@ -90,7 +94,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 case BaseResp.ErrCode.ERR_OK:
                     finish();
                     break;
-                case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
+                case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝
                     finish();
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL://用户取消

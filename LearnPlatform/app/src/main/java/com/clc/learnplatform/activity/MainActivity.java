@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "onResponse: responseInfo===" + responseInfo);
                 try {
                     JSONObject jsonObject =  new JSONObject(responseInfo);
-                    String version = jsonObject.getString("version");
+                    String version = jsonObject.getString("ver");
                     Bundle bundle = new Bundle();
                     bundle.putString("version",version);
                     Message msg = new Message();
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
         mFragments = new ArrayList<>(4);
         mFragments.add(new HomeFragment(openid,mDataJsonString));
         mFragments.add(new JobFragment(this,openid,mUserInfoEntiry));
-        mFragments.add(new MapFragment(this,openid));
+        mFragments.add(new MapFragment(this,openid,mUserInfoEntiry.SSS,mUserInfoEntiry.SHI));
         mFragments.add(new MyFragment(openid,mDataJsonString));
         // init view pager
         mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragments);

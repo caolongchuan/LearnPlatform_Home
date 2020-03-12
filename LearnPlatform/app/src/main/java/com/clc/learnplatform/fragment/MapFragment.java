@@ -42,6 +42,7 @@ import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.KSJG_Entity;
 import com.clc.learnplatform.entity.SHENG_Entity;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.CityLocationUtil;
 import com.clc.learnplatform.util.QyZwlbUtil;
 import com.clc.learnplatform.util.ToastUtil;
 
@@ -70,6 +71,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private View mView;
 
     private String openid;
+    private String SSS;//省
+    private String SHI;//市
 
     private BaiduMap mBaiduMap;
     private MapView mMapView = null;
@@ -103,9 +106,11 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     });
 
-    public MapFragment(Activity activity, String openid) {
+    public MapFragment(Activity activity, String openid,String sss,String shi) {
         mActivty = activity;
         this.openid = openid;
+        SSS = sss;
+        SHI = shi;
         mKsjgList = new ArrayList<>();
     }
 
@@ -190,6 +195,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 在地图上添加Marker，并显示
+     */
     public void mardAddr() {
         for (int i = 0; i < mKsjgList.size(); i++) {
             //定义Maker坐标点
@@ -239,6 +247,12 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 //                BaiduMapRoutePlan.finish(mActivty);
 //            }
 //        });
+
+        //设置并显示中心点
+        double[] coordinate = CityLocationUtil.getCoordinate(getContext(), SSS, SHI);
+        if(coordinate!=null){
+            setlatilong2Center(mBaiduMap,coordinate[1],coordinate[0],true);
+        }
 
         return mView;
     }
@@ -297,6 +311,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         //返回的分别是三个级别的选中位置
                         tvCityName.setText(options2Items.get(options1).get(option2));
+                        //设置选择城市后将该城市设置为中心点
+                        //设置并显示中心点
+                        double[] coordinate = CityLocationUtil.getCoordinate(getContext(),
+                                options1Items.get(options1), options2Items.get(options1).get(option2));
+                        if(coordinate!=null){
+                            setlatilong2Center(mBaiduMap,coordinate[1],coordinate[0],true);
+                        }
                         //根据城市名获取地址列表
                         getKsjgListFromService(options2Items.get(options1).get(option2));
                     }
@@ -335,8 +356,6 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 isFirstLocation = false;
                 myLatitude = location.getLatitude();
                 myLongitude = location.getLongitude();
-                //设置并显示中心点
-                setPosition2Center(mBaiduMap, location, true);
             }
 
         }
@@ -376,7 +395,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (isShowLoc) {
             LatLng ll = new LatLng(latitude, longitude);
             MapStatus.Builder builder = new MapStatus.Builder();
-            builder.target(ll).zoom(18.0f);
+            builder.target(ll).zoom(15.0f);
             map.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
     }

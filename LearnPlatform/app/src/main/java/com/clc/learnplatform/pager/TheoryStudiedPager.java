@@ -75,7 +75,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
     private GridView mKnowledge;
     private GridViewAdapter mAdapter;
 
-    private RelativeLayout mMnks;//模拟考试
+    private LinearLayout mMnks;//模拟考试
     private TextView mMnksCoin;//模拟考试消耗金币数
     private ImageView mIvCoin;//金币小图标
     private ImageView mCtlx;//错题练习

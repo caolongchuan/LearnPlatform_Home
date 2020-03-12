@@ -60,8 +60,7 @@ public class Constants {
     //获取版本号
     public static final String VERSION_URL = BASE_URL + "yh_getversion";
     //安装包下载地址
-//    public static final String APK_DOWNLOAD_RUL = "http://www.zixiawangluo.com/apkdown/kzxx.apk";
-    public static final String APK_DOWNLOAD_RUL = "http://www.wxfslp.xyz/mer_picture/xxpt.apk";
+    public static final String APK_DOWNLOAD_RUL = "http://www.zixiawangluo.com/apkdown/kzxx.apk";
 
     //百度地图 应用AK
     public static final String BAIDU_AK = "aHCwXw5pfhBj6bM2GjTPsggubM7FzIOA";//在AndroidManifest.xml文件夹中已使用
@@ -76,7 +75,7 @@ public class Constants {
     public static final String SECRET_KEY = "sxzxsxzxsxzxsxzxsxzxsxzxsxzxsxzx";//用于支付的秘钥key
 
     //微信分享
-    public static final String WX_SHAPE_URL = "www.baidu.com";//微信分享的url
+    public static final String WX_SHAPE_URL = "http://www.zixiawangluo.com/apkdown/kzxx.apk";//微信分享的url
     public static final String WX_SHAPE_TITLE = "微信分享的title";
     public static final String WX_SHAPE_DESCRIPTION = "微信分享的描述";
     public static final int WX_SHAPE_BMP = R.mipmap.ic_launcher;
