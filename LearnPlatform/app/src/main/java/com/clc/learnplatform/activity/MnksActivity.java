@@ -64,6 +64,8 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
     private String xmid;//项目id
 
     private ImageView mIvBack;//返回
+    private TextView mShangYiTi;//上一题
+    private TextView mXiaYiTi;//下一题
     private ViewPager mViewPager;
     private LinearLayout mJiaoJuan;//交卷
     private TextView mCurrItem;//当前是第几道题
@@ -71,7 +73,7 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mRightItemNum;//对的题数
     private TextView mWrongItemNum;//错的题数
     private TextView mClock;//剩余时间
-//<img src='http://www.zixiawangluo.com/zxexam/tt/mailbox_sign.jpg' />^<img src='http://www.zixiawangluo.com/zxexam/tt/accumulator.jpg' />^<img src='http://www.zixiawangluo.com/zxexam/tt/cooling-liquid.jpg' />
+
     private int mnksTime = 3600;//模拟考试的时间（秒）
     private int rightItemNum = 0;//正确的数量
     private int wrongItemNum = 0;//错误的数量
@@ -163,6 +165,10 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
 
         mIvBack = findViewById(R.id.iv_back);
         mIvBack.setOnClickListener(this);
+        mShangYiTi = findViewById(R.id.tv_shangyiti);
+        mShangYiTi.setOnClickListener(this);
+        mXiaYiTi = findViewById(R.id.tv_xiayiti);
+        mXiaYiTi.setOnClickListener(this);
         mViewPager = findViewById(R.id.vp_main);
         mJiaoJuan = findViewById(R.id.ll_jiaojuan);
         mJiaoJuan.setOnClickListener(this);
@@ -326,6 +332,24 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                     doJiaoJuan();//交卷
                 }
                 break;
+            case R.id.tv_shangyiti://上一题
+                String temp = mCurrItem.getText().toString();
+                int integer = Integer.valueOf(temp) - 1;
+                if(integer==0){
+                    ToastUtil.getInstance().shortShow("已经是第一页");
+                }else{
+                    mViewPager.setCurrentItem(integer - 1);
+                }
+                break;
+            case R.id.tv_xiayiti://下一题
+                String temp1 = mCurrItem.getText().toString();
+                int integer1 = Integer.valueOf(temp1);
+                if(integer1 == mMnksEntity.ZTS){
+                    ToastUtil.getInstance().shortShow("已经是最后一页");
+                }else{
+                    mViewPager.setCurrentItem(integer1);
+                }
+                break;
         }
     }
 
@@ -437,6 +461,10 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+            TextView tvCurrNum = viewLists.get(position).findViewById(R.id.tv_curr_num);
+            tvCurrNum.setText(String.valueOf(position+1));
+            TextView tvAllNum = viewLists.get(position).findViewById(R.id.tv_all_num);
+            tvAllNum.setText(String.valueOf(lssjList.size()));
             Button btnOk = viewLists.get(position).findViewById(R.id.btn_ok);
             TextView tvItemType = viewLists.get(position).findViewById(R.id.tv_item_type);//是什么类型  //00单选 01多选 02判断
             switch (lssjList.get(position).TX) {
@@ -500,6 +528,11 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
             tvXuanXiang[7] = viewLists.get(position).findViewById(R.id.tv_8);
             tvXuanXiang[8] = viewLists.get(position).findViewById(R.id.tv_9);
             tvXuanXiang[9] = viewLists.get(position).findViewById(R.id.tv_10);
+            final int[] iv_no_choice = new int[]{R.mipmap.icon_xuanxiang_a, R.mipmap.icon_xuanxiang_b,
+                    R.mipmap.icon_xuanxiang_c, R.mipmap.icon_xuanxiang_d,
+                    R.mipmap.icon_xuanxiang_e, R.mipmap.icon_xuanxiang_f,
+                    R.mipmap.icon_xuanxiang_g, R.mipmap.icon_xuanxiang_h,
+                    R.mipmap.icon_xuanxiang_i, R.mipmap.icon_xuanxiang_j};
             final int[] iv_choice = new int[]{R.mipmap.icon_choice_xuanxiang_a, R.mipmap.icon_choice_xuanxiang_b,
                     R.mipmap.icon_choice_xuanxiang_c, R.mipmap.icon_choice_xuanxiang_d,
                     R.mipmap.icon_choice_xuanxiang_e, R.mipmap.icon_choice_xuanxiang_f,
@@ -611,10 +644,23 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
                             } else if (lssjList.get(position).TX.equals("01")) {//多选题
-                                Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
-                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
-                                tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
-                                tvXuanXiang[finalI].setTag(1);// 添加标记
+                                Object tag = tvXuanXiang[finalI].getTag();
+                                if(tag == null){
+                                    Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(1);// 添加标记
+                                }else{
+                                    Drawable drawable = getResources().getDrawable(iv_no_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(null);// 添加空标记
+                                }
+
+
+
+
+
                             }
                         }
                     }
@@ -658,10 +704,22 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
                             } else if (lssjList.get(position).TX.equals("01")) {//多选题
-                                Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
-                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
-                                tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
-                                tvXuanXiang[finalI].setTag(1);// 添加标记
+                                Object tag = tvXuanXiang[finalI].getTag();
+                                if(tag == null){
+                                    Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(1);// 添加标记
+                                }else{
+                                    Drawable drawable = getResources().getDrawable(iv_no_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(null);// 添加空标记
+                                }
+
+
+
+
                             }
                         }
                     }

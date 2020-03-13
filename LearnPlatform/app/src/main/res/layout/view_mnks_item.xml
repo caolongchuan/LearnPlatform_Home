@@ -12,6 +12,33 @@
             android:layout_height="match_parent"
             android:padding="20dp">
 
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_ctqh_head_bg"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_curr_num"
+                    android:text="1"
+                    android:textColor="@color/clc_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="/"
+                    android:textColor="@color/clc_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_all_num"
+                    android:textColor="@color/clc_black"
+                    android:text="100"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
             <TextView
                 android:id="@+id/tv_item_type"
                 android:layout_width="wrap_content"
@@ -19,6 +46,7 @@
                 android:layout_marginTop="60dp"
                 android:background="@drawable/shape_mnks_item_type_bg"
                 android:text="判断"
+                android:textSize="20dp"
                 android:textColor="@color/clc_white" />
 
             <TextView
@@ -30,7 +58,7 @@
                 android:layout_marginTop="5dp"
                 android:text="安全状况登记为4及的固定式压力容器可进行修理,提高安全状况等级,也可监控使用。()"
                 android:textColor="@color/clc_black"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
             <ImageView
                 android:id="@+id/iv_tp"
@@ -65,7 +93,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_1"
@@ -93,7 +121,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_2"
@@ -121,7 +149,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_3"
@@ -149,7 +177,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_4"
@@ -177,7 +205,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_5"
@@ -205,7 +233,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_6"
@@ -233,7 +261,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_7"
@@ -261,7 +289,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_8"
@@ -289,7 +317,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_9"
@@ -317,7 +345,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/iv_10"

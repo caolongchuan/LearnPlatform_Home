@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,6 +34,7 @@
     <TextView
         android:id="@+id/tv_tishi"
         android:visibility="gone"
+        android:layout_below="@+id/rl_head"
         android:layout_marginTop="10dp"
         android:padding="20dp"
         android:background="@color/main_text_normal"
@@ -45,7 +45,38 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_ctqh"
+        android:layout_below="@+id/rl_head"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_rl3"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_xiayiti"
+            android:text="下一题"
+            android:textSize="19dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/clc_white"
+            android:background="@drawable/shape_map_zhankai_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_shangyiti"
+            android:text="上一题"
+            android:textSize="19dp"
+            android:textColor="@color/clc_white"
+            android:layout_toLeftOf="@+id/tv_xiayiti"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_map_zhankai_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</RelativeLayout>

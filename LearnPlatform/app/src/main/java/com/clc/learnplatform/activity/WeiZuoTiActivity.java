@@ -310,6 +310,11 @@ public class WeiZuoTiActivity extends AppCompatActivity {
             tvXuanXiang[7] = mViewList.get(position).findViewById(R.id.tv_8);
             tvXuanXiang[8] = mViewList.get(position).findViewById(R.id.tv_9);
             tvXuanXiang[9] = mViewList.get(position).findViewById(R.id.tv_10);
+            final int[] iv_no_choice = new int[]{R.mipmap.icon_xuanxiang_a, R.mipmap.icon_xuanxiang_b,
+                    R.mipmap.icon_xuanxiang_c, R.mipmap.icon_xuanxiang_d,
+                    R.mipmap.icon_xuanxiang_e, R.mipmap.icon_xuanxiang_f,
+                    R.mipmap.icon_xuanxiang_g, R.mipmap.icon_xuanxiang_h,
+                    R.mipmap.icon_xuanxiang_i, R.mipmap.icon_xuanxiang_j};
             final int[] iv_choice = new int[]{R.mipmap.icon_choice_xuanxiang_a, R.mipmap.icon_choice_xuanxiang_b,
                     R.mipmap.icon_choice_xuanxiang_c, R.mipmap.icon_choice_xuanxiang_d,
                     R.mipmap.icon_choice_xuanxiang_e, R.mipmap.icon_choice_xuanxiang_f,
@@ -407,10 +412,18 @@ public class WeiZuoTiActivity extends AppCompatActivity {
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
                             } else if (mSonWztkList.get(position).ST.TX.equals("01")) {//多选题
-                                Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
-                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
-                                tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
-                                tvXuanXiang[finalI].setTag(1);// 添加标记
+                                Object tag = tvXuanXiang[finalI].getTag();
+                                if(tag == null){
+                                    Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(1);// 添加标记
+                                }else{
+                                    Drawable drawable = getResources().getDrawable(iv_no_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(null);// 添加空标记
+                                }
                             }
                         }
                     }
@@ -450,10 +463,18 @@ public class WeiZuoTiActivity extends AppCompatActivity {
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
                             } else if (mSonWztkList.get(position).ST.TX.equals("01")) {//多选题
-                                Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
-                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
-                                tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
-                                tvXuanXiang[finalI].setTag(1);// 添加标记
+                                Object tag = tvXuanXiang[finalI].getTag();
+                                if(tag == null){
+                                    Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(1);// 添加标记
+                                }else{
+                                    Drawable drawable = getResources().getDrawable(iv_no_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(null);// 添加空标记
+                                }
                             }
                         }
                     }

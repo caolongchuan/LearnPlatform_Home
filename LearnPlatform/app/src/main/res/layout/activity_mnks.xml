@@ -45,6 +45,34 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_above="@+id/rl_foot"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_xiayiti"
+            android:text="下一题"
+            android:textSize="19dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/clc_white"
+            android:background="@drawable/shape_map_zhankai_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_shangyiti"
+            android:text="上一题"
+            android:textSize="19dp"
+            android:textColor="@color/clc_white"
+            android:layout_toLeftOf="@+id/tv_xiayiti"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_map_zhankai_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_foot"
         android:background="@color/clc_white"
         android:layout_alignParentBottom="true"
@@ -74,6 +102,7 @@
 
         <ImageView
             android:id="@+id/iv_datika"
+            android:visibility="gone"
             android:src="@mipmap/icon_datika"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ll_jiaojuan"
@@ -83,6 +112,7 @@
         <TextView
             android:id="@+id/tv_datika"
             android:text="答题卡"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:textColor="@color/clc_black"
             android:layout_toRightOf="@+id/iv_datika"
@@ -91,6 +121,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_curr_ti_no"
+            android:visibility="gone"
             android:text="1"
             android:textColor="@color/clc_black"
             android:layout_toRightOf="@+id/tv_datika"
@@ -100,6 +131,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:text="/"
+            android:visibility="gone"
             android:textColor="@color/clc_black"
             android:layout_toRightOf="@+id/tv_curr_ti_no"
             android:layout_centerVertical="true"
@@ -109,6 +141,7 @@
         <TextView
             android:id="@+id/tv_curr_ti_total"
             android:text="100"
+            android:visibility="gone"
             android:textColor="@color/clc_black"
             android:layout_toRightOf="@+id/tv_curr_ti_no"
             android:layout_centerVertical="true"
@@ -119,31 +152,33 @@
         <ImageView
             android:id="@+id/iv_right"
             android:src="@mipmap/icon_right"
-            android:layout_toLeftOf="@+id/tv_right_num"
+            android:layout_toRightOf="@+id/ll_jiaojuan"
+            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_width="25dp"
             android:layout_height="25dp" />
         <TextView
             android:id="@+id/tv_right_num"
             android:text="0"
+            android:layout_toRightOf="@+id/iv_right"
+            android:layout_marginLeft="3dp"
             android:textColor="@color/clc_green"
-            android:layout_toLeftOf="@+id/iv_wrong"
             android:layout_centerVertical="true"
-            android:layout_marginRight="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/iv_wrong"
             android:src="@mipmap/icon_wrong"
-            android:layout_toLeftOf="@+id/tv_wrong_num"
+            android:layout_toRightOf="@+id/tv_right_num"
+            android:layout_marginLeft="3dp"
             android:layout_centerVertical="true"
             android:layout_width="25dp"
             android:layout_height="25dp" />
         <TextView
             android:id="@+id/tv_wrong_num"
             android:text="0"
-            android:layout_toLeftOf="@+id/iv_clock"
-            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/iv_wrong"
+            android:layout_marginLeft="3dp"
             android:textColor="@color/clc_red"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"

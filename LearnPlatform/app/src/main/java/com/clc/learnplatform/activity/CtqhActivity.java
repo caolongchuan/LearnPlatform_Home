@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -55,7 +56,8 @@ public class CtqhActivity extends AppCompatActivity {
     private String openid;
     private String xmid;
 
-    private int mAllNum = 0;
+    private int mAllNum = 0;//总题数
+    private int mCurrNum = 0;//当前题数
     private ArrayList<View> mViewList;
     private ArrayList<CTJL_Entity> mCtjlList;//错题list
     private MyPagerAdapter mAdapter;
@@ -63,6 +65,9 @@ public class CtqhActivity extends AppCompatActivity {
     private ImageView mBack;
     private TextView mTiShi;//提示信息
     private ViewPager mViewPager;
+    private RelativeLayout rl_3;//选择上一题或下一题
+    private TextView tvShangYiTi;//上一题
+    private TextView tvXiaYiTi;//下一题
 
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -71,11 +76,13 @@ public class CtqhActivity extends AppCompatActivity {
                 case 0x01:
                     mViewPager.setVisibility(View.VISIBLE);
                     mTiShi.setVisibility(View.GONE);
+                    rl_3.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();//更新
                     break;
                 case 0x02:
                     mViewPager.setVisibility(View.GONE);
                     mTiShi.setVisibility(View.VISIBLE);
+                    rl_3.setVisibility(View.GONE);
                     break;
             }
             return false;
@@ -187,11 +194,51 @@ public class CtqhActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.vp_ctqh);
         mAdapter = new MyPagerAdapter(mViewList,mCtjlList);
         mViewPager.setAdapter(mAdapter);
+        rl_3 = findViewById(R.id.rl_rl3);
+        tvShangYiTi = findViewById(R.id.tv_shangyiti);
+        tvXiaYiTi = findViewById(R.id.tv_xiayiti);
 
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        tvShangYiTi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCurrNum == 0){
+                    ToastUtil.getInstance().shortShow("已经是第一页");
+                }else{
+                    mViewPager.setCurrentItem(mCurrNum - 1);
+                }
+            }
+        });
+        tvXiaYiTi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((mCurrNum+1) == mAllNum){
+                    ToastUtil.getInstance().shortShow("已经是最后一页");
+                }else{
+                    mViewPager.setCurrentItem(mCurrNum + 1);
+                }
+            }
+        });
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mCurrNum = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -296,6 +343,11 @@ public class CtqhActivity extends AppCompatActivity {
             tvXuanXiang[7] = viewLists.get(position).findViewById(R.id.tv_8);
             tvXuanXiang[8] = viewLists.get(position).findViewById(R.id.tv_9);
             tvXuanXiang[9] = viewLists.get(position).findViewById(R.id.tv_10);
+            final int[] iv_no_choice = new int[]{R.mipmap.icon_xuanxiang_a, R.mipmap.icon_xuanxiang_b,
+                    R.mipmap.icon_xuanxiang_c, R.mipmap.icon_xuanxiang_d,
+                    R.mipmap.icon_xuanxiang_e, R.mipmap.icon_xuanxiang_f,
+                    R.mipmap.icon_xuanxiang_g, R.mipmap.icon_xuanxiang_h,
+                    R.mipmap.icon_xuanxiang_i, R.mipmap.icon_xuanxiang_j};
             final int[] iv_choice = new int[]{R.mipmap.icon_choice_xuanxiang_a, R.mipmap.icon_choice_xuanxiang_b,
                     R.mipmap.icon_choice_xuanxiang_c, R.mipmap.icon_choice_xuanxiang_d,
                     R.mipmap.icon_choice_xuanxiang_e, R.mipmap.icon_choice_xuanxiang_f,
@@ -387,10 +439,18 @@ public class CtqhActivity extends AppCompatActivity {
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
                             } else if (ctjlList.get(position).ST.TX.equals("01")) {//多选题
-                                Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
-                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
-                                tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
-                                tvXuanXiang[finalI].setTag(1);// 添加标记
+                                Object tag = tvXuanXiang[finalI].getTag();
+                                if(tag == null){
+                                    Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(1);// 添加标记
+                                }else {
+                                    Drawable drawable = getResources().getDrawable(iv_no_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(null);// 添加空标记
+                                }
                             }
                         }
                     }
@@ -425,10 +485,18 @@ public class CtqhActivity extends AppCompatActivity {
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
                             } else if (ctjlList.get(position).ST.TX.equals("01")) {//多选题
-                                Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
-                                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
-                                tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
-                                tvXuanXiang[finalI].setTag(1);// 添加标记
+                                Object tag = tvXuanXiang[finalI].getTag();
+                                if(tag == null){
+                                    Drawable drawable = getResources().getDrawable(iv_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(1);// 添加标记
+                                }else{
+                                    Drawable drawable = getResources().getDrawable(iv_no_choice[finalI]);
+                                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//对图片进行压缩
+                                    tvXuanXiang[finalI].setCompoundDrawables(drawable, null, null, null);
+                                    tvXuanXiang[finalI].setTag(null);// 添加空标记
+                                }
                             }
                         }
                     }
