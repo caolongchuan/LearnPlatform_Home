@@ -31,6 +31,7 @@ import com.clc.learnplatform.entity.LSSJ_Entity;
 import com.clc.learnplatform.entity.MNKS_Entity;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.SPUtils;
+import com.clc.learnplatform.util.StringUtil;
 import com.clc.learnplatform.util.TimeUtil;
 import com.clc.learnplatform.util.ToastUtil;
 
@@ -600,7 +601,7 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                     Glide.with(MnksActivity.this).load(s1).into(ivXuanXiang[j]);
                 }else{
                     ivXuanXiang[j].setVisibility(View.GONE);
-                    tvXuanXiang[j].setText(split[j]);
+                    tvXuanXiang[j].setText(StringUtil.replaceBlank(split[j]));
                 }
             }
             for (int i = 0; i < 10; i++) {

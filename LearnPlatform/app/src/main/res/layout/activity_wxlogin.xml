@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.WXLoginActivity">
-    <TextView
-        android:id="@+id/tv_tv1"
-        android:visibility="gone"
-        android:text="微信用户信息"
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:background="@mipmap/bit_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/tv_login"
+        android:layout_marginBottom="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/btn_login"
-        android:visibility="gone"
+    <TextView
+        android:id="@+id/tv_login"
         android:text="@string/btn_login"
-        android:layout_width="wrap_content"
+        android:textSize="20dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="220dp"
+        android:textColor="@color/clc_white"
+        android:background="@drawable/shape_wx_login_bg"
+        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         tools:ignore="MissingConstraints" />
 
 </RelativeLayout>

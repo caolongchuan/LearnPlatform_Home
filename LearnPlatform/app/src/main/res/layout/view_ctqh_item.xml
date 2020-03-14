@@ -45,14 +45,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_mnks_item_type_bg"
                 android:text="判断"
-                android:textSize="20dp"
+                android:textSize="13dp"
                 android:textColor="@color/clc_white" />
 
             <TextView
                 android:id="@+id/tv_item_name"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 android:layout_below="@+id/tv_item_type"
                 android:textColor="@color/clc_black"
                 android:text="安全状况登记为4及的固定式压力容器可进行修理,提高安全状况等级,也可监控使用。()"
@@ -61,12 +61,11 @@
 
             <ImageView
                 android:id="@+id/iv_tp"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_item_name"
                 android:layout_marginTop="10dp"
-                android:src="@mipmap/banner01" />
+                android:src="@mipmap/icon_logo" />
 
             <LinearLayout
                 android:id="@+id/ll_xuanxiang"

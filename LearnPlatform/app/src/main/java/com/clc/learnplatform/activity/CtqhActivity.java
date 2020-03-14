@@ -27,7 +27,9 @@ import com.clc.learnplatform.entity.CTJL_Entity;
 import com.clc.learnplatform.entity.LSSJ_Entity;
 import com.clc.learnplatform.entity.ST_Entity;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.StringUtil;
 import com.clc.learnplatform.util.ToastUtil;
+import com.lidroid.xutils.BitmapUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
@@ -400,10 +402,18 @@ public class CtqhActivity extends AppCompatActivity {
 
                     tvXuanXiang[j].setText("");
                     ivXuanXiang[j].setVisibility(View.VISIBLE);
-                    Glide.with(CtqhActivity.this).load(s1).into(ivXuanXiang[j]);
+
+
+                    // 加载网络图片
+                    BitmapUtils bitmapUtils = new BitmapUtils(getApplicationContext());
+                    bitmapUtils.display(ivXuanXiang[j], s1);
+                    int width = ivXuanXiang[j].getWidth();
+                    int height = ivXuanXiang[j].getHeight();
+                    int iii = width*height;
+//                    Glide.with(CtqhActivity.this).load(s1).into(ivXuanXiang[j]);
                 }else{
                     ivXuanXiang[j].setVisibility(View.GONE);
-                    tvXuanXiang[j].setText(split[j]);
+                    tvXuanXiang[j].setText(StringUtil.replaceBlank(split[j]));
                 }
 
             }

@@ -244,7 +244,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="正在自动登陆 请稍等..."
+            android:text="正在登陆 请稍等..."
             android:textSize="20dp"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/pb_1"

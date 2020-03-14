@@ -26,6 +26,7 @@ import com.clc.learnplatform.R;
 import com.clc.learnplatform.entity.ST_Entity;
 import com.clc.learnplatform.entity.WZTK_Entity;
 import com.clc.learnplatform.global.Constants;
+import com.clc.learnplatform.util.StringUtil;
 import com.clc.learnplatform.util.ToastUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -372,7 +373,7 @@ public class WeiZuoTiActivity extends AppCompatActivity {
                     Glide.with(WeiZuoTiActivity.this).load(s1).into(ivXuanXiang[j]);
                 } else {
                     ivXuanXiang[j].setVisibility(View.GONE);
-                    tvXuanXiang[j].setText(split[j]);
+                    tvXuanXiang[j].setText(StringUtil.replaceBlank(split[j]));
                 }
             }
             for (int i = 0; i < 10; i++) {
