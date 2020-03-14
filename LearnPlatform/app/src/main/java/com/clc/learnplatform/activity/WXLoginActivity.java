@@ -84,6 +84,9 @@ public class WXLoginActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        //将授权值空 这样每次打卡app时会重新授权
+        SPUtils.put(getApplicationContext(), "shouquan","");
+        //将用户信息值空 用于每次打开app时进行访问微信后台获取用户信息
         SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
         editor.putString("responseInfo", "");
 
@@ -224,7 +227,7 @@ public class WXLoginActivity extends AppCompatActivity {
                     initTTS(ContextUtil.getInstance().getmContext());
 //                    openActivity(MainActivity.class);
                 } else {
-                    Toast.makeText(this, "权限被拒绝了", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "权限clc被拒绝了", Toast.LENGTH_SHORT).show();
 //                    finish();
                 }
                 break;
