@@ -1,6 +1,11 @@
 package com.clc.learnplatform.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -64,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private String mSmsYzm = null;
 
-    LocationUtil lu;
 
     private String province;//省份名称
     private String city;//城市名称
@@ -83,9 +87,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case 0x02://获取到城市
                     province = msg.getData().getString("province");
                     city = msg.getData().getString("city");
-                    String addrString = province + " " + city;
-                    mCityName.setText(addrString);
-                    Log.e(TAG, "handleMessage-addrString: " + msg.getData().getString("addrString"));
+                    if(province!=null){
+                        String addrString = province + " " + city;
+                        mCityName.setText(addrString);
+                        Log.e(TAG, "handleMessage-addrString: " + msg.getData().getString("addrString"));
+                    }else{
+                        AlertDialog dialog = new AlertDialog
+                                .Builder(LoginActivity.this).setTitle("")
+                                .setMessage("您的定位权限未打开，请先手动打开定位权限！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //ToDo: 你想做的事情
+                                        getAppDetailSettingIntent(getApplicationContext());
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .create();
+                        dialog.setCancelable(false);
+                        dialog.show();
+                    }
+
                     break;
                 case 0x03://该微信号未注册 请先注册！
                     ToastUtil.getInstance().shortShow("该微信号未注册 请先注册！");
@@ -109,6 +131,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mBtnGetXZM.setEnabled(true);//设置获取验证码按钮为可点击
                         mBtnGetXZM.setText("获取验证码");
                     }
+                    break;
+                case 0x06://
+                    String message1 = msg.getData().getString("message");
+                    ToastUtil.getInstance().shortShow(message1);
+                    mRlPb.setVisibility(View.GONE);
                     break;
                 default:
                     break;
@@ -135,6 +162,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //自动登录
         autoSignIn(openid);
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocationUtil lu = new LocationUtil(getApplicationContext(),mHandler);//用百度地图获取省份与城市
+        lu.startLocation();
     }
 
     //自动登录
@@ -196,7 +230,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initData() {
-        lu = new LocationUtil(this);//用百度地图获取省份与城市
+
         mWXname.setText(nickname);
     }
 
@@ -356,6 +390,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         autoSignIn(openid);
                     } else if (error.equals("true")) {//注册失败
                         String message = jsonObject.getString("message");
+                        Message msg = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("message",message);
+                        msg.what = 0x06;
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
                         Log.d(TAG, "onResponse: 注册失败--失败信息是：" + message);
                     }
                 } catch (JSONException e) {
@@ -383,4 +423,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    /**
+     * 跳转到权限设置界面
+     */
+    private void getAppDetailSettingIntent(Context context){
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(Build.VERSION.SDK_INT >= 9){
+            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.fromParts("package", getPackageName(), null));
+        } else if(Build.VERSION.SDK_INT <= 8){
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setClassName("com.android.settings","com.android.settings.InstalledAppDetails");
+            intent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+        }
+        startActivity(intent);
+    }
+
 }

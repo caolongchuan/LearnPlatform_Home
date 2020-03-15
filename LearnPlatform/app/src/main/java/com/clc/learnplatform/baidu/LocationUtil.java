@@ -2,6 +2,7 @@ package com.clc.learnplatform.baidu;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
@@ -13,32 +14,52 @@ import com.clc.learnplatform.activity.LoginActivity;
 
 public class LocationUtil {
     private static final String TAG = "LocationUtil------";
-    private LoginActivity mActivity;
+    private Context mContext;
+    private Handler mHandler;
     private LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
 
-    private String mAddrString = null;
+    private String mProvince = null;//省
+    private String mCity = null;//市
+    private String mAddrString = null;//省加市
+
     //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口
     //原有BDLocationListener接口暂时同步保留。具体介绍请参考后文中的说明
 
-    public LocationUtil(LoginActivity activity) {
-        mActivity = activity;
+    public LocationUtil(Context context,Handler handler) {
+        mContext = context;
+        mHandler = handler;
         init();
+    }
+
+    public void startLocation(){
         if (null != mLocationClient) {
             mLocationClient.start();
         }
     }
 
-    public String getAddrString() {
-        if (null != mAddrString) {
-            return mAddrString;
-        } else {
-            return null;
-        }
+    /**
+     * 返回省
+     * @return
+     */
+    public String getmProvince() {
+        return mProvince;
+    }
+
+    /**
+     * 返回市
+     * @return
+     */
+    public String getmCity(){
+        return mCity;
+    }
+
+    public String getmAddrString(){
+        return mAddrString;
     }
 
     private void init() {
-        mLocationClient = new LocationClient(mActivity.getApplicationContext());
+        mLocationClient = new LocationClient(mContext);
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
         //注册监听函数
@@ -66,7 +87,9 @@ public class LocationUtil {
             String addr = location.getAddrStr();    //获取详细地址信息
             String country = location.getCountry();    //获取国家
             String province = location.getProvince();    //获取省份
+            mProvince = province;
             String city = location.getCity();    //获取城市
+            mCity = city;
             String district = location.getDistrict();    //获取区县
             String street = location.getStreet();    //获取街道信息
             Log.i(TAG, "onReceiveLocation: province" + province);
@@ -78,7 +101,7 @@ public class LocationUtil {
             bundle.putString("province", province);
             bundle.putString("city", city);
             msg.setData(bundle);
-            mActivity.mHandler.sendMessage(msg);
+            mHandler.sendMessage(msg);
             mLocationClient.stop();
         }
     }

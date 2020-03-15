@@ -223,11 +223,12 @@ public class WXLoginActivity extends AppCompatActivity {
         switch (requestCode) {
             case 0x10:
                 if (grantResults.length > 0 && ifGrantResult(grantResults)) {
-                    Toast.makeText(this, "同意权限申请", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "同意权限申请", Toast.LENGTH_SHORT).show();
                     initTTS(ContextUtil.getInstance().getmContext());
 //                    openActivity(MainActivity.class);
                 } else {
-                    Toast.makeText(this, "权限clc被拒绝了", Toast.LENGTH_SHORT).show();
+                    initTTS(ContextUtil.getInstance().getmContext());
+//                    Toast.makeText(this, "权限clc被拒绝了", Toast.LENGTH_SHORT).show();
 //                    finish();
                 }
                 break;

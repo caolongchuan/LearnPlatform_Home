@@ -61,7 +61,7 @@ public class WeiZuoTiDialog extends Dialog {
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.width = display.getWidth() * 4 / 5;// 设置dialog宽度为屏幕的4/5
-        lp.height = display.getHeight() * 2 / 5;
+        lp.height = display.getHeight() * 5 / 10;
         getWindow().setAttributes(lp);
         setCanceledOnTouchOutside(true);//点击外部Dialog消失
 

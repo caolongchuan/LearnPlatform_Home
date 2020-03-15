@@ -1,27 +1,13 @@
 package com.clc.learnplatform;
 
-import android.Manifest;
 import android.app.Application;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.SystemClock;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
-import com.clc.learnplatform.activity.MainActivity;
 import com.clc.learnplatform.util.ContextUtil;
 import com.clc.learnplatform.util.ToastUtil;
 import com.tencent.smtt.sdk.QbSdk;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class MyApplication extends Application {
 
@@ -33,6 +19,8 @@ public class MyApplication extends Application {
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL);
+        //设置使用https请求
+        SDKInitializer.setHttpsEnable(true);
 
         ContextUtil.getInstance().init(getApplicationContext());//全局使用的Context
         ToastUtil.getInstance().init(getApplicationContext());//全局使用的Toast
@@ -54,7 +42,8 @@ public class MyApplication extends Application {
         };
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(),  cb);
-
     }
+
+
 
 }

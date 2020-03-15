@@ -37,32 +37,34 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="0dp">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:text="累计平均分数"
                 android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_pingjun_scroe"
-                android:text="1分"
+                android:text="100分"
                 android:textColor="@color/clc_white"
                 android:gravity="center_horizontal"
                 android:background="@drawable/shape_my_achieve_bg"
-                android:layout_alignParentRight="true"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:text="模拟考试次数"
                 android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_mnks_time"
@@ -70,18 +72,19 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/clc_white"
                 android:background="@drawable/shape_my_achieve_bg"
-                android:layout_alignParentRight="true"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:text="及格次数"
                 android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_jige_time"
@@ -89,18 +92,19 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/clc_white"
                 android:background="@drawable/shape_my_achieve_bg"
-                android:layout_alignParentRight="true"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:text="正确率"
                 android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_right_lv"
@@ -108,18 +112,19 @@
                 android:textColor="@color/clc_white"
                 android:gravity="center_horizontal"
                 android:background="@drawable/shape_my_achieve_bg"
-                android:layout_alignParentRight="true"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:text="限时内未答完次数"
                 android:textColor="@color/clc_black"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_wdw_time"
@@ -127,10 +132,10 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/clc_white"
                 android:background="@drawable/shape_my_achieve_bg"
-                android:layout_alignParentRight="true"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:text="模拟考试连续8次，成绩均可达到80分左右方可通过考试。"
