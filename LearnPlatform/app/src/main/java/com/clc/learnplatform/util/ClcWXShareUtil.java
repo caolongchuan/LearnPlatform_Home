@@ -3,6 +3,9 @@ package com.clc.learnplatform.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import com.clc.learnplatform.R;
 import com.clc.learnplatform.global.Constants;
@@ -33,7 +36,8 @@ public class ClcWXShareUtil {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title =title;
         msg.description =description;
-        Bitmap thumbBmp = BitmapFactory.decodeResource(context.getResources(), bmp_id);
+        Bitmap thumbBmp = getBitmap(context,bmp_id);
+//        Bitmap thumbBmp = BitmapFactory.decodeResource(context.getResources(), bmp_id);
         msg.thumbData =WXUtil.bmpToByteArray(thumbBmp, true);
 
         //构造一个Req
@@ -54,5 +58,26 @@ public class ClcWXShareUtil {
 
     private static String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    /**
+     * 解决高版本获取bitmap为空的问题
+     * @param context
+     * @param vectorDrawableId
+     * @return
+     */
+    private static Bitmap getBitmap(Context context,int vectorDrawableId) {
+        Bitmap bitmap=null;
+        if (Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP){
+            Drawable vectorDrawable = context.getDrawable(vectorDrawableId);
+            bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                    vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            vectorDrawable.draw(canvas);
+        }else {
+            bitmap = BitmapFactory.decodeResource(context.getResources(), vectorDrawableId);
+        }
+        return bitmap;
     }
 }

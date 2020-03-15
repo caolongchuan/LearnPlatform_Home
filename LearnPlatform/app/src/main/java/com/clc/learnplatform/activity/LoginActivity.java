@@ -87,27 +87,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case 0x02://获取到城市
                     province = msg.getData().getString("province");
                     city = msg.getData().getString("city");
-                    if(province!=null){
-                        String addrString = province + " " + city;
-                        mCityName.setText(addrString);
-                        Log.e(TAG, "handleMessage-addrString: " + msg.getData().getString("addrString"));
-                    }else{
-                        AlertDialog dialog = new AlertDialog
-                                .Builder(LoginActivity.this).setTitle("")
-                                .setMessage("您的定位权限未打开，请先手动打开定位权限！")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //ToDo: 你想做的事情
-                                        getAppDetailSettingIntent(getApplicationContext());
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .create();
-                        dialog.setCancelable(false);
-                        dialog.show();
-                    }
-
+                    String addrString = province + " " + city;
+                    mCityName.setText(addrString);
+                    Log.e(TAG, "handleMessage-addrString: " + msg.getData().getString("addrString"));
                     break;
                 case 0x03://该微信号未注册 请先注册！
                     ToastUtil.getInstance().shortShow("该微信号未注册 请先注册！");
@@ -424,21 +406,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /**
-     * 跳转到权限设置界面
-     */
-    private void getAppDetailSettingIntent(Context context){
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(Build.VERSION.SDK_INT >= 9){
-            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-            intent.setData(Uri.fromParts("package", getPackageName(), null));
-        } else if(Build.VERSION.SDK_INT <= 8){
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setClassName("com.android.settings","com.android.settings.InstalledAppDetails");
-            intent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
-        }
-        startActivity(intent);
-    }
 
 }

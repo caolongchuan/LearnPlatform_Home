@@ -6,12 +6,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.clc.learnplatform.R;
+import com.clc.learnplatform.baidu.LocationUtil;
 import com.clc.learnplatform.global.Constants;
 import com.clc.learnplatform.util.ContextUtil;
 import com.clc.learnplatform.util.SPUtils;
@@ -48,8 +54,29 @@ public class WXLoginActivity extends AppCompatActivity {
 
     private RelativeLayout rlMain;
     private TextView mWXLogin;//微信登陆按钮
+    private AlertDialog mDialog;//提示打开定位权限对话框
+
     //讯飞语音合成 权限
     private List<String> permissionList = null;
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            switch(msg.what){
+                case 0x02:
+                    String province = msg.getData().getString("province");
+                    if(province == null) {//定位不可用 没有获取到省份信息
+                        mWXLogin.setEnabled(false);//设置登陆按钮不可用
+                        mDialog.show();
+                    }else{//定位可用 获取到了省份信息
+                        mWXLogin.setEnabled(true);//设置登陆按钮可用
+                        mDialog.dismiss();
+                    }
+                    break;
+            }
+            return false;
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +110,8 @@ public class WXLoginActivity extends AppCompatActivity {
 
     }
 
+
+
     private void initData() {
         //将授权值空 这样每次打卡app时会重新授权
         SPUtils.put(getApplicationContext(), "shouquan","");
@@ -103,6 +132,20 @@ public class WXLoginActivity extends AppCompatActivity {
     private void initView() {
         rlMain =  findViewById(R.id.rl_main);
         mWXLogin = findViewById(R.id.tv_login);
+        mWXLogin.setEnabled(false);//登陆按钮初始化为不可用 只有当定位权限打开以后才可用
+        mDialog = new AlertDialog
+                .Builder(WXLoginActivity.this).setTitle("")
+                .setMessage("您的定位权限未打开，请先手动打开定位权限！")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //ToDo: 你想做的事情
+                        getAppDetailSettingIntent(getApplicationContext());
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create();
+        mDialog.setCancelable(false);
     }
 
     //初始化讯飞动态申请权限
@@ -114,6 +157,8 @@ public class WXLoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        LocationUtil lu = new LocationUtil(getApplicationContext(),mHandler);//用百度地图获取省份与城市
+        lu.startLocation();
 
         //获取授权状态
         String shouquan = (String) SPUtils.get(getApplicationContext(), "shouquan", "true");
@@ -268,4 +313,26 @@ public class WXLoginActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * 跳转到权限设置界面
+     */
+    private void getAppDetailSettingIntent(Context context){
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(Build.VERSION.SDK_INT >= 9){
+            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.fromParts("package", getPackageName(), null));
+        } else if(Build.VERSION.SDK_INT <= 8){
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setClassName("com.android.settings","com.android.settings.InstalledAppDetails");
+            intent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDialog.dismiss();
+    }
 }
