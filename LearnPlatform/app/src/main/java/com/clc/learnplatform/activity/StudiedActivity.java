@@ -23,7 +23,9 @@ import com.clc.learnplatform.dialog.WeiZuoTiDialog;
 import com.clc.learnplatform.entity.KHZL_Entity;
 import com.clc.learnplatform.entity.KSXM_Entity;
 import com.clc.learnplatform.entity.LXK_Entity;
+import com.clc.learnplatform.entity.MNKS_Entity;
 import com.clc.learnplatform.entity.SJCZ_Entity;
+import com.clc.learnplatform.entity.TKXX_Entity;
 import com.clc.learnplatform.entity.UserInfoEntity;
 import com.clc.learnplatform.entity.WDCJ_Entity;
 import com.clc.learnplatform.entity.XMFL_Entity;
@@ -91,6 +93,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     private UserInfoEntity mUserInfoEntiry;//用户类
     private WDCJ_Entity mWdcj;//我的成绩
     private KHZL_Entity mKhzl;//证书种类
+    private MNKS_Entity mMnks;//模拟考试
 
     private int mLXL;//练题率
 
@@ -102,7 +105,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
 
     private int MNCSBZ;//规定模拟考试次数
     private int ZQLBZ;//规定正确率
-    private int LXLBZ;//规定练体率
+    private int LXLBZ;//规定练题率
 
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -404,7 +407,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             JSONArray fllist = jsonObject.getJSONArray("fllist");//获取项目分类
             mXmflList = new ArrayList<>();
             for (int i = 0; i < fllist.length(); i++) {
-                JSONObject fl_Object = fllist.getJSONObject(i);
+                JSONObject fl_Object = fllist.getJSONObject(i);//项目分类list
                 XMFL_Entity xe = new XMFL_Entity();
                 xe.ID = fl_Object.getInt("ID");
                 xe.XMID = fl_Object.getString("XMID");
@@ -416,6 +419,28 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 xe.XSFZ = fl_Object.getInt("XSFZ");
                 xe.ZZDTS = fl_Object.getInt("ZZDTS");
                 xe.ZZDXH = fl_Object.getInt("ZZDXH");
+
+                String s_tkxx = fl_Object.getString("TKXX");
+                if (!s_tkxx.equals("null")) {
+                    JSONObject tkxx = fl_Object.getJSONObject("TKXX");
+                    xe.TKXX = new TKXX_Entity();
+                    xe.TKXX.ID = tkxx.getString("ID");
+                    xe.TKXX.XMID = tkxx.getString("XMID");
+                    xe.TKXX.YHID = tkxx.getString("YHID");
+                    xe.TKXX.FLID = tkxx.getString("FLID");
+                    xe.TKXX.KSSJ = tkxx.getString("KSSJ");
+                    xe.TKXX.JSSJ = tkxx.getString("JSSJ");
+                    xe.TKXX.DQYS = tkxx.getInt("DQYS");
+                    xe.TKXX.LX = tkxx.getString("LX");
+                    xe.TKXX.ZT = tkxx.getString("ZT");
+                    SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" );
+                    String s = xe.TKXX.KSSJ.replaceAll("-", " ");
+                    String s1 = s.replaceAll(":", " ");
+                    Date date=sdf.parse( s1.replaceAll(" +","") );
+                    long time = date.getTime();//有效期的时间
+                    String key = xe.XMID + xe.FLNC;
+                    SPUtils.put(this, key, time);
+                }
                 mXmflList.add(xe);
             }
             JSONObject ksxm_obj = jsonObject.getJSONObject("ksxm");
@@ -441,6 +466,28 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 se.XH = sc_Object.getInt("XH");
                 se.XSFZ = sc_Object.getInt("XSFZ");
                 se.ZT = sc_Object.getString("ZT");
+
+                String s_tkxx = sc_Object.getString("TKXX");
+                if (!s_tkxx.equals("null")) {
+                    JSONObject tkxx = sc_Object.getJSONObject("TKXX");
+                    se.TKXX = new TKXX_Entity();
+                    se.TKXX.ID = tkxx.getString("ID");
+                    se.TKXX.XMID = tkxx.getString("XMID");
+                    se.TKXX.YHID = tkxx.getString("YHID");
+                    se.TKXX.FLID = tkxx.getString("FLID");
+                    se.TKXX.KSSJ = tkxx.getString("KSSJ");
+                    se.TKXX.JSSJ = tkxx.getString("JSSJ");
+                    se.TKXX.DQYS = tkxx.getInt("DQYS");
+                    se.TKXX.LX = tkxx.getString("LX");
+                    se.TKXX.ZT = tkxx.getString("ZT");
+                    SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" );
+                    String s = se.TKXX.KSSJ.replaceAll("-", " ");
+                    String s1 = s.replaceAll(":", " ");
+                    Date date=sdf.parse( s1.replaceAll(" +","") );
+                    long time = date.getTime();//有效期的时间
+                    String key = se.ID;
+                    SPUtils.put(this, key, time);
+                }
                 mSjczList.add(se);
             }
             String syzh = jsonObject.getString("syzh");//解析用户信息
@@ -475,6 +522,34 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             mWdcj.ZTZS = wdcj_obj.getInt("ZTZS");
             mWdcj.ZQZS = wdcj_obj.getInt("ZQZS");
             mWdcj.GXSJ = wdcj_obj.getString("GXSJ");
+            //获取模拟考试
+            String mnks_s = jsonObject.getString("mnks");
+            if(!mnks_s.equals("null")){
+                JSONObject mnks = jsonObject.getJSONObject("mnks");
+                mMnks = new MNKS_Entity();
+                mMnks.ID = mnks.getString("ID");
+                mMnks.XMID = mnks.getString("XMID");
+                mMnks.YHID = mnks.getString("YHID");
+                mMnks.KSSJ = mnks.getString("KSSJ");
+                mMnks.JSSJ = mnks.getString("JSSJ");
+                mMnks.FS = mnks.getInt("FS");
+                mMnks.SFJL = mnks.getString("SFJL");
+                mMnks.DTSL = mnks.getInt("DTSL");
+                mMnks.ZTS = mnks.getInt("ZTS");
+                mMnks.ZQSL = mnks.getInt("ZQSL");
+//                mMnks.GXSJ = mnks.getString("GXSJ");
+
+
+                SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" );
+                String s = mMnks.KSSJ.replaceAll("-", " ");
+                String s1 = s.replaceAll(":", " ");
+                Date date=sdf.parse( s1.replaceAll(" +","") );
+                long time = date.getTime();//有效期的时间
+                String key = mMnks.XMID;
+                SPUtils.put(this, key, time);
+            }
+
+
             this.mLXL = wdcj_obj.getInt("LXL");//练题率
             JSONObject zl_obj = jsonObject.getJSONObject("zl");//获取证书种类
             mKhzl = new KHZL_Entity();
@@ -491,6 +566,8 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             //解析出规定练体率
             LXLBZ = jsonObject.getInt("lxlbz");
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

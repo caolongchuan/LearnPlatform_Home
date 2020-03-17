@@ -54,6 +54,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private TextView tvTiYanKa;
     private RelativeLayout rlStudyCard;//学习卡
     private RelativeLayout rlYaoQingMa;//我的邀请码
+    private TextView tvYqm;//邀请码
     private RelativeLayout rlVIP;//申请VIP
     private RelativeLayout rlZhengShuChaXun;//证书查询
     private RelativeLayout rlWenTiFanKui;//问题反馈
@@ -118,6 +119,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tvPhoneNum.setText(mUserInfoEntiry.SJH);//显示手机号码
         tvID.setText("ID:" + mUserInfoEntiry.ID);//显示用户id
         tvCoinNum.setText(mUserInfoEntiry.ZHYE +"个");
+        tvYqm.setText(mUserInfoEntiry.ID);
 
         if(mUserInfoEntiry.KH.equals("null")) {//如果没有绑定体验卡
             tvTiYanKa.setText("体验卡");
@@ -146,6 +148,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         rlStudyCard.setOnClickListener(this);
         rlYaoQingMa = mView.findViewById(R.id.rl_yaoqingma);
         rlYaoQingMa.setOnClickListener(this);
+        tvYqm = mView.findViewById(R.id.tv_yqm);
         rlVIP = mView.findViewById(R.id.rl_vip);
         rlVIP.setOnClickListener(this);
         rlZhengShuChaXun = mView.findViewById(R.id.rl_zhengshu_chaxun);
@@ -203,11 +206,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent3);
                 break;
             case R.id.rl_yaoqingma://我的邀请码
-                Intent intent4 = new Intent();
-                intent4.putExtra("head",mUserInfoEntiry.HEADIMGURL);
-                intent4.putExtra("id",mUserInfoEntiry.ID);
-                intent4.setClass(this.getActivity(), YaoQingMaActivity.class);
-                startActivity(intent4);
+//                Intent intent4 = new Intent();
+//                intent4.putExtra("head",mUserInfoEntiry.HEADIMGURL);
+//                intent4.putExtra("id",mUserInfoEntiry.ID);
+//                intent4.setClass(this.getActivity(), YaoQingMaActivity.class);
+//                startActivity(intent4);
                 break;
             case R.id.rl_vip://申请VIP
                 Intent intent5 = new Intent();

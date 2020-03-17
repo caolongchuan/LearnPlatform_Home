@@ -45,7 +45,7 @@
                 android:layout_marginTop="60dp"
                 android:background="@drawable/shape_mnks_item_type_bg"
                 android:text="判断"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textColor="@color/clc_white" />
 
             <TextView
@@ -57,7 +57,7 @@
                 android:layout_marginTop="5dp"
                 android:text="安全状况登记为4及的固定式压力容器可进行修理,提高安全状况等级,也可监控使用。()"
                 android:textColor="@color/clc_black"
-                android:textSize="13dp" />
+                android:textSize="17dp" />
 
             <ImageView
                 android:id="@+id/iv_tp"
@@ -93,7 +93,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_1"
@@ -121,7 +121,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_2"
@@ -149,7 +149,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_3"
@@ -177,7 +177,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_4"
@@ -205,7 +205,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_5"
@@ -233,7 +233,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_6"
@@ -261,7 +261,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_7"
@@ -289,7 +289,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_8"
@@ -317,7 +317,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_9"
@@ -345,7 +345,7 @@
                         android:gravity="center_vertical"
                         android:text="无色"
                         android:textColor="@color/clc_black"
-                        android:textSize="18dp" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/iv_10"

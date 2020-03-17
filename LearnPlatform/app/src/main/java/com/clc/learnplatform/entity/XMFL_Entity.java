@@ -15,4 +15,6 @@ public class XMFL_Entity {
     public int ZZDTS;//知识点条数
     public int ZZDXH;//知识点消耗
 
+    public TKXX_Entity TKXX;//不为null即存在已支付并未到期的查看记录
+
 }

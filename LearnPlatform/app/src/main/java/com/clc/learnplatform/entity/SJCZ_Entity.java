@@ -11,4 +11,6 @@ public class SJCZ_Entity {
     public String NR;//内容
     public int XSFZ;//限时分钟
     public String ZT;//00可用 01禁用
+
+    public TKXX_Entity TKXX;//不为null即存在已支付并未到期的查看记录
 }

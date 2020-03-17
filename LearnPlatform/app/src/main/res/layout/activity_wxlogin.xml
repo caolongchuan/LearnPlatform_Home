@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_main"
+    android:background="@mipmap/wx_login_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.WXLoginActivity">
@@ -11,7 +12,7 @@
         android:background="@mipmap/bit_logo"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/tv_login"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="120dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -24,7 +25,7 @@
         android:layout_marginBottom="220dp"
         android:textColor="@color/clc_white"
         android:background="@drawable/shape_wx_login_bg"
-        android:padding="10dp"
+        android:padding="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"

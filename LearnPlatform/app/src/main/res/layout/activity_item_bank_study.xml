@@ -166,6 +166,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:padding="10dp">
 
@@ -174,6 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_page_turning_bg"
+            android:textSize="20dp"
             android:text="上一页" />
 
         <TextView
@@ -201,6 +203,7 @@
             android:id="@+id/tv_next_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_page_turning_bg"
             android:text="下一页" />

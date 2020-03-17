@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -80,6 +81,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     private TextView tvCityName;//选择城市 显示城市名称
     private TextView tvZhanKai;//展开与收起按钮
+    private LinearLayout llAddr;
+    private TextView tvTiShi;//无数据提示
     private ListView lvAddr;
     private MyAdapter mAdapter;
 
@@ -87,7 +90,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private double myLatitude;//我的位置
     private double myLongitude;//我的位置
 
-    private ArrayList<KSJG_Entity> mKsjgList;
+    private ArrayList<KSJG_Entity> mKsjgList; //考试机构list
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -100,6 +103,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 case 0x02:
                     mAdapter.notifyDataSetChanged();
                     mardAddr();
+                    if(mKsjgList.size()>0){//有地图数据
+                        tvTiShi.setVisibility(View.GONE);
+                        lvAddr.setVisibility(View.VISIBLE);
+                    }else{//没有地图数据
+                        tvTiShi.setVisibility(View.VISIBLE);
+                        lvAddr.setVisibility(View.GONE);
+                    }
                     break;
             }
             return false;
@@ -268,8 +278,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         lvAddr = mView.findViewById(R.id.lv_addr);
         mAdapter = new MyAdapter();
         lvAddr.setAdapter(mAdapter);
-
-
+        tvTiShi = mView.findViewById(R.id.tv_tishi);
+        llAddr = mView.findViewById(R.id.ll_addr);
     }
 
     private void initData() {
@@ -327,11 +337,11 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 pvOptions.show();
                 break;
             case R.id.tv_zhankai://展开与收起
-                if (lvAddr.getVisibility() == View.GONE) {
-                    lvAddr.setVisibility(View.VISIBLE);
+                if (llAddr.getVisibility() == View.GONE) {
+                    llAddr.setVisibility(View.VISIBLE);
                     tvZhanKai.setText("收起");
                 } else {
-                    lvAddr.setVisibility(View.GONE);
+                    llAddr.setVisibility(View.GONE);
                     tvZhanKai.setText("展开");
                 }
                 break;

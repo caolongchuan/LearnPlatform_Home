@@ -60,6 +60,7 @@ public class WenTiFanKuiActivity extends AppCompatActivity implements View.OnCli
                 case 0x01:
 //                    alertDialog.dismiss();
                     ToastUtil.getInstance().shortShow(msg.getData().getString("message"));
+                    finish();
                     break;
             }
             return false;

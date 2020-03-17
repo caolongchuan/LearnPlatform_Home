@@ -52,6 +52,8 @@ public class WXLoginActivity extends AppCompatActivity {
     private static final String TAG = "WXLoginActivity";
     private IWXAPI wxapi;
 
+    private int getAddrTime;//获取地址的次数
+
     private RelativeLayout rlMain;
     private TextView mWXLogin;//微信登陆按钮
     private AlertDialog mDialog;//提示打开定位权限对话框
@@ -64,10 +66,16 @@ public class WXLoginActivity extends AppCompatActivity {
         public boolean handleMessage(@NonNull Message msg) {
             switch(msg.what){
                 case 0x02:
+                    getAddrTime++;
                     String province = msg.getData().getString("province");
                     if(province == null) {//定位不可用 没有获取到省份信息
-                        mWXLogin.setEnabled(false);//设置登陆按钮不可用
-                        mDialog.show();
+                        if(getAddrTime<5){
+                            LocationUtil lu = new LocationUtil(getApplicationContext(),mHandler);//用百度地图获取省份与城市
+                            lu.startLocation();
+                        }else{
+                            mWXLogin.setEnabled(false);//设置登陆按钮不可用
+                            mDialog.show();
+                        }
                     }else{//定位可用 获取到了省份信息
                         mWXLogin.setEnabled(true);//设置登陆按钮可用
                         mDialog.dismiss();

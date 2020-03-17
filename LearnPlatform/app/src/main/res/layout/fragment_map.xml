@@ -48,11 +48,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
-        <ListView
-            android:id="@+id/lv_addr"
+
+        <LinearLayout
+            android:id="@+id/ll_addr"
+            android:orientation="vertical"
             android:background="@color/clc_white"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_tishi"
+                android:text="暂无相关信息"
+                android:textSize="20dp"
+                android:background="@color/clc_gran1"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ListView
+                android:visibility="gone"
+                android:id="@+id/lv_addr"
+                android:background="@color/clc_white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>

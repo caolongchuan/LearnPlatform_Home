@@ -1,7 +1,7 @@
 package com.clc.learnplatform.entity;
 
 /**
- * 实际操作list（SJCZ）(实体包含附加属性TKXX，
+ * 实际操作list（SJCZ）与项目分类list(XMFL)(实体包含附加属性TKXX，
  * 不为null即存在已支付并未到期的查看记录)
  */
 public class TKXX_Entity {

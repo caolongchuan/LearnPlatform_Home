@@ -94,6 +94,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 case 0x01:
                     Bundle data = msg.getData();
                     ToastUtil.getInstance().shortShow(data.getString("msg"));
+                    finish();
                     break;
             }
             return false;

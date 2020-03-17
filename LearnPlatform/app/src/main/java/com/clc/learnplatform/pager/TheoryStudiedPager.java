@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -72,6 +73,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
     private Activity mActivity;
     private View mView;
 
+    private RelativeLayout rlTkxx;
     private GridView mKnowledge;
     private GridViewAdapter mAdapter;
 
@@ -137,6 +139,7 @@ public class TheoryStudiedPager implements View.OnClickListener {
     }
 
     private void initView() {
+        rlTkxx= mView.findViewById(R.id.rl_tkxx);
         mKnowledge = mView.findViewById(R.id.grid_knowledge);
         mMnks = mView.findViewById(R.id.rl_mnks);
         mMnks.setOnClickListener(this);
@@ -197,6 +200,25 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 }
             }
         }).start();
+
+
+
+        mKnowledge.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                Log.e(TAG, "onCreate: "+mKnowledge.getWidth()+","+mKnowledge.getHeight());
+                Log.e(TAG, "onCreate: "+mKnowledge.getMeasuredWidth()+","+mKnowledge.getMeasuredHeight());
+                int height = mKnowledge.getHeight();
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rlTkxx.getLayoutParams();
+                params.height = height;
+                rlTkxx.setLayoutParams(params);
+
+                //移除监听
+                mKnowledge.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
+
     }
 
     //更新界面
