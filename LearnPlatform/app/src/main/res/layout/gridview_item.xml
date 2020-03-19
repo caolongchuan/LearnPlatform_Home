@@ -11,7 +11,7 @@
         android:id="@+id/tv_item_name"
         android:textColor="@color/clc_black"
         android:textStyle="bold"
-        android:textSize="15dp"
+        android:textSize="18dp"
         android:text="基础知识"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_coin"
-            android:textSize="12dp"
+            android:textSize="15dp"
             android:textColor="@color/clc_black"
             android:text="消耗金币"
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/tv_coin_num"
             android:text="2"
-            android:textSize="12dp"
+            android:textSize="15dp"
             android:layout_marginLeft="4dp"
             android:textColor="@color/clc_black"
             android:layout_width="wrap_content"

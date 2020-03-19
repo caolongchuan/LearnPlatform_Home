@@ -69,7 +69,7 @@ public class WXLoginActivity extends AppCompatActivity {
                     getAddrTime++;
                     String province = msg.getData().getString("province");
                     if(province == null) {//定位不可用 没有获取到省份信息
-                        if(getAddrTime<5){
+                        if(getAddrTime<10){
                             LocationUtil lu = new LocationUtil(getApplicationContext(),mHandler);//用百度地图获取省份与城市
                             lu.startLocation();
                         }else{
@@ -153,7 +153,7 @@ public class WXLoginActivity extends AppCompatActivity {
                     }
                 })
                 .create();
-        mDialog.setCancelable(false);
+//        mDialog.setCancelable(false);
     }
 
     //初始化讯飞动态申请权限

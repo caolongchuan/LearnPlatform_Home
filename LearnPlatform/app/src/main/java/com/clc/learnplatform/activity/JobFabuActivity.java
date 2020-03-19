@@ -87,6 +87,9 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
     private String QzShengName = "";
     private String QzShiName = "";
 
+    private String ZpZwlb = "";
+    private String QzZwlb = "";
+
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
@@ -193,7 +196,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                             ||zwms.isEmpty()||ZpShengName.isEmpty()||ZpShiName.isEmpty()){
                         ToastUtil.getInstance().shortShow("请保证必填项都已填写");
                     }else{
-                        TiJiaoZpxx(bt,ZpShengName,ZpShiName,sjh,zprs,zwlb,zwms);
+                        TiJiaoZpxx(bt,ZpShengName,ZpShiName,sjh,zprs,ZpZwlb,zwms);
                     }
 
                 }else{//提交求职信息
@@ -206,7 +209,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                             ||qzyx.isEmpty()||QzShengName.isEmpty()||QzShiName.isEmpty()){
                         ToastUtil.getInstance().shortShow("请保证必填项都已填写");
                     }else{
-                        TiJiaoQzxx(bt,QzShengName,QzShiName,sjh,jlms,zwlb,qzyx);
+                        TiJiaoQzxx(bt,QzShengName,QzShiName,sjh,jlms,QzZwlb,qzyx);
                     }
                 }
                 break;
@@ -246,6 +249,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         //返回的分别是三个级别的选中位置
                         mZpZwlb.setText(options1Items11.get(options1));
+                        ZpZwlb = mZylbEntity.get(options1).id;
                     }
                 }).build();
                 pvOptions11.setTitleText("职位类别");
@@ -289,7 +293,8 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         //返回的分别是三个级别的选中位置
                         mQzZwlb.setText(options1Items12.get(options1));
-                    }
+                        QzZwlb = mZylbEntity.get(options1).id;
+                        }
                 }).build();
                 pvOptions12.setTitleText("职位类别");
                 pvOptions12.setPicker(options1Items12);
@@ -310,7 +315,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                 .append("&ZWLB=").append(zwlb).append("&QZYX=").append(qzyx);
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
-                .url(Constants.ZP_FIND_URL)//蓝领求职首页
+                .url(Constants.ZP_FBQZ_URL)
                 .post(body)//默认就是GET请求，可以不写
                 .build();
         Call call = okHttpClient.newCall(request);
@@ -334,9 +339,11 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                     if (error.equals("true")) {//失败
                         String message = jsonObject.getString("message");
                         Log.i(TAG, "JobFragment: message===" + message);
-                        bundle.putString("msg","提交失败");
+                        bundle.putString("msg",message);
                     } else if (error.equals("false")) {//成功
-                        bundle.putString("msg","提交成功");
+                        String message = jsonObject.getString("message");
+                        Log.i(TAG, "JobFragment: message===" + message);
+                        bundle.putString("msg",message);
                     }
                     msg.setData(bundle);
                     mHandler.sendMessage(msg);//通知UI线程更新界面
@@ -359,7 +366,7 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
             .append("&ZWLB=").append(zwlb).append("&ZWMS=").append(zwms);
         RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
         final Request request = new Request.Builder()
-                .url(Constants.ZP_FIND_URL)//蓝领求职首页
+                .url(Constants.ZP_FBZP_URL)//
                 .post(body)//默认就是GET请求，可以不写
                 .build();
         Call call = okHttpClient.newCall(request);
@@ -383,9 +390,11 @@ public class JobFabuActivity extends AppCompatActivity implements View.OnClickLi
                     if (error.equals("true")) {//失败
                         String message = jsonObject.getString("message");
                         Log.i(TAG, "JobFragment: message===" + message);
-                        bundle.putString("msg","提交失败");
+                        bundle.putString("msg",message);
                     } else if (error.equals("false")) {//成功
-                        bundle.putString("msg","提交成功");
+                        String message = jsonObject.getString("message");
+                        Log.i(TAG, "JobFragment: message===" + message);
+                        bundle.putString("msg",message);
                     }
                     msg.setData(bundle);
                     mHandler.sendMessage(msg);//通知UI线程更新界面

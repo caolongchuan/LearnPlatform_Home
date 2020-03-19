@@ -53,6 +53,10 @@ public class Constants {
     public static final String KSJG_URL = BASE_URL + "yh_ksjg";
     //蓝领求职首页
     public static final String ZP_FIND_URL = BASE_URL + "zp_find";
+    //发布招聘信息保存
+    public static final String ZP_FBZP_URL = BASE_URL + "zp_fbzp";
+    //发布求职信息保存
+    public static final String ZP_FBQZ_URL = BASE_URL + "zp_fbqz";
     //实际操作查看
     public static final String XX_SJCZ_URL = BASE_URL + "xx_sjcz";
     //绑定学习卡页切换证书种类，查询此种类下的项目

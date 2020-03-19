@@ -111,10 +111,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="7dp"
                         android:text="最近学习"
                         android:textColor="@color/clc_black"
-                        android:textSize="20dp"
+                        android:textSize="22dp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -126,7 +126,7 @@
                         android:drawableRight="@mipmap/icon_right_arrow"
                         android:text="查看全部"
                         android:textColor="@color/clc_gray"
-                        android:textSize="15dp" />
+                        android:textSize="17dp" />
 
                     <View
                         android:id="@+id/line1"
@@ -148,7 +148,7 @@
                         android:maxEms="6"
                         android:singleLine="true"
                         android:ellipsize="end"
-                        android:textSize="15dp" />
+                        android:textSize="17dp" />
 
                     <TextView
                         android:id="@+id/tv_recently_item_type"
@@ -159,7 +159,7 @@
                         android:layout_margin="10dp"
                         android:text="G3"
                         android:textColor="@color/clc_black"
-                        android:textSize="15dp" />
+                        android:textSize="17dp" />
 
                     <TextView
                         android:id="@+id/tv_goto_studied"
@@ -171,7 +171,7 @@
                         android:background="@drawable/shape_recently_goto_studied"
                         android:text="继续学习"
                         android:textColor="@color/clc_black"
-                        android:textSize="10dp" />
+                        android:textSize="12dp" />
 
                 </RelativeLayout>
 
