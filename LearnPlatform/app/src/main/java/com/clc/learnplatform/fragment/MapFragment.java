@@ -234,31 +234,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         initView();
         getKsjgListFromService(null);
         initData();
-//        mTest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //定义起终点坐标（天安门和百度大厦）
-//                LatLng startPoint = new LatLng(39.915291, 116.403857);
-//                LatLng endPoint = new LatLng(40.056858, 116.308194);
-//
-//                //构建RouteParaOption参数以及策略
-//                //也可以通过startName和endName来构造
-//                RouteParaOption paraOption = new RouteParaOption()
-//                        .startPoint(startPoint)
-//                        .endPoint(endPoint)
-//                        .busStrategyType(RouteParaOption.EBusStrategyType.bus_recommend_way);
-//                //调起百度地图
-//                try {
-//                    BaiduMapRoutePlan.openBaiduMapTransitRoute(paraOption, mActivty);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                //调起结束时及时调用finish方法以释放相关资源
-//                BaiduMapRoutePlan.finish(mActivty);
-//            }
-//        });
 
-        //设置并显示中心点
+        tvCityName.setText(SHI);
         double[] coordinate = CityLocationUtil.getCoordinate(getContext(), SSS, SHI);
         if(coordinate!=null){
             setlatilong2Center(mBaiduMap,coordinate[1],coordinate[0],true);

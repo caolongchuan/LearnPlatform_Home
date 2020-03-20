@@ -99,6 +99,15 @@ public class TheoryStudiedPager implements View.OnClickListener {
     private RoundProgressBar rpbProgress;
     private int mProgress;//进度
 
+    private int MNCSBZ;//规定模拟考试次数
+    private int ZQLBZ;//规定正确率
+    private int LXLBZ;//规定练题率
+
+    private int mMnksTime;//模拟考试次数
+    private int mLtl;//练题率
+    private int mRightLv;//正确率
+
+
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
@@ -219,6 +228,16 @@ public class TheoryStudiedPager implements View.OnClickListener {
             }
         });
 
+    }
+
+
+    public void setData(int a, int b,int c,int d,int e,int f){
+        MNCSBZ = a;
+        ZQLBZ = b;
+        LXLBZ = c;
+        mMnksTime = d;
+        mLtl = e;
+        mRightLv = f;
     }
 
     //更新界面
@@ -365,8 +384,16 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 myDialog1new.show();
                 break;
             case R.id.iv_button_wztlx://未做题练习
-                alertDialog.show();
-                doWeiZuoTiLianXi();
+                //先判断是否合格了
+                if(MNCSBZ<=mMnksTime&&ZQLBZ<=mRightLv&&LXLBZ<=mLtl){
+                    alertDialog.show();
+                    doWeiZuoTiLianXi();
+                }else{
+                    Message msg = new Message();
+                    msg.what = 0x03;
+                    ((StudiedActivity) mActivity).mHandler.sendMessage(msg);
+                }
+
                 break;
             case R.id.iv_button_sda://搜答案
                 if(isBindingCard){//已绑定学习卡
@@ -496,6 +523,24 @@ public class TheoryStudiedPager implements View.OnClickListener {
                 }
             }
         }).start();
+    }
+
+    public void setMnks() {
+        if (mMnksCoin != null && mIvCoin != null) {
+            //设置模拟按钮状态
+            //判断是否已经购买过 并且没有过期
+            long now_time = new Date().getTime();
+            long sur_time1 = (long) SPUtils.get(mActivity, xmid, 0L);
+            long l = (now_time - sur_time1) / 1000;
+            int ll = (int) (mKhzlEntity.KSFZ * 60 - l);
+            if (ll > 0) {
+                mMnksCoin.setText("继续学习");
+                mIvCoin.setVisibility(View.GONE);
+            } else {
+                mMnksCoin.setText("消耗" + mKSXM.MNXH);
+                mIvCoin.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
 

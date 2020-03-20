@@ -417,6 +417,8 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                         intent.putExtra("end_time",mMnksEntity.JSSJ);
                         intent.setClass(MnksActivity.this,SeeFractionActivity.class);
                         startActivity(intent);//进入查看分数页面
+                        //交卷以后改变为该项目没有模拟考试 再次开始模拟考试需再次缴费
+                        SPUtils.put(getApplicationContext(),mMnksEntity.XMID,0L);
                         finish();
                     }
                 } catch (Exception e) {

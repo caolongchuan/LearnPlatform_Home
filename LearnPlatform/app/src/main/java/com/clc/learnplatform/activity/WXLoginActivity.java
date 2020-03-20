@@ -73,7 +73,7 @@ public class WXLoginActivity extends AppCompatActivity {
                             LocationUtil lu = new LocationUtil(getApplicationContext(),mHandler);//用百度地图获取省份与城市
                             lu.startLocation();
                         }else{
-                            mWXLogin.setEnabled(false);//设置登陆按钮不可用
+//                            mWXLogin.setEnabled(false);//设置登陆按钮不可用
                             mDialog.show();
                         }
                     }else{//定位可用 获取到了省份信息
@@ -140,7 +140,7 @@ public class WXLoginActivity extends AppCompatActivity {
     private void initView() {
         rlMain =  findViewById(R.id.rl_main);
         mWXLogin = findViewById(R.id.tv_login);
-        mWXLogin.setEnabled(false);//登陆按钮初始化为不可用 只有当定位权限打开以后才可用
+//        mWXLogin.setEnabled(false);//登陆按钮初始化为不可用 只有当定位权限打开以后才可用
         mDialog = new AlertDialog
                 .Builder(WXLoginActivity.this).setTitle("")
                 .setMessage("您的定位权限未打开，请先手动打开定位权限！")

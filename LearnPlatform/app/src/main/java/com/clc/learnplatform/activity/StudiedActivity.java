@@ -107,6 +107,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     private int ZQLBZ;//规定正确率
     private int LXLBZ;//规定练题率
 
+    private int mMnksTime;//模拟考试次数
+    private int mLtl;//练题率
+    private int mRightLv;//正确率
+
+
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
@@ -180,6 +185,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         mItemSign.setText(mKSXM.DM);//学习的项目的代号
         initData();
         tsp.initData(mXmflList);//初始化理论知识数据
+        tsp.setData(MNCSBZ,ZQLBZ,LXLBZ,mMnksTime,mLtl,mRightLv);
         tsp.startProgress();//开始进度条动画
         aop.initData(mSjczList);//初始化实际操作数据
     }
@@ -208,6 +214,10 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         if(tsp!=null){
             tsp.updataUI();
         }
+        if(tsp!=null){
+            tsp.setMnks();
+        }
+
     }
 
     private void initView() {
@@ -539,14 +549,15 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 mMnks.ZQSL = mnks.getInt("ZQSL");
 //                mMnks.GXSJ = mnks.getString("GXSJ");
 
-
                 SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" );
                 String s = mMnks.KSSJ.replaceAll("-", " ");
                 String s1 = s.replaceAll(":", " ");
                 Date date=sdf.parse( s1.replaceAll(" +","") );
-                long time = date.getTime();//有效期的时间
+                long time = date.getTime();//考试的时间
                 String key = mMnks.XMID;
                 SPUtils.put(this, key, time);
+            }else{
+                SPUtils.put(this,xmid,0L);
             }
 
 
@@ -565,6 +576,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             ZQLBZ = jsonObject.getInt("zqlbz");
             //解析出规定练体率
             LXLBZ = jsonObject.getInt("lxlbz");
+
+            mMnksTime = mWdcj.MNCS;
+            mLtl = mLXL;
+            mRightLv = mWdcj.ZQL;
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
