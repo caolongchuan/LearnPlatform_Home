@@ -148,7 +148,7 @@
                         android:maxEms="6"
                         android:singleLine="true"
                         android:ellipsize="end"
-                        android:textSize="17dp" />
+                        android:textSize="20dp" />
 
                     <TextView
                         android:id="@+id/tv_recently_item_type"
@@ -159,7 +159,7 @@
                         android:layout_margin="10dp"
                         android:text="G3"
                         android:textColor="@color/clc_black"
-                        android:textSize="17dp" />
+                        android:textSize="20dp" />
 
                     <TextView
                         android:id="@+id/tv_goto_studied"
@@ -171,7 +171,7 @@
                         android:background="@drawable/shape_recently_goto_studied"
                         android:text="继续学习"
                         android:textColor="@color/clc_black"
-                        android:textSize="12dp" />
+                        android:textSize="15dp" />
 
                 </RelativeLayout>
 
