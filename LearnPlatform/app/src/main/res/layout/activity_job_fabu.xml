@@ -177,6 +177,7 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_lxdh"
+                android:phoneNumber="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_edit_1_bg"
@@ -362,6 +363,7 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_lxdh1"
+                android:phoneNumber="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_edit_1_bg"

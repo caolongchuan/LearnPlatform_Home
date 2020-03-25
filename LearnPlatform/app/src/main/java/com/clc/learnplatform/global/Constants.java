@@ -92,4 +92,5 @@ public class Constants {
 
     //验证码的有效期 在有效期内设这获取验证码按钮不可以（默认是5分钟 也就是300秒）
     public static final int YZM_TIME = 300;
+
 }

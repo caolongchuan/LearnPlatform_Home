@@ -70,7 +70,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_xuanxiang"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_tp"
                 android:layout_marginTop="10dp"
@@ -78,7 +78,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -86,7 +86,7 @@
 
                     <TextView
                         android:id="@+id/tv_1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_a"
                         android:drawablePadding="6dp"
@@ -105,7 +105,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -114,7 +114,7 @@
 
                     <TextView
                         android:id="@+id/tv_2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_b"
                         android:drawablePadding="6dp"
@@ -133,7 +133,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -142,7 +142,7 @@
 
                     <TextView
                         android:id="@+id/tv_3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_c"
                         android:drawablePadding="6dp"
@@ -161,7 +161,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -170,7 +170,7 @@
 
                     <TextView
                         android:id="@+id/tv_4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_d"
                         android:drawablePadding="6dp"
@@ -189,7 +189,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -198,7 +198,7 @@
 
                     <TextView
                         android:id="@+id/tv_5"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_e"
                         android:drawablePadding="6dp"
@@ -217,7 +217,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -226,7 +226,7 @@
 
                     <TextView
                         android:id="@+id/tv_6"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_f"
                         android:drawablePadding="6dp"
@@ -245,7 +245,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -254,7 +254,7 @@
 
                     <TextView
                         android:id="@+id/tv_7"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_g"
                         android:drawablePadding="6dp"
@@ -273,7 +273,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_8"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -282,7 +282,7 @@
 
                     <TextView
                         android:id="@+id/tv_8"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_h"
                         android:drawablePadding="6dp"
@@ -301,7 +301,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_9"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -310,7 +310,7 @@
 
                     <TextView
                         android:id="@+id/tv_9"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_i"
                         android:drawablePadding="6dp"
@@ -329,7 +329,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
@@ -338,7 +338,7 @@
 
                     <TextView
                         android:id="@+id/tv_10"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/icon_xuanxiang_j"
                         android:drawablePadding="6dp"

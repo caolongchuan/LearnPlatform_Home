@@ -170,6 +170,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 case 0x05://定时更新理论知识的剩余时间
                     tsp.updataTime();
                     break;
+                case 0x06://更新我的成绩
+                    alertDialog.dismiss();//隐藏等待提示框
+                    tsp.setData(MNCSBZ,ZQLBZ,LXLBZ,mMnksTime,mLtl,mRightLv);
+                    tsp.startProgress();//开始进度条动画
+                    break;
             }
             return false;
         }
@@ -185,9 +190,9 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         mItemSign.setText(mKSXM.DM);//学习的项目的代号
         initData();
         tsp.initData(mXmflList);//初始化理论知识数据
+        aop.initData(mSjczList);//初始化实际操作数据
         tsp.setData(MNCSBZ,ZQLBZ,LXLBZ,mMnksTime,mLtl,mRightLv);
         tsp.startProgress();//开始进度条动画
-        aop.initData(mSjczList);//初始化实际操作数据
     }
 
     @Override
@@ -202,6 +207,17 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         mDataString = intent.getStringExtra("data_string");
 
         initView();
+        mKhzl = new KHZL_Entity();
+        mWdcj = new WDCJ_Entity();
+        mMnks = new MNKS_Entity();
+        mUserInfoEntiry = new UserInfoEntity();
+        mKSXM = new KSXM_Entity();
+
+        mXmflList = new ArrayList<>();
+        mSjczList = new ArrayList<>();
+        mLxkList = new ArrayList<>();
+
+
         getDataFromService();//从服务器获取数据
     }
 
@@ -217,8 +233,73 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
         if(tsp!=null){
             tsp.setMnks();
         }
+        if(mXmflList.size()!=0){
+            getWdcjFromService();
+        }
 
     }
+
+    //获取我的成绩从后台
+    private void getWdcjFromService() {
+        alertDialog.show();//显示等待提示框
+
+        //开始获取项目学习数据
+        StringBuffer sb = new StringBuffer();
+        sb.append("openid=")
+                .append(openid)
+                .append("&xmid=")
+                .append(xmid);
+        RequestBody body = RequestBody.create(FORM_CONTENT_TYPE, sb.toString());
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(Constants.ITEM_STUDIED_URL)
+                .post(body)//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "onFailure: 获取项目学习数据失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseInfo = response.body().string();
+                Log.d(TAG, "onResponse: " + responseInfo);
+                try {
+                    JSONObject jsonObject = new JSONObject(responseInfo);
+                    String error = jsonObject.getString("error");
+                    if (error.equals("false")) {//获取项目学习数据成功
+                        Log.d(TAG, "onResponse: 获取项目学习数据成功");
+                        JSONObject wdcj_obj = jsonObject.getJSONObject("wdcj");//获取我的成绩
+                        mWdcj.ID = wdcj_obj.getString("ID");
+                        mWdcj.XMID = wdcj_obj.getString("XMID");
+                        mWdcj.YHID = wdcj_obj.getString("YHID");
+                        mWdcj.LSGF = wdcj_obj.getInt("LSGF");
+                        mWdcj.PJF = wdcj_obj.getInt("PJF");
+                        mWdcj.MNCS = wdcj_obj.getInt("MNCS");
+                        mMnksTime = mWdcj.MNCS;
+                        mWdcj.JGCS = wdcj_obj.getInt("JGCS");
+                        mWdcj.ZQL = wdcj_obj.getInt("ZQL");
+                        mRightLv = mWdcj.ZQL;
+                        mWdcj.WWCCS = wdcj_obj.getInt("WWCCS");
+                        mWdcj.ZTZS = wdcj_obj.getInt("ZTZS");
+                        mWdcj.ZQZS = wdcj_obj.getInt("ZQZS");
+                        mWdcj.GXSJ = wdcj_obj.getString("GXSJ");
+                        mLXL = wdcj_obj.getInt("LXL");//练题率
+                        Message msg = new Message();
+                        msg.what = 0x06;
+                        mHandler.sendMessage(msg);
+                    } else if (error.equals("true")) {//获取项目学习数据失败
+                        String message = jsonObject.getString("message");
+                        Log.d(TAG, "onResponse: 获取项目学习数据失败--失败信息是：" + message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });    }
 
     private void initView() {
         alertDialog = new AlertDialog
@@ -262,10 +343,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        mLxkList = new ArrayList<>();
     }
 
     private void initData() {
+        tsp = null;
+        aop = null;
         tsp = new TheoryStudiedPager(this,mUserInfoEntiry,mKSXM.ID,mWdcj,mKSXM,mKhzlEntity,isBindingCard);
         aop = new ActualOperationPager(this,openid,mKSXM, mUserInfoEntiry.ZHYE,isBindingCard);
         mContainer.addView(tsp.getmView());
@@ -413,9 +495,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     //解析服务器返回的数据
     private void nalysisData(String responseInfo) {
         try {
+            mXmflList.clear();
+            mSjczList.clear();
+
             JSONObject jsonObject = new JSONObject(responseInfo);
             JSONArray fllist = jsonObject.getJSONArray("fllist");//获取项目分类
-            mXmflList = new ArrayList<>();
             for (int i = 0; i < fllist.length(); i++) {
                 JSONObject fl_Object = fllist.getJSONObject(i);//项目分类list
                 XMFL_Entity xe = new XMFL_Entity();
@@ -454,7 +538,6 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
                 mXmflList.add(xe);
             }
             JSONObject ksxm_obj = jsonObject.getJSONObject("ksxm");
-            mKSXM = new KSXM_Entity();
             mKSXM.ID = ksxm_obj.getString("ID");
             mKSXM.NAME = ksxm_obj.getString("NAME");
             mKSXM.DM = ksxm_obj.getString("DM");
@@ -466,7 +549,6 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             mKSXM.CTL = ksxm_obj.getInt("CTL");
             mKSXM.STXH = ksxm_obj.getInt("STXH");
             JSONArray sclist = jsonObject.getJSONArray("sclist");//获取实际操作list
-            mSjczList = new ArrayList<>();
             for (int i = 0; i < sclist.length(); i++) {
                 JSONObject sc_Object = sclist.getJSONObject(i);
                 SJCZ_Entity se = new SJCZ_Entity();
@@ -502,7 +584,6 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             }
             String syzh = jsonObject.getString("syzh");//解析用户信息
             JSONObject syzh_obj = new JSONObject(syzh);
-            mUserInfoEntiry = new UserInfoEntity();
             mUserInfoEntiry.ID = syzh_obj.getString("ID");
             mUserInfoEntiry.NC = syzh_obj.getString("NC");
             mUserInfoEntiry.SJH = syzh_obj.getString("SJH");
@@ -519,7 +600,6 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             mUserInfoEntiry.WXCODE = syzh_obj.getString("WXCODE");
             mUserInfoEntiry.SQVIP = syzh_obj.getString("SQVIP");
             JSONObject wdcj_obj = jsonObject.getJSONObject("wdcj");//获取我的成绩
-            mWdcj = new WDCJ_Entity();
             mWdcj.ID = wdcj_obj.getString("ID");
             mWdcj.XMID = wdcj_obj.getString("XMID");
             mWdcj.YHID = wdcj_obj.getString("YHID");
@@ -532,11 +612,11 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             mWdcj.ZTZS = wdcj_obj.getInt("ZTZS");
             mWdcj.ZQZS = wdcj_obj.getInt("ZQZS");
             mWdcj.GXSJ = wdcj_obj.getString("GXSJ");
+            this.mLXL = wdcj_obj.getInt("LXL");//练题率
             //获取模拟考试
             String mnks_s = jsonObject.getString("mnks");
             if(!mnks_s.equals("null")){
                 JSONObject mnks = jsonObject.getJSONObject("mnks");
-                mMnks = new MNKS_Entity();
                 mMnks.ID = mnks.getString("ID");
                 mMnks.XMID = mnks.getString("XMID");
                 mMnks.YHID = mnks.getString("YHID");
@@ -561,9 +641,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
             }
 
 
-            this.mLXL = wdcj_obj.getInt("LXL");//练题率
             JSONObject zl_obj = jsonObject.getJSONObject("zl");//获取证书种类
-            mKhzl = new KHZL_Entity();
             mKhzl.ID = zl_obj.getString("ID");
             mKhzl.NAME = zl_obj.getString("NAME");
             mKhzl.KSFZ = zl_obj.getInt("KSFZ");
@@ -648,6 +726,7 @@ public class StudiedActivity extends AppCompatActivity implements View.OnClickLi
     //解析学习卡数据
     private void analysisLxkData(String responseInfo) {
         try {
+            mLxkList.clear();
             JSONObject jsonObject = new JSONObject(responseInfo);
             JSONArray xxklist = jsonObject.getJSONArray("xxklist");
             for (int i = 0; i < xxklist.length(); i++) {

@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,8 +115,12 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
 
     //初始化数据
     private void initData() {
+        String o = (String) SPUtils.get(getApplicationContext(), xmid + "page", "1");
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList, mLssjList);
         mViewPager.setAdapter(mAdapter);
+        int integer = Integer.valueOf(o);
+        mViewPager.setCurrentItem(integer-1);
+        mCurrItem.setText(o);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -153,6 +158,18 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         getDataFromService();//从服务器获取数据
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            String s = mCurrItem.getText().toString();
+            SPUtils.put(getApplicationContext(),xmid+"page",s);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     private void initView() {
         alertDialog = new AlertDialog
@@ -305,6 +322,8 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back://返回
+                String s = mCurrItem.getText().toString();
+                SPUtils.put(getApplicationContext(),xmid+"page",s);
                 finish();
                 break;
             case R.id.ll_jiaojuan://交卷
@@ -375,6 +394,8 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                //清楚答过的题
+                SPUtils.put(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,"");
                 String responseInfo = response.body().string();
                 Log.i(TAG, "doJiaoJuan: " + responseInfo);
                 String error = null;
@@ -419,6 +440,8 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent);//进入查看分数页面
                         //交卷以后改变为该项目没有模拟考试 再次开始模拟考试需再次缴费
                         SPUtils.put(getApplicationContext(),mMnksEntity.XMID,0L);
+                        //清除记录的当前页
+                        SPUtils.put(getApplicationContext(),xmid+"page","1");
                         finish();
                     }
                 } catch (Exception e) {
@@ -440,6 +463,7 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
 
         private ArrayList<View> viewLists;
         private ArrayList<LSSJ_Entity> lssjList;
+        private String[] bb;
 
         public MyPagerAdapter() {
 
@@ -449,6 +473,12 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
             super();
             this.viewLists = viewList;
             this.lssjList = lssjList;
+            //判断有没有已经做过的试题
+            String temp = (String) SPUtils.get(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,"");
+            if(temp != null&&!temp.isEmpty()){//如果有没有做过的试题
+                bb = temp.split("-");
+            }
+
         }
 
         @Override
@@ -495,6 +525,16 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
             TextView tvItemName = viewLists.get(position).findViewById(R.id.tv_item_name);//题目
             tvItemName.setText(lssjList.get(position).TM);
             final TextView tvDanAn = viewLists.get(position).findViewById(R.id.tv_zqda);//答案
+            if(bb!=null){
+                for (String s2 : bb) {
+                    if(!s2.isEmpty()){
+                        int i_b = Integer.valueOf(s2);
+                        if (position == i_b) {
+                            tvDanAn.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
             tvDanAn.setText(lssjList.get(position).ZQDA);
             final char[] cc = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
             final String[] split = lssjList.get(position).XX.trim().split("\\^");
@@ -587,6 +627,10 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                                         ss.toString(), lssjList.get(position).STID);
                             }
                             tvDanAn.setVisibility(View.VISIBLE);
+                            //记录为已答过
+                            String sss = (String) SPUtils.get(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,"");
+                            String ssss = sss + "-" + position;
+                            SPUtils.put(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,ssss);
                         }
                     }
                 }
@@ -646,6 +690,10 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                                             String.valueOf(cc[finalI]), lssjList.get(position).STID);
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
+                                //记录为已答过
+                                String sss = (String) SPUtils.get(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,"");
+                                String ssss = sss + "-" + position;
+                                SPUtils.put(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,ssss);
                             } else if (lssjList.get(position).TX.equals("01")) {//多选题
                                 Object tag = tvXuanXiang[finalI].getTag();
                                 if(tag == null){
@@ -668,7 +716,7 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-                tvXuanXiang[i].setOnClickListener(new View.OnClickListener() {
+                llXuanXiang[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (tvDanAn.getVisibility() != View.VISIBLE) {//判断是否已经做完此题
@@ -706,6 +754,10 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                                             String.valueOf(cc[finalI]), lssjList.get(position).STID);
                                 }
                                 tvDanAn.setVisibility(View.VISIBLE);
+                                //记录为已答过
+                                String sss = (String) SPUtils.get(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,"");
+                                String ssss = sss + "-" + position;
+                                SPUtils.put(MnksActivity.this,mKsxmEntity.ID+mKsxmEntity.NAME,ssss);
                             } else if (lssjList.get(position).TX.equals("01")) {//多选题
                                 Object tag = tvXuanXiang[finalI].getTag();
                                 if(tag == null){

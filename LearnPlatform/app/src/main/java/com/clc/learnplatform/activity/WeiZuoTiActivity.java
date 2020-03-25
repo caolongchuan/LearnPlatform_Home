@@ -429,7 +429,7 @@ public class WeiZuoTiActivity extends AppCompatActivity {
                         }
                     }
                 });
-                tvXuanXiang[i].setOnClickListener(new View.OnClickListener() {
+                llXuanXiang[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (tvDanAn.getVisibility() != View.VISIBLE) {//判断是否已经做完此题

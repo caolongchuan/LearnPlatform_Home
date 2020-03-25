@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -71,17 +72,21 @@ public class CtqhActivity extends AppCompatActivity {
     private TextView tvShangYiTi;//上一题
     private TextView tvXiaYiTi;//下一题
 
+    private AlertDialog alertDialog;//等待对话框
+
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
             switch (message.what){
                 case 0x01:
+                    alertDialog.dismiss();//隐藏等待提示框
                     mViewPager.setVisibility(View.VISIBLE);
                     mTiShi.setVisibility(View.GONE);
                     rl_3.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();//更新
                     break;
                 case 0x02:
+                    alertDialog.dismiss();//隐藏等待提示框
                     mViewPager.setVisibility(View.GONE);
                     mTiShi.setVisibility(View.VISIBLE);
                     rl_3.setVisibility(View.GONE);
@@ -107,6 +112,7 @@ public class CtqhActivity extends AppCompatActivity {
 
     //从服务器获取数据
     private void getDataFromService() {
+        alertDialog.show();//显示等待提示框
         OkHttpClient okHttpClient = new OkHttpClient();
 
         StringBuffer sb = new StringBuffer();
@@ -189,6 +195,9 @@ public class CtqhActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        alertDialog = new AlertDialog
+                .Builder(this).setMessage("正在加载数据...")
+                .create();
         mBack = findViewById(R.id.iv_back);
         mViewList = new ArrayList<>();
         mCtjlList = new ArrayList<>();
@@ -419,7 +428,7 @@ public class CtqhActivity extends AppCompatActivity {
             }
             for (int i = 0; i < 10; i++) {
                 final int finalI = i;
-                ivXuanXiang[i].setOnClickListener(new View.OnClickListener() {
+                llXuanXiang[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (tvDanAn.getVisibility() != View.VISIBLE) {//判断是否已经做完此题
@@ -465,7 +474,8 @@ public class CtqhActivity extends AppCompatActivity {
                         }
                     }
                 });
-                tvXuanXiang[i].setOnClickListener(new View.OnClickListener() {
+
+                ivXuanXiang[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (tvDanAn.getVisibility() != View.VISIBLE) {//判断是否已经做完此题

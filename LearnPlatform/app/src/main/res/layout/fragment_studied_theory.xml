@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:id="@+id/rl_rl1"
-        android:paddingBottom="15dp"
+        android:paddingBottom="10dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -58,8 +58,8 @@
                 <ImageView
                     android:id="@+id/iv_button_ctqh"
                     android:src="@mipmap/icon_ctqh"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
                 <TextView
                     android:text="错题强化"
                     android:textSize="13dp"
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
@@ -76,8 +76,8 @@
                 <ImageView
                     android:id="@+id/iv_button_wztlx"
                     android:src="@mipmap/icon_wztlx"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
                 <TextView
                     android:text="未做题练习"
                     android:textSize="13dp"
@@ -167,8 +167,8 @@
                 <ImageView
                     android:id="@+id/iv_button_wdcj"
                     android:src="@mipmap/icon_wdcj"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
                 <TextView
                     android:text="我的成绩"
                     android:textSize="13dp"
@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
@@ -185,8 +185,8 @@
                 <ImageView
                     android:id="@+id/iv_button_sda"
                     android:src="@mipmap/icon_sda"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp" />
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
                 <TextView
                     android:text="搜答案"
                     android:textSize="13dp"
@@ -196,61 +196,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
-
-
-        <!--<LinearLayout-->
-            <!--android:orientation="vertical"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginLeft="30dp"-->
-            <!--android:layout_marginBottom="100dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-            <!---->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-            <!--android:orientation="vertical"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginLeft="30dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-        <!--</LinearLayout>-->
-        <!---->
-        <!--<LinearLayout-->
-            <!--android:orientation="vertical"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginBottom="100dp"-->
-            <!--android:layout_marginRight="30dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-            <!---->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-            <!--android:orientation="vertical"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginRight="30dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-        <!--</LinearLayout>-->
-
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/rl_mnks"-->
-            <!--android:background="@mipmap/icon_mnks"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:layout_width="140dp"-->
-            <!--android:layout_height="140dp">-->
-            <!---->
-        <!--</RelativeLayout>-->
-
 
     </LinearLayout>
 
