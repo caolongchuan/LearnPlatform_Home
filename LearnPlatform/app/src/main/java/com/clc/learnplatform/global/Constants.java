@@ -80,9 +80,9 @@ public class Constants {
 
     //微信分享
     public static final String WX_SHAPE_URL = "http://www.zixiawangluo.com/apkdown/kzxx.apk";//微信分享的url
-    public static final String WX_SHAPE_TITLE = "微信分享的title";
-    public static final String WX_SHAPE_DESCRIPTION = "微信分享的描述";
-    public static final int WX_SHAPE_BMP = R.mipmap.ic_launcher;
+    public static final String WX_SHAPE_TITLE = "特种设备作业人员证学习";
+    public static final String WX_SHAPE_DESCRIPTION = "快乐学习，轻松拿证！";
+    public static final int WX_SHAPE_BMP = R.mipmap.icon_logo;
 
     //讯飞语音合成APPID
     public static final String XF_APP_ID = "5e0d9d44";

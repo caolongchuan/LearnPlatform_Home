@@ -71,6 +71,9 @@ public class LsxxActivity extends AppCompatActivity implements View.OnClickListe
                     initUI();
                     mHomeItemAdapter.notifyDataSetChanged();
                     break;
+                case 0x02://显示最底部的listview
+                    mListView.setSelection(mListView.getBottom());
+                    break;
             }
             return false;
         }
@@ -97,7 +100,7 @@ public class LsxxActivity extends AppCompatActivity implements View.OnClickListe
                 mHomeItemName.add(mKsxmList.get(i).BZ);
             }
         }
-        mHomeItemAdapter = new HomeItemAdapter(this, mHomeItemName,mKsxmList,openid,mDataString);
+        mHomeItemAdapter = new HomeItemAdapter(this, mHandler,mHomeItemName,mKsxmList,openid,mDataString);
         mListView.setAdapter(mHomeItemAdapter);
     }
 

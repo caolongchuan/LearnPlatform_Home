@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:id="@+id/rl_rl1"
-        android:paddingBottom="7dp"
+        android:paddingBottom="0dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"

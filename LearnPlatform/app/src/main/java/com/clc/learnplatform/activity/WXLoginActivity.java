@@ -52,8 +52,6 @@ public class WXLoginActivity extends AppCompatActivity {
     private static final String TAG = "WXLoginActivity";
     private IWXAPI wxapi;
 
-    private int getAddrTime;//获取地址的次数
-
     private RelativeLayout rlMain;
     private TextView mWXLogin;//微信登陆按钮
     private AlertDialog mDialog;//提示打开定位权限对话框
@@ -66,16 +64,9 @@ public class WXLoginActivity extends AppCompatActivity {
         public boolean handleMessage(@NonNull Message msg) {
             switch(msg.what){
                 case 0x02:
-                    getAddrTime++;
                     String province = msg.getData().getString("province");
                     if(province == null) {//定位不可用 没有获取到省份信息
-                        if(getAddrTime<10){
-                            LocationUtil lu = new LocationUtil(getApplicationContext(),mHandler);//用百度地图获取省份与城市
-                            lu.startLocation();
-                        }else{
-//                            mWXLogin.setEnabled(false);//设置登陆按钮不可用
-                            mDialog.show();
-                        }
+                        mDialog.show();
                     }else{//定位可用 获取到了省份信息
                         mWXLogin.setEnabled(true);//设置登陆按钮可用
                         mDialog.dismiss();
@@ -93,29 +84,8 @@ public class WXLoginActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_wxlogin);
 
-//        //临时初始化微信用户信息 假数据 用于调试
-//        SPUtils.put(this, "nickname", "魔鬼的羽毛");
-//        SPUtils.put(this, "headimgurl", "http://thirdwx.qlogo.cn/mmopen/vi_32/pHLZ8R6Qs4piaLcYyHIEVGOiax6uKVmmYBtzCwZ9jCY3SgZ3IFBsTZlatUbo21IwzztJOVOlOydtHXsOxVUKnQSw/132");
-//        SPUtils.put(this, "openid", "oGVIZxFp2DOIPKoZM8cVxMbGwXjI");
-//        SPUtils.put(this, "unionid", "okBs11VZKzoiNzOiPHT1Q7CXufqU");
-//        String nickname = (String) SPUtils.get(this, "nickname", "");
-//        String headimgurl = (String) SPUtils.get(this, "headimgurl", "");
-//        String openid = (String) SPUtils.get(this, "openid", "");
-//        String unionid = (String) SPUtils.get(this, "unionid", "");
-//        Log.i(TAG, "onCreate: nickname=" + nickname);
-//        Log.i(TAG, "onCreate: headimgurl=" + headimgurl);
-//        Log.i(TAG, "onCreate: openid=" + openid);
-//        Log.i(TAG, "onCreate: unionid=" + unionid);
-//
-//        if (!nickname.equals("") && !headimgurl.equals("") && !unionid.equals("")) {//已经登陆过直接进入下一个页面
-//            gotoLoginActivity(nickname,headimgurl,unionid);
-//        } else {
-//            regToWx();//进入微信登录授权页面
-//        }
-
         initView();
         initData();
-
     }
 
 

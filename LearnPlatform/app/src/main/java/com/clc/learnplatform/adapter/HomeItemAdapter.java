@@ -1,6 +1,8 @@
 package com.clc.learnplatform.adapter;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 
 public class HomeItemAdapter extends BaseAdapter {
     private Activity mActivity;
+    private Handler mHandler;
     private ArrayList<String> mList;
     private ArrayList<KSXM_Entity> mKsxmList;//项目list
     private String openid;
@@ -27,8 +30,9 @@ public class HomeItemAdapter extends BaseAdapter {
 
     private String mDataString;//首页传过来的数据
 
-    public HomeItemAdapter(Activity activity, ArrayList<String> list, ArrayList<KSXM_Entity> list1,String openid,String data_string) {
+    public HomeItemAdapter(Activity activity,Handler handler, ArrayList<String> list, ArrayList<KSXM_Entity> list1,String openid,String data_string) {
         mActivity = activity;
+        mHandler = handler;
         mList = list;
         mKsxmList = list1;
         this.openid = openid;
@@ -83,6 +87,11 @@ public class HomeItemAdapter extends BaseAdapter {
         holder.llItemMain.setTag(position);//为点击的区域设置Tag为position
         if (showControl[position]) {//加载item的时候查看是否需要打开或隐藏
             holder.lvPersonList.setVisibility(View.VISIBLE);
+            if(position==(mList.size()-1)){
+                Message msg = new Message();
+                msg.what = 0x02;
+                mHandler.sendMessage(msg);
+            }
         } else {
             holder.lvPersonList.setVisibility(View.GONE);
         }

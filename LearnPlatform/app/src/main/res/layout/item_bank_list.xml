@@ -7,14 +7,16 @@
 
     <TextView
         android:id="@+id/tv_id"
-        android:textSize="17dp"
+        android:textSize="20dp"
         android:text="11"
+        android:textColor="@color/clc_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_detial"
         android:layout_marginLeft="20dp"
-        android:textSize="17dp"
+        android:textSize="20dp"
+        android:textColor="@color/clc_black"
         android:text="了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭了及肤色饭"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

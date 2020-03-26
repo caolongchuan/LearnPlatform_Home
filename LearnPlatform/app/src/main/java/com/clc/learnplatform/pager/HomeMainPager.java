@@ -3,6 +3,8 @@ package com.clc.learnplatform.pager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
@@ -71,6 +74,19 @@ public class HomeMainPager implements View.OnClickListener {
     private ArrayList<KSXM_Entity> mKsxmList;//项目list
 
     private String mDataString;//首页传过来的数据
+
+    public Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message message) {
+            switch (message.what){
+                case 0x02://显示最底部的listview
+                    mLVItem.setSelection(mLVItem.getBottom());
+                    break;
+            }
+            return false;
+        }
+    });
+
 
     public HomeMainPager(Fragment fragment, String openid, String data_jsonString) {
         mFragment = fragment;
@@ -251,7 +267,7 @@ public class HomeMainPager implements View.OnClickListener {
             }
         }
 
-        mHomeItemAdapter = new HomeItemAdapter(mFragment.getActivity(), mHomeItemName,mKsxmList,openid,mDataString);
+        mHomeItemAdapter = new HomeItemAdapter(mFragment.getActivity(),mHandler, mHomeItemName,mKsxmList,openid,mDataString);
         mLVItem.setAdapter(mHomeItemAdapter);
     }
 
