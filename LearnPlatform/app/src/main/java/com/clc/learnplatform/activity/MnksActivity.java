@@ -115,7 +115,9 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
 
     //初始化数据
     private void initData() {
-        String o = (String) SPUtils.get(getApplicationContext(), xmid + "page", "1");
+        rightItemNum = (int) SPUtils.get(getApplicationContext(),xmid+"right",0);
+        wrongItemNum = (int) SPUtils.get(getApplicationContext(),xmid+"wrong",0);
+        String o = (String) SPUtils.get(getApplicationContext(), xmid + "page", "1");//获取当前页
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList, mLssjList);
         mViewPager.setAdapter(mAdapter);
         int integer = Integer.valueOf(o);
@@ -164,6 +166,8 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             String s = mCurrItem.getText().toString();
             SPUtils.put(getApplicationContext(),xmid+"page",s);
+            SPUtils.put(getApplicationContext(),xmid+"right",rightItemNum);//保存正确的数量
+            SPUtils.put(getApplicationContext(),xmid+"wrong",wrongItemNum);//保存错误的数量
             finish();
             return true;
         }
@@ -323,7 +327,9 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.iv_back://返回
                 String s = mCurrItem.getText().toString();
-                SPUtils.put(getApplicationContext(),xmid+"page",s);
+                SPUtils.put(getApplicationContext(),xmid+"page",s);//保存当前页
+                SPUtils.put(getApplicationContext(),xmid+"right",rightItemNum);//保存正确的数量
+                SPUtils.put(getApplicationContext(),xmid+"wrong",wrongItemNum);//保存错误的数量
                 finish();
                 break;
             case R.id.ll_jiaojuan://交卷
@@ -442,6 +448,11 @@ public class MnksActivity extends AppCompatActivity implements View.OnClickListe
                         SPUtils.put(getApplicationContext(),mMnksEntity.XMID,0L);
                         //清除记录的当前页
                         SPUtils.put(getApplicationContext(),xmid+"page","1");
+                        //清除保存的正确数量
+                        SPUtils.put(getApplicationContext(),xmid+"right",0);//保存正确的数量
+                        //清除保存的错误数量
+                        SPUtils.put(getApplicationContext(),xmid+"wrong",0);//保存错误的数量
+
                         finish();
                     }
                 } catch (Exception e) {
