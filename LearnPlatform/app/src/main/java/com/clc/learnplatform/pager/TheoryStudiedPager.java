@@ -211,20 +211,24 @@ public class TheoryStudiedPager implements View.OnClickListener {
         }).start();
 
 
-
+        //gridview内容大于2以后动态改变题库学习的高度
         mKnowledge.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                Log.e(TAG, "onCreate: "+mKnowledge.getWidth()+","+mKnowledge.getHeight());
-                Log.e(TAG, "onCreate: "+mKnowledge.getMeasuredWidth()+","+mKnowledge.getMeasuredHeight());
-                int height = mKnowledge.getHeight();
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rlTkxx.getLayoutParams();
-                params.height = height;
-                rlTkxx.setLayoutParams(params);
+                if(mAdapter.getCount()>2){
+                    Log.e(TAG, "onCreate: "+mKnowledge.getWidth()+","+mKnowledge.getHeight());
+                    Log.e(TAG, "onCreate: "+mKnowledge.getMeasuredWidth()+","+mKnowledge.getMeasuredHeight());
+                    int height = mKnowledge.getHeight();
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rlTkxx.getLayoutParams();
+                    params.height = height;
+                    rlTkxx.setLayoutParams(params);
 
-                //移除监听
-                mKnowledge.getViewTreeObserver().removeOnPreDrawListener(this);
-                return false;
+                    //移除监听
+                    mKnowledge.getViewTreeObserver().removeOnPreDrawListener(this);
+                    return false;
+                }else{
+                    return true;
+                }
             }
         });
 
