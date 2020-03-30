@@ -12,24 +12,34 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxEms="12"
+        android:textSize="17dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/clc_black"
         android:singleLine="true"
         android:text="1硫化罐内工作压力、温度超过额定值，应该如何处理？" />
 
     <TextView
         android:id="@+id/tv_sy_coin_time"
         android:layout_toLeftOf="@+id/tv_coin_time"
+        android:layout_centerVertical="true"
         android:layout_marginRight="3dp"
+        android:textSize="14dp"
         android:text="剩余"
+        android:textColor="@color/clc_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_coin_time"
         android:text="22:20"
+        android:textColor="@color/clc_black"
+        android:layout_centerVertical="true"
+        android:textSize="14dp"
         android:layout_toLeftOf="@+id/iv_coin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/iv_coin"
+        android:layout_centerVertical="true"
         android:src="@mipmap/icon_coin"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"

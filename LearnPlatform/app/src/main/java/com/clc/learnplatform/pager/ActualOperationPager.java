@@ -209,7 +209,8 @@ public class ActualOperationPager {
                             if (mCurr_Coin >= mSjczList.get(position).XH) {
                                 new AlertDialog
                                         .Builder(mActivity).setTitle("")
-                                        .setMessage("确定要消耗学习币进行学习吗？")
+                                        .setMessage("将消耗"+ mSjczList.get(position).XH
+                                                +"个学习币，可在" + mSjczList.get(position).XSFZ +"分钟内阅读，确定继续吗")
                                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
